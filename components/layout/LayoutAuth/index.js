@@ -6,7 +6,7 @@ export default function LayoutAuth({ children }) {
   const router = useRouter()
 
   return (
-    <div className="grid h-screen grid-cols-2">
+    <div className="mx-auto grid h-screen max-w-[1440px] grid-cols-2">
       <div className="relative hidden md:block">
         <Image
           src="/auth_image.png"

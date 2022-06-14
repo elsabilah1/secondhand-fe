@@ -1,6 +1,6 @@
 import cn from 'classnames'
 
-const Text = ({ children, type = 'body/14', weight }) => {
+export default function Text({ children, type = 'body/14', weight }) {
   const classes = cn(
     'text-[#222222]',
     type === 'body/10' && 'text-[10px] leading-[14px]',
@@ -22,5 +22,3 @@ const Text = ({ children, type = 'body/14', weight }) => {
     return <p className={classes}>{children}</p>
   }
 }
-
-export default Text
