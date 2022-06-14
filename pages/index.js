@@ -1,7 +1,5 @@
 import Head from 'next/head'
 import Text from '../components/base/Text'
-import InputField from '../components/base/InputField'
-import Button from '../components/base/button'
 
 export default function Home() {
   return (
@@ -15,10 +13,6 @@ export default function Home() {
       <div className="grid h-screen place-items-center">
         <Text>Text sample</Text>
       </div>
-
-      <Button width="400px">
-        submint
-      </Button>
     </div>
   )
 }
