@@ -12,6 +12,9 @@ export default function Home() {
 
       <div className="grid h-screen place-items-center">
         <Text>Text sample</Text>
+        <Text type="heading/24" weight="bold">
+          Masuk
+        </Text>
       </div>
     </div>
   )
