@@ -2,7 +2,6 @@ import cn from 'classnames'
 
 const Text = ({ children, type = 'body/14', weight }) => {
   const classes = cn(
-    'text-[#222222]',
     type === 'body/10' && 'text-[10px] leading-[14px]',
     type === 'body/12' && 'text-xs leading-[18px]',
     type === 'body/14' && 'text-sm leading-5',
