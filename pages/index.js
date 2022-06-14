@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Text from '../components/base/Text'
 import InputField from '../components/base/InputField'
+import Button from '../components/base/button'
 
 export default function Home() {
   return (
@@ -13,7 +14,22 @@ export default function Home() {
 
       <div className="grid h-screen place-items-center">
         <Text>Text sample</Text>
+<<<<<<< HEAD
+=======
+          <InputField 
+            type="text"
+            value=""
+            placeholder="login"
+            label="Login"
+            name="login"
+            onChange=""
+          />
+>>>>>>> 9dfa1cb89a0ec43bf38805e01275ee8e9432d052
       </div>
+
+      <Button width="400px">
+        submint
+      </Button>
     </div>
   )
 }
