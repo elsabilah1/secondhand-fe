@@ -14,17 +14,6 @@ export default function Home() {
 
       <div className="grid h-screen place-items-center">
         <Text>Text sample</Text>
-<<<<<<< HEAD
-=======
-          <InputField 
-            type="text"
-            value=""
-            placeholder="login"
-            label="Login"
-            name="login"
-            onChange=""
-          />
->>>>>>> 9dfa1cb89a0ec43bf38805e01275ee8e9432d052
       </div>
 
       <Button width="400px">
