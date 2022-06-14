@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Text from '../components/base/Text'
+import InputField from '../components/base/InputField'
 
 export default function Home() {
   return (
@@ -12,6 +13,14 @@ export default function Home() {
 
       <div className="grid h-screen place-items-center">
         <Text>Text sample</Text>
+          <InputField 
+            type="text"
+            value=""
+            placeholder="login"
+            label="Login"
+            name="login"
+            onChange=""
+          />
       </div>
     </div>
   )
