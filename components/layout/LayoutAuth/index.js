@@ -6,7 +6,7 @@ export default function LayoutAuth({ children }) {
   const router = useRouter()
 
   return (
-    <div className="mx-auto grid h-screen max-w-[1440px] grid-cols-2">
+    <div className="mx-auto grid h-screen max-w-[1440px] md:grid-cols-2">
       <div className="relative hidden md:block">
         <Image
           src="/auth_image.png"
@@ -25,7 +25,7 @@ export default function LayoutAuth({ children }) {
             <FeatherIcon icon="arrow-left" />
           </button>
         </div>
-        <div className="mx-auto grid h-screen w-8/12 place-items-center">
+        <div className="mx-auto grid h-screen w-full place-items-center md:w-8/12">
           {children}
         </div>
       </div>
