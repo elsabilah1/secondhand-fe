@@ -11,12 +11,6 @@ export default function Home() {
         <Text type="heading/24" weight="bold">
           HomePage
         </Text>
-        <div className="space-x-3">
-          <Button onClick={() => router.replace('/login')}>Login</Button>
-          <Button onClick={() => router.replace('/register')} variant="outline">
-            Register
-          </Button>
-        </div>
       </div>
     </div>
   )
