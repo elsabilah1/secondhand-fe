@@ -1,6 +1,5 @@
 import Text from '../components/base/Text'
 import LayoutAuth from '../components/layout/LayoutAuth'
-import Text from '../components/base/Text'
 import InputField from '../components/base/InputField'
 import Button from '../components/base/Button'
 import Link from 'next/link'
