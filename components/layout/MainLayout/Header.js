@@ -4,11 +4,22 @@ import FeatherIcon from 'feather-icons-react'
 import NavDesktop from './NavDesktop'
 import Text from '../../base/Text'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-export default function Header({ headerTitle, setShowNav }) {
+export default function Header({
+  headerTitle,
+  headerTitleBold,
+  setShowNav,
+  arrowLink,
+}) {
+  const router = useRouter()
   return (
-    <div className="sticky top-0 md:bg-white md:shadow-high">
-      <div className="mx-auto flex items-center px-4 py-[18px] md:w-10/12">
+    <div
+      className={`${
+        headerTitleBold || headerTitle ? 'bg-white' : ''
+      } sticky top-0 md:bg-white md:shadow-high`}
+    >
+      <div className="relative mx-auto flex items-center px-4 py-2 md:w-10/12 md:py-[18px]">
         <div
           className={`flex ${
             headerTitle ? '' : 'flex-1'
@@ -20,23 +31,38 @@ export default function Header({ headerTitle, setShowNav }) {
             </Link>
           </div>
 
-          <button
-            onClick={() => setShowNav(true)}
-            className="rounded-2xl bg-white p-3 text-neutral-05 hover:bg-primary-03 hover:text-white active:scale-95 active:bg-primary-05 md:hidden"
-          >
-            <FeatherIcon icon="menu" />
-          </button>
-
           {!headerTitle && (
-            <div className="w-full md:w-96">
-              <SearchField />
-            </div>
+            <>
+              <button
+                onClick={() => setShowNav(true)}
+                className="rounded-2xl bg-white p-3 text-neutral-05 hover:bg-primary-03 hover:text-white active:scale-95 active:bg-primary-05 md:hidden"
+              >
+                <FeatherIcon icon="menu" />
+              </button>
+              <div className="w-full md:w-96">
+                <SearchField title={headerTitleBold} />
+              </div>
+            </>
           )}
         </div>
         {headerTitle ? (
-          <div className="flex-1 text-center">
-            <Text type="title/16">{headerTitle}</Text>
-          </div>
+          <>
+            <div className="absolute inset-0 hidden place-items-center md:grid">
+              <Text type="title/16">{headerTitle}</Text>
+            </div>
+            <div className="md:hidden">
+              <button
+                className="py-[14px]"
+                onClick={() => router.replace(arrowLink)}
+              >
+                <FeatherIcon icon="arrow-left" />
+              </button>
+
+              <div className="absolute inset-0 grid place-items-center">
+                <Text weight="medium">{headerTitle}</Text>
+              </div>
+            </div>
+          </>
         ) : (
           <NavDesktop />
         )}

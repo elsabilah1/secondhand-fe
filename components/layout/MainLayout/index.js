@@ -3,7 +3,13 @@ import { useState } from 'react'
 import Header from './Header'
 import NavMobile from './NavMobile'
 
-export default function MainLayout({ children, pageTitle, headerTitle }) {
+export default function MainLayout({
+  children,
+  pageTitle,
+  headerTitle,
+  headerTitleBold,
+  arrowLink,
+}) {
   const [showNav, setShowNav] = useState(false)
 
   return (
@@ -16,7 +22,12 @@ export default function MainLayout({ children, pageTitle, headerTitle }) {
       </Head>
 
       <div className="relative mx-auto flex min-h-screen max-w-[1440px] flex-col bg-neutral-02">
-        <Header headerTitle={headerTitle} setShowNav={setShowNav} />
+        <Header
+          headerTitle={headerTitle}
+          headerTitleBold={headerTitleBold}
+          setShowNav={setShowNav}
+          arrowLink={arrowLink}
+        />
         <div className="flex-1">{children}</div>
         <NavMobile showNav={showNav} setShowNav={setShowNav} />
       </div>
