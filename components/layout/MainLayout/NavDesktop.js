@@ -5,7 +5,7 @@ import Button from '../../base/Button'
 
 export default function NavDesktop() {
   const router = useRouter()
-  const isLogin = false
+  const isLogin = true
 
   const classes = cn(
     'hover:text-primary-03 active:scale-95 active:text-primary-05'
@@ -15,7 +15,10 @@ export default function NavDesktop() {
     <>
       {isLogin ? (
         <div className="ml-6 hidden space-x-5 text-neutral-05 md:inline">
-          <button className={classes} onClick={() => router.replace('/')}>
+          <button
+            className={classes}
+            onClick={() => router.replace('/dashboard')}
+          >
             <FeatherIcon icon="list" />
           </button>
           <button className={classes} onClick={() => router.replace('/')}>

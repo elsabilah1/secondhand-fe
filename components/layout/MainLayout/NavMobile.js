@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 
 export default function NavMobile({ showNav = true, setShowNav }) {
   const router = useRouter()
-  const isLogin = false
+  const isLogin = true
 
   return (
     <Transition appear show={showNav} as={Fragment}>
@@ -48,7 +48,7 @@ export default function NavMobile({ showNav = true, setShowNav }) {
                     <Text>Notifikasi</Text>
                   </a>
                 </Link>
-                <Link href="/" replace>
+                <Link href="/dashboard" replace>
                   <a className="hover:text-primary-03">
                     <Text>Daftar Jual</Text>
                   </a>

@@ -21,7 +21,7 @@ export default function MainLayout({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="relative mx-auto flex min-h-screen max-w-[1440px] flex-col bg-neutral-02">
+      <div className="relative mx-auto flex min-h-screen max-w-[1440px] flex-col">
         <Header
           headerTitle={headerTitle}
           headerTitleBold={headerTitleBold}
