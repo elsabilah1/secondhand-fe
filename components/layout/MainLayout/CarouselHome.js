@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-export default function CarouselHome() {
-  return <div>CarouselHome</div>
-=======
 import React from 'react'
 import Carousel from 'react-slick'
 import Image from 'next/image'
@@ -87,5 +83,4 @@ export default function CarouselHome() {
       </div>
     </>
   )
->>>>>>> origin/carouselFeature
 }

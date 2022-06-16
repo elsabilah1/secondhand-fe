@@ -8,6 +8,10 @@
   font-family: 'Poppins', sans-serif;
 }
 
+body {
+  color: #222222;
+}
+
 /* .center .slick-slide {
   margin-inline: 1rem;
 } */
