@@ -14,7 +14,7 @@ export default function InputField({
   const [icon, setIcon] = useState(false)
   return (
     <div className="w-full">
-      <label htmlFor="input-field" className="mb-2 block">
+      <label htmlFor="input-field" className="mb-1 mt-4 block">
         <Text type="body/12">{label}</Text>
       </label>
       <div className="relative">
