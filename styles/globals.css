@@ -4,6 +4,21 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
-*{
-    font-family: 'Poppins', sans-serif;
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* .center .slick-slide {
+  margin-inline: 1rem;
+} */
+
+.center .slick-current {
+  transform: scale(1.08);
+  opacity: 1;
+  margin-inline: 3rem;
+}
+
+.center .slick-slide:not(.slick-current) {
+  opacity: 0.35;
+  transition: opacity 0.3s ease-in-out;
 }

@@ -1,3 +1,9 @@
+import LayoutAuth from '../components/layout/LayoutAuth'
+
 export default function Register() {
-  return <div>Register</div>
+  return (
+    <LayoutAuth>
+      <div>Register</div>
+    </LayoutAuth>
+  )
 }
