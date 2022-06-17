@@ -1,4 +1,3 @@
-import { signIn, useSession } from 'next-auth/react'
 import AuthLayout from '../components/layout/AuthLayout'
 import Button from '../components/base/Button'
 import InputField from '../components/base/InputField'
@@ -6,7 +5,6 @@ import Link from 'next/link'
 import Text from '../components/base/Text'
 import { withRouter } from 'next/router'
 import { useState } from 'react'
-import { Post } from '../utils/Api'
 import axios from 'axios'
 
 const initialState = {
@@ -17,12 +15,6 @@ const initialState = {
 export default withRouter(function Login({ router }) {
   const [formValues, setFormValues] = useState(initialState)
   const [alert, setAlert] = useState('')
-  const { status, data: session } = useSession()
-
-  if (status === 'authenticated') {
-    console.log(session)
-    // router.replace('/dashboard')
-  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
