@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import { useState } from 'react'
 import Header from './Header'
 import NavMobile from './NavMobile'
+import { useState } from 'react'
 
 export default function MainLayout({
   children,

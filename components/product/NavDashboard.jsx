@@ -1,5 +1,5 @@
-import Text from '../base/Text'
 import FeatherIcon from 'feather-icons-react'
+import Text from '../base/Text'
 
 export default function NavDashboard() {
   return (

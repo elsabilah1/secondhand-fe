@@ -1,23 +1,23 @@
-import Image from 'next/image'
-import SearchField from './SearchField'
 import FeatherIcon from 'feather-icons-react'
-import NavDesktop from './NavDesktop'
-import Text from '../../base/Text'
+import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import NavDesktop from './NavDesktop'
+import SearchField from './SearchField'
+import Text from '../../base/Text'
+import { withRouter } from 'next/router'
 
-export default function Header({
+export default withRouter(function Header({
+  router,
   headerTitle,
   headerTitleBold,
   setShowNav,
   arrowLink,
 }) {
-  const router = useRouter()
   return (
     <div
       className={`${
         headerTitleBold || headerTitle ? 'bg-white' : ''
-      } sticky top-0 md:bg-white md:shadow-high`}
+      } sticky top-0 z-30 md:bg-white md:shadow-high`}
     >
       <div className="relative mx-auto flex items-center px-4 py-2 md:w-10/12 md:py-[18px]">
         <div
@@ -52,13 +52,12 @@ export default function Header({
             </div>
             <div className="md:hidden">
               <button
-                className="py-[14px]"
-                onClick={() => router.replace(arrowLink)}
+                className="z-20 py-[14px]"
+                onClick={() => router.replace('/')}
               >
                 <FeatherIcon icon="arrow-left" />
               </button>
-
-              <div className="absolute inset-0 grid place-items-center">
+              <div className="absolute inset-0 z-10 grid place-items-center">
                 <Text weight="medium">{headerTitle}</Text>
               </div>
             </div>
@@ -69,4 +68,4 @@ export default function Header({
       </div>
     </div>
   )
-}
+})

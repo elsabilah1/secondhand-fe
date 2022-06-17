@@ -1,13 +1,16 @@
-import FeatherIcon from 'feather-icons-react'
-import { Transition } from '@headlessui/react'
-import { Fragment } from 'react'
-import Text from '../../base/Text'
 import Button from '../../base/Button'
+import FeatherIcon from 'feather-icons-react'
+import { Fragment } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import Text from '../../base/Text'
+import { Transition } from '@headlessui/react'
+import { withRouter } from 'next/router'
 
-export default function NavMobile({ showNav = true, setShowNav }) {
-  const router = useRouter()
+export default withRouter(function NavMobile({
+  router,
+  showNav = true,
+  setShowNav,
+}) {
   const isLogin = true
 
   return (
@@ -22,7 +25,7 @@ export default function NavMobile({ showNav = true, setShowNav }) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/60" />
+          <div className="fixed inset-0 z-40 bg-black/60" />
         </Transition.Child>
 
         <Transition.Child
@@ -34,7 +37,7 @@ export default function NavMobile({ showNav = true, setShowNav }) {
           leaveFrom="translate-x-0"
           leaveTo="-translate-x-full"
         >
-          <div className="fixed inset-0 h-full w-1/2 bg-white py-8 pl-4 pr-6">
+          <div className="fixed inset-0 z-50 h-full w-1/2 bg-white py-8 pl-4 pr-6">
             <div className="mb-4 flex items-center justify-between">
               <Text weight="bold">Second Hand</Text>
               <button onClick={() => setShowNav(false)}>
@@ -74,4 +77,4 @@ export default function NavMobile({ showNav = true, setShowNav }) {
       </div>
     </Transition>
   )
-}
+})

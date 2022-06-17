@@ -1,12 +1,31 @@
-import Text from '../components/base/Text'
 import AuthLayout from '../components/layout/AuthLayout'
-import InputField from '../components/base/InputField'
 import Button from '../components/base/Button'
+import InputField from '../components/base/InputField'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import Text from '../components/base/Text'
+import { useState } from 'react'
+import { withRouter } from 'next/router'
 
-export default function Register() {
-  const router = useRouter()
+const initialState = {
+  name: '',
+  email: '',
+  password: '',
+}
+
+export default withRouter(function Register({ router }) {
+  const [formValues, setFormValues] = useState(initialState)
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    })
+  }
+
+  const handleSubmit = async () => {
+    console.log(formValues)
+  }
 
   return (
     <AuthLayout pageTitle="Register">
@@ -17,30 +36,27 @@ export default function Register() {
         <div className="space-y-4">
           <InputField
             type="text"
-            // value=""
             placeholder="Nama Lengkap"
             label="Nama"
-            name="nama"
-            // onChange=""
+            name="name"
+            onChange={handleInputChange}
           />
           <InputField
             type="email"
-            // value=""
             placeholder="Contoh: johndee@gmail.com"
             label="Email"
             name="email"
-            // onChange=""
+            onChange={handleInputChange}
           />
           <InputField
             type="password"
-            // value=""
             placeholder="Masukkan password"
             label="Password"
             name="password"
-            // onChange=""
+            onChange={handleInputChange}
           />
         </div>
-        <Button width="full" onClick={() => router.replace('/login')}>
+        <Button width="full" onClick={handleSubmit}>
           Daftar
         </Button>
       </div>
@@ -54,4 +70,4 @@ export default function Register() {
       </div>
     </AuthLayout>
   )
-}
+})

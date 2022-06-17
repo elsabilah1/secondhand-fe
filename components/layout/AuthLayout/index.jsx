@@ -1,11 +1,9 @@
+import FeatherIcon from 'feather-icons-react'
 import Head from 'next/head'
 import Image from 'next/image'
-import FeatherIcon from 'feather-icons-react'
-import { useRouter } from 'next/router'
+import { withRouter } from 'next/router'
 
-export default function AuthLayout({ children, pageTitle }) {
-  const router = useRouter()
-
+export default withRouter(function AuthLayout({ router, children, pageTitle }) {
   return (
     <>
       <Head>
@@ -49,4 +47,4 @@ export default function AuthLayout({ children, pageTitle }) {
       </div>
     </>
   )
-}
+})

@@ -1,13 +1,11 @@
-import Text from '../components/base/Text'
 import AuthLayout from '../components/layout/AuthLayout'
-import InputField from '../components/base/InputField'
 import Button from '../components/base/Button'
+import InputField from '../components/base/InputField'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import Text from '../components/base/Text'
+import { withRouter } from 'next/router'
 
-export default function Login() {
-  const router = useRouter()
-
+export default withRouter(function Login({ router }) {
   return (
     <AuthLayout pageTitle="Login">
       <div className="mb-10 space-y-6">
@@ -46,4 +44,4 @@ export default function Login() {
       </div>
     </AuthLayout>
   )
-}
+})

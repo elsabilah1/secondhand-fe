@@ -1,14 +1,13 @@
-import { useRouter } from 'next/router'
+import Button from '../../base/Button'
 import FeatherIcon from 'feather-icons-react'
 import cn from 'classnames'
-import Button from '../../base/Button'
+import { withRouter } from 'next/router'
 
-export default function NavDesktop() {
-  const router = useRouter()
+export default withRouter(function NavDesktop({ router }) {
   const isLogin = true
 
   const classes = cn(
-    'hover:text-primary-03 active:scale-95 active:text-primary-05'
+    'hover:text-primary-03 active:scale-95 active:text-primary-05',
   )
 
   return (
@@ -40,4 +39,4 @@ export default function NavDesktop() {
       )}
     </>
   )
-}
+})
