@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Text from '../components/base/Text'
 import { useState } from 'react'
 import { withRouter } from 'next/router'
+import { Post } from '../utils/Api'
 
 const initialState = {
   name: '',
@@ -14,6 +15,7 @@ const initialState = {
 
 export default withRouter(function Register({ router }) {
   const [formValues, setFormValues] = useState(initialState)
+  const [alert, setAlert] = useState('')
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -24,7 +26,12 @@ export default withRouter(function Register({ router }) {
   }
 
   const handleSubmit = async () => {
-    console.log(formValues)
+    const res = await Post('/register', formValues)
+    console.log(res)
+    setAlert(res.message)
+    setTimeout(() => {
+      router.replace('/login')
+    }, 3000)
   }
 
   return (
@@ -33,6 +40,9 @@ export default withRouter(function Register({ router }) {
         <Text type="heading/24" weight="bold">
           Daftar
         </Text>
+        <div className="text-primary-03">
+          <Text>{alert}</Text>
+        </div>
         <div className="space-y-4">
           <InputField
             type="text"
