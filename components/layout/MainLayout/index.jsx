@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Header from './Header'
 import NavMobile from './NavMobile'
+import Carousel from './CarouselHome'
 import { useState } from 'react'
 
 export default function MainLayout({
@@ -21,14 +22,17 @@ export default function MainLayout({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="relative mx-auto flex min-h-screen max-w-[1440px] flex-col">
-        <Header
-          headerTitle={headerTitle}
-          headerTitleBold={headerTitleBold}
-          setShowNav={setShowNav}
-          arrowLink={arrowLink}
-        />
-        <div className="flex-1">{children}</div>
+      <div className="relative mx-auto flex min-h-screen flex-col items-center">
+        <div className="w-full max-w-[1440px]">
+          <Header
+            headerTitle={headerTitle}
+            headerTitleBold={headerTitleBold}
+            setShowNav={setShowNav}
+            arrowLink={arrowLink}
+          />
+        </div>
+        <Carousel />
+        <div className="w-full max-w-[1440px] flex-1">{children}</div>
         <NavMobile showNav={showNav} setShowNav={setShowNav} />
       </div>
     </>

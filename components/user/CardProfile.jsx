@@ -1,6 +1,7 @@
+import { withRouter } from 'next/router'
 import Text from '../base/Text'
 
-export default function CardProfile({ edit }) {
+export default withRouter(function CardProfile({ router, edit }) {
   return (
     <div className="flex items-center justify-between rounded-2xl p-4 shadow-low">
       <div className="flex items-center gap-4">
@@ -13,7 +14,10 @@ export default function CardProfile({ edit }) {
         </div>
       </div>
       {edit && (
-        <button className="rounded-lg border border-primary-04 py-1 px-3">
+        <button
+          onClick={() => router.replace('/profile/edit')}
+          className="rounded-lg border border-primary-04 py-1 px-3 active:scale-95"
+        >
           <Text type="body/12" weight="medium">
             Edit
           </Text>
@@ -21,4 +25,4 @@ export default function CardProfile({ edit }) {
       )}
     </div>
   )
-}
+})

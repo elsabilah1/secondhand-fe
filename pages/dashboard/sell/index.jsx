@@ -78,6 +78,7 @@ export default withRouter(function SellProductForm({ router }) {
           />
 
           <SelectField
+            label="Kategori"
             selected={selected}
             setSelected={setSelected}
             data={category}

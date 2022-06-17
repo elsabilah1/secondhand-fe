@@ -53,7 +53,7 @@ export default withRouter(function Header({
             <div className="md:hidden">
               <button
                 className="z-20 py-[14px]"
-                onClick={() => router.replace('/')}
+                onClick={() => router.replace(arrowLink)}
               >
                 <FeatherIcon icon="arrow-left" />
               </button>

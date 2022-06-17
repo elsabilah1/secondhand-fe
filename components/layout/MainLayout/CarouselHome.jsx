@@ -1,8 +1,9 @@
 import Carousel from 'react-slick'
 import Image from 'next/image'
 import React from 'react'
+import { withRouter } from 'next/router'
 
-export default function CarouselHome() {
+export default withRouter(function CarouselHome({ router }) {
   const settingsDesktop = {
     className: 'center',
     centerMode: true,
@@ -41,37 +42,39 @@ export default function CarouselHome() {
     { title: 'banner', src: '/carousel/mobile_grey.png' },
   ]
 
-  return (
-    <>
-      <div className="hidden w-full sm:block">
-        <Carousel {...settingsDesktop}>
-          {desktopImages.map((img, idx) => (
-            <div className="relative h-[288px]" key={idx}>
-              <Image
-                src={img.src}
-                layout="fill"
-                objectFit="contain"
-                alt={img.title}
-              />
-            </div>
-          ))}
-        </Carousel>
-      </div>
+  if (router.pathname === '/') {
+    return (
+      <>
+        <div className="mt-8 mb-10 hidden w-full md:block">
+          <Carousel {...settingsDesktop}>
+            {desktopImages.map((img, idx) => (
+              <div className="relative h-[288px]" key={idx}>
+                <Image
+                  src={img.src}
+                  layout="fill"
+                  objectFit="contain"
+                  alt={img.title}
+                />
+              </div>
+            ))}
+          </Carousel>
+        </div>
 
-      <div className="sm:hidden">
-        <Carousel {...settingsMobile} className="w-full">
-          {mobileImages.map((img, idx) => (
-            <div key={idx} className="relative h-[398px] w-full">
-              <Image
-                src={img.src}
-                layout="fill"
-                objectFit="cover"
-                alt={img.title}
-              />
-            </div>
-          ))}
-        </Carousel>
-      </div>
-    </>
-  )
-}
+        <div className="md:hidden">
+          <Carousel {...settingsMobile}>
+            {mobileImages.map((img, idx) => (
+              <div key={idx} className="relative h-[398px] w-full">
+                <Image
+                  src={img.src}
+                  layout="fill"
+                  objectFit="cover"
+                  alt={img.title}
+                />
+              </div>
+            ))}
+          </Carousel>
+        </div>
+      </>
+    )
+  }
+})

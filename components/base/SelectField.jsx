@@ -5,6 +5,7 @@ import { Fragment } from 'react'
 import Text from './Text'
 
 export default function SelectField({
+  label,
   selected,
   setSelected,
   data,
@@ -14,7 +15,7 @@ export default function SelectField({
     <Listbox value={selected} onChange={setSelected}>
       <div className="relative">
         <label htmlFor="input-field" className="mb-2 block">
-          <Text type="body/12">Kategori</Text>
+          <Text type="body/12">{label}</Text>
         </label>
         <Listbox.Button className="focus:shadow-outline relative w-full appearance-none rounded-2xl border border-neutral-02 bg-neutral-01 py-3 px-4 text-left text-sm text-neutral-05 placeholder:text-sm placeholder:text-neutral-03 focus:outline-none focus:ring focus:ring-primary-01">
           <span className="block truncate">
