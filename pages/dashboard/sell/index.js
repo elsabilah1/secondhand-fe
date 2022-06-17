@@ -1,161 +1,116 @@
-import React from 'react'
+import { useState, useCallback } from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import FeatherIcon from 'feather-icons-react'
 import InputField from '../../../components/base/InputField'
 import TextareaField from '../../../components/base/TextareaField'
-import { Fragment, useState, useCallback } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
-import FeatherIcon from 'feather-icons-react'
 import Text from '../../../components/base/Text'
-import {useDropzone} from 'react-dropzone'
 import Button from '../../../components/base/Button'
-import { useRouter } from 'next/router'
+import Dropzone from '../../../components/base/Dropzone'
+import SelectField from '../../../components/base/SelectField'
 
 const category = [
-    { name: 'Pilih Kategori'},
-    { name: 'Hobi' },
-    { name: 'Kendaraan' },
-    { name: 'Baju' },
-    { name: 'Elektronik' },
-    { name: 'Kesehatan' },
-  ]
-
+  { name: 'Hobi' },
+  { name: 'Kendaraan' },
+  { name: 'Baju' },
+  { name: 'Elektronik' },
+  { name: 'Kesehatan' },
+]
 
 export default function SellProductForm() {
-    const [selected, setSelected] = useState(category[0])
+  const router = useRouter()
+  const [selected, setSelected] = useState(category[0])
+  const [selectedImages, setSelectedImages] = useState([])
 
-    const [selectedImages, setSelectedImages] = useState([])
-    const onDrop = useCallback(acceptedFiles => {
-        setSelectedImages(acceptedFiles.map(file =>
-            Object.assign(file, {
-                preview:URL.createObjectURL(file)
-            })
-            ))
-      }, [])
-    const {getRootProps, getInputProps} = useDropzone({onDrop})
-    const selected_images = selectedImages?.map(file =>(
-        <div>
-            <img src={file.preview} style={{width:"200px"}} alt="" />
-        </div>
-    ))
+  const onDrop = useCallback((acceptedFiles) => {
+    setSelectedImages(
+      acceptedFiles.map((file) =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        })
+      )
+    )
+  }, [])
 
-    const router = useRouter();
+  const selected_images = selectedImages?.map((file, idx) => (
+    <div key={idx} className="rounded-xl">
+      <Image
+        src={file.preview}
+        alt={file.name}
+        width={96}
+        height={96}
+        objectFit="contain"
+      />
+    </div>
+  ))
+
   return (
-    <div className='flex max-w-xl mx-auto px-4'>
-        <div className='w-2/12 mt-4 hidden md:block'>
-            <button onClick={() => router.replace("/")}>
-                <FeatherIcon icon="arrow-left" />
-            </button>
+    <div className="mx-auto flex max-w-xl px-4">
+      <div className="mt-4 hidden w-2/12 md:block">
+        <button onClick={() => router.replace('/')}>
+          <FeatherIcon icon="arrow-left" />
+        </button>
+      </div>
+
+      <div className="w-full md:w-10/12">
+        <InputField
+          type="text"
+          // value=""
+          placeholder="Nama Produk"
+          label="Nama Produk"
+          name="namaProduk"
+          // onChange=""
+        />
+        <InputField
+          type="text"
+          // value=""
+          placeholder="Rp 0,00"
+          label="Harga Produk"
+          name="hargaProduk"
+          // onChange=""
+        />
+
+        <SelectField
+          selected={selected}
+          setSelected={setSelected}
+          data={category}
+          placeholder="Pilih Kategori"
+        />
+
+        <TextareaField
+          name="deskripsi"
+          placeholder="Contoh: Jalan Ikan Hiu 33"
+          label="Deskripsi"
+          rows="3"
+          cols="30"
+        ></TextareaField>
+
+        <div className="mb-1 mt-4">
+          <Text type="body/12">Foto Produk</Text>
         </div>
-        <div className='w-full md:w-10/12'>
-            <InputField 
-              type="text"
-              // value=""
-              placeholder="Nama Produk"
-              label="Nama Produk"
-              name="namaProduk"
-              // onChange=""
+        <Dropzone maxFiles={5} onDrop={onDrop}>
+          <button className="group h-24 w-24 rounded-xl border border-dashed border-[#D0D0D0] group-hover:border-primary-03">
+            <FeatherIcon
+              icon="plus"
+              className="inline h-6 w-6 text-neutral-03 active:scale-95 group-hover:text-primary-03"
             />
-            <InputField 
-              type="text"
-              // value=""
-              placeholder="Rp 0,00"
-              label="Harga Produk"
-              name="hargaProduk"
-              // onChange=""
-            />
-            <Listbox value={selected} onChange={setSelected}>
-                <div className="relative mt-1">
-                    <label htmlFor="input-field" className="mb-1 mt-4 block">
-                        <Text type="body/12">Kategori</Text>
-                    </label>
-                  <Listbox.Button 
-                    className="focus:shadow-outline w-full appearance-none rounded-2xl
-                            border border-neutral-02 bg-neutral-01 py-3 px-4 text-sm
-                            text-neutral-03 placeholder:text-sm text-left
-                            placeholder:text-neutral-03 focus:outline-none"
-                  >
-                    <span className="block truncate"><Text>{selected.name}</Text></span>
-                    <span className="pointer-events-none absolute inset-y-0 top-5 right-3 flex items-center pr-2">
-                        <FeatherIcon 
-                        icon="chevron-down"
-                        className="h-6 w-6 text-neutral-03"
-                        />
-                    </span>
-                  </Listbox.Button>
-                  <Transition
-                    as={Fragment}
-                    leave="transition ease-in duration-100"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Listbox.Options className="z-50 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                      {category.map((cat, index) => (
-                        <Listbox.Option
-                          key={index}
-                          className={({ active }) =>
-                            `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                              active ? 'bg-primary-01 text-primary-04' : 'text-gray-900'
-                            }`
-                          }
-                          value={cat}
-                        >
-                          {({ selected }) => (
-                            <>
-                              <span
-                                className={`block truncate ${
-                                  selected ? 'font-medium' : 'font-normal'
-                                }`}
-                              >
-                                <Text>{cat.name}</Text>
-                              </span>
-                              {selected ? (
-                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary-05">
-                                    <FeatherIcon icon="check" className="h-5 w-5" />
-                                </span>
-                              ) : null}
-                            </>
-                          )}
-                        </Listbox.Option>
-                      ))}
-                    </Listbox.Options>
-                  </Transition>
-                </div>
-            </Listbox>
-            <TextareaField
-                name="deskripsi"
-                placeholder="Contoh: Jalan Ikan Hiu 33"
-                label="Deskripsi"
-                rows="3"
-                cols="30">
-            </TextareaField>
-            <div>
-                <div className='mb-1 mt-4'>
-                    <Text>Foto Produk</Text>
-                </div>
-                <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <button className='border border-[#D0D0D0] border-dashed w-24 h-24 rounded-xl
-                            hover:text-primary-03 hover:border-primary-03
-                    '>
-                        <FeatherIcon 
-                            icon="plus"
-                            className="inline h-6 w-6 text-neutral-03"
-                        />
-                    </button>
-                </div>
-                <div className='flex mt-3 gap-3'>
-                    {selected_images}
-                </div>
-            </div>
-            <div className='flex gap-4 mt-5'>
-                <Button variant="outline" width="full" onClick={() => router.push("/")}>
-                    Preview
-                </Button>
-                <Button width="full" onClick={() => router.push("/")}>
-                    Terbitkan
-                </Button>
-            </div>
-            
+          </button>
+        </Dropzone>
+        <div className="mt-4 flex flex-wrap gap-3">{selected_images}</div>
+
+        <div className="mt-5 flex gap-4">
+          <Button
+            variant="outline"
+            width="full"
+            onClick={() => router.push('/')}
+          >
+            Preview
+          </Button>
+          <Button width="full" onClick={() => router.push('/')}>
+            Terbitkan
+          </Button>
         </div>
+      </div>
     </div>
   )
 }
