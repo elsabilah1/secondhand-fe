@@ -38,6 +38,7 @@ export default function CarouselHome() {
               src="/carousel/img_purple.png"
               layout="fill"
               objectFit="contain"
+              alt="banner"
             />
           </div>
           <div className="relative h-[288px]">
@@ -45,6 +46,7 @@ export default function CarouselHome() {
               src="/carousel/img_gray.png"
               layout="fill"
               objectFit="contain"
+              alt="banner"
             />
           </div>
           <div className="relative h-[288px]">
@@ -52,6 +54,7 @@ export default function CarouselHome() {
               src="/carousel/img_purple.png"
               layout="fill"
               objectFit="contain"
+              alt="banner"
             />
           </div>
         </Carousel>
@@ -63,6 +66,7 @@ export default function CarouselHome() {
               src="/carousel/mobile_purple.png"
               layout="fill"
               objectFit="cover"
+              alt="banner"
             />
           </div>
           <div className="relative h-[398px] w-full">
@@ -70,6 +74,7 @@ export default function CarouselHome() {
               src="/carousel/mobile_yellow.png"
               layout="fill"
               objectFit="cover"
+              alt="banner"
             />
           </div>
           <div className="relative h-[398px] w-full">
@@ -77,6 +82,7 @@ export default function CarouselHome() {
               src="/carousel/mobile_grey.png"
               layout="fill"
               objectFit="cover"
+              alt="banner"
             />
           </div>
         </Carousel>
