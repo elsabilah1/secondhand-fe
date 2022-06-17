@@ -1,3 +1,4 @@
+import { signIn, useSession } from 'next-auth/react'
 import AuthLayout from '../components/layout/AuthLayout'
 import Button from '../components/base/Button'
 import InputField from '../components/base/InputField'
@@ -6,6 +7,7 @@ import Text from '../components/base/Text'
 import { withRouter } from 'next/router'
 import { useState } from 'react'
 import { Post } from '../utils/Api'
+import axios from 'axios'
 
 const initialState = {
   email: '',
@@ -15,6 +17,12 @@ const initialState = {
 export default withRouter(function Login({ router }) {
   const [formValues, setFormValues] = useState(initialState)
   const [alert, setAlert] = useState('')
+  const { status, data: session } = useSession()
+
+  if (status === 'authenticated') {
+    console.log(session)
+    // router.replace('/dashboard')
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -25,9 +33,17 @@ export default withRouter(function Login({ router }) {
   }
 
   const handleSubmit = async () => {
-    const res = await Post('/auth/login', formValues)
+    const res = await axios.post('/api/login', formValues)
     console.log(res)
-    setAlert(res.message)
+    // setAlert(res.message)
+    // const { error } = await signIn('credentials', {
+    //   redirect: false,
+    //   email: formValues.email,
+    //   password: formValues.password,
+    //   callbackUrl: '/',
+    // })
+
+    // if (error) setAlert(error)
     // setTimeout(() => {
     //   router.replace('/login')
     // }, 3000)

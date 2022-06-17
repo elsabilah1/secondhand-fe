@@ -6,6 +6,7 @@ const config = {
 
 export const _axios = axios.create({
   baseURL: config.baseUrl,
+  withCredentials: true,
 })
 
 _axios.interceptors.request.use(
@@ -19,7 +20,7 @@ _axios.interceptors.request.use(
 
 _axios.interceptors.response.use(
   function (response) {
-    return response.data
+    return response
   },
   function (error) {
     return Promise.reject(error.response)
@@ -38,6 +39,7 @@ const header = (type) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      withCredentials: true,
     }
   }
 }
