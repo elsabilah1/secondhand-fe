@@ -26,19 +26,12 @@ export default withRouter(function Login({ router }) {
 
   const handleSubmit = async () => {
     const res = await axios.post('/api/login', formValues)
-    console.log(res)
-    // setAlert(res.message)
-    // const { error } = await signIn('credentials', {
-    //   redirect: false,
-    //   email: formValues.email,
-    //   password: formValues.password,
-    //   callbackUrl: '/',
-    // })
 
-    // if (error) setAlert(error)
-    // setTimeout(() => {
-    //   router.replace('/login')
-    // }, 3000)
+    setAlert(res.data.message)
+
+    if (res.data.success) {
+      router.replace('/dashboard')
+    }
   }
 
   return (
