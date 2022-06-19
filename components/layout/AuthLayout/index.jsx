@@ -21,7 +21,7 @@ export default withRouter(function AuthLayout({ router, children, pageTitle }) {
             layout="fill"
             objectFit="cover"
             objectPosition="left"
-            priority
+            priority={true}
           />
           <div className="absolute h-full w-full bg-gradient-to-t from-primary-03 opacity-50"></div>
           <div className="absolute ml-20 flex h-full w-full items-center leading-9">

@@ -11,6 +11,7 @@ export default function CardProduct() {
           layout="fill"
           objectFit="cover"
           className="rounded"
+          priority={true}
         />
       </div>
       <div className="mb-1">

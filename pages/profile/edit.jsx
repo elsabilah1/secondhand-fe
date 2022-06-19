@@ -7,7 +7,6 @@ import Image from 'next/image'
 import InputField from '../../components/base/InputField'
 import MainLayout from '../../components/layout/MainLayout'
 import SelectField from '../../components/base/SelectField'
-import Text from '../../components/base/Text'
 import TextareaField from '../../components/base/TextareaField'
 import { withRouter } from 'next/router'
 
