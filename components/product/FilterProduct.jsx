@@ -1,5 +1,5 @@
-import React from 'react'
 import FeatherIcon from 'feather-icons-react'
+import React from 'react'
 import Text from '../base/Text'
 import cn from 'classnames'
 
@@ -19,8 +19,8 @@ export default function FilterProduct() {
   )
 
   return (
-    <div className="mb-10 space-y-4">
-      <div className="md:hidden">
+    <div className="z-10 mb-10 space-y-4">
+      <div className="relative mt-[35vh] sm:mt-0 md:hidden">
         <Text weight="medium">Telusuri Kategori</Text>
       </div>
 
@@ -29,7 +29,7 @@ export default function FilterProduct() {
           Telusuri Kategori
         </Text>
       </div>
-      <div className="flex gap-4 overflow-x-auto">
+      <div className="relative flex gap-4 overflow-x-auto">
         {categories.map((cat) => (
           <button className={classes} key={cat.id}>
             <FeatherIcon className="inline h-5 w-5" icon="search" />

@@ -4,7 +4,7 @@ import cn from 'classnames'
 import { withRouter } from 'next/router'
 
 export default withRouter(function NavDesktop({ router }) {
-  const isLogin = true
+  const isLogin = false
 
   const classes = cn(
     'hover:text-primary-03 active:scale-95 active:text-primary-05',

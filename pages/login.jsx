@@ -3,9 +3,9 @@ import Button from '../components/base/Button'
 import InputField from '../components/base/InputField'
 import Link from 'next/link'
 import Text from '../components/base/Text'
-import { withRouter } from 'next/router'
-import { useState } from 'react'
 import axios from 'axios'
+import { useState } from 'react'
+import { withRouter } from 'next/router'
 
 const initialState = {
   email: '',
@@ -15,6 +15,7 @@ const initialState = {
 export default withRouter(function Login({ router }) {
   const [formValues, setFormValues] = useState(initialState)
   const [alert, setAlert] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -25,21 +26,44 @@ export default withRouter(function Login({ router }) {
   }
 
   const handleSubmit = async () => {
+    setLoading(true)
     const res = await axios.post('/api/login', formValues)
+    setLoading(false)
 
     setAlert(res.data.message)
 
     if (res.data.success) {
-      router.replace('/dashboard')
+      setTimeout(() => {
+        router.replace('/dashboard')
+      }, 3000)
+    }
+  }
+
+  const handleLogout = async () => {
+    console.log('loading...')
+    const res = await axios.post('/api/logout')
+
+    console.log(res)
+
+    // setAlert(res.data.message)
+
+    if (res.data.success) {
+      // router.replace('/dashboard')
     }
   }
 
   return (
     <AuthLayout pageTitle="Login">
+      {loading && (
+        <div className="fixed left-0 z-50 grid h-screen w-screen place-items-center bg-black/60">
+          <div className="animate-pulse text-3xl text-white">loading...</div>
+        </div>
+      )}
       <div className="mb-10 space-y-6">
         <Text type="heading/24" weight="bold">
           Masuk
         </Text>
+        <button onClick={() => handleLogout()}>logout</button>
         <div className="text-primary-03">
           <Text>{alert}</Text>
         </div>

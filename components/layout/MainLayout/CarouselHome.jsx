@@ -7,9 +7,8 @@ export default withRouter(function CarouselHome({ router }) {
   const settingsDesktop = {
     className: 'center',
     centerMode: true,
-    centerPadding: '20%',
+    centerPadding: '15%',
     infinite: true,
-    slidesToShow: 1,
     arrows: false,
     dots: false,
     speed: 500,
@@ -18,6 +17,14 @@ export default withRouter(function CarouselHome({ router }) {
     adaptiveHeight: true,
     autoplay: true,
     autoplaySpeed: 5000,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          centerPadding: '10%',
+        },
+      },
+    ],
   }
 
   const settingsMobile = {
@@ -45,10 +52,10 @@ export default withRouter(function CarouselHome({ router }) {
   if (router.pathname === '/') {
     return (
       <>
-        <div className="mt-8 mb-10 hidden w-full md:block">
+        <div className="hidden w-full sm:block">
           <Carousel {...settingsDesktop}>
             {desktopImages.map((img, idx) => (
-              <div className="relative h-[288px]" key={idx}>
+              <div className="relative h-[25vh] lg:h-[40vh]" key={idx}>
                 <Image
                   src={img.src}
                   layout="fill"
@@ -60,14 +67,16 @@ export default withRouter(function CarouselHome({ router }) {
           </Carousel>
         </div>
 
-        <div className="md:hidden">
+        <div className="absolute top-0 h-full w-full sm:hidden">
           <Carousel {...settingsMobile}>
             {mobileImages.map((img, idx) => (
-              <div key={idx} className="relative h-[398px] w-full">
+              <div key={idx} className="relative h-[60vh] w-full">
                 <Image
                   src={img.src}
                   layout="fill"
-                  objectFit="cover"
+                  objectFit="contain"
+                  className="w-full"
+                  objectPosition="top"
                   alt={img.title}
                 />
               </div>
