@@ -7,6 +7,7 @@ export default function CarouselDesc() {
     const settings = {
         dots: true,
         lazyLoad: true,
+        arrows:false,
         infinite: true,
         speed: 500,
         slidesToShow: 1,
@@ -22,21 +23,24 @@ export default function CarouselDesc() {
                 <Image
                  src="/carousel/watches.png"
                  layout='fill'
-                 objectFit='contain'
+                 objectFit='cover'
+                 className='rounded-2xl'
                  />
             </div>
             <div className='relative w-full h-[436px]'>
                 <Image
                  src="/carousel/watches2.jpg"
                  layout='fill'
-                 objectFit='contain'
+                 objectFit='cover'
+                 className='rounded-2xl'
                  />
             </div>
             <div className='relative w-full h-[436px]'>
                 <Image
                  src="/carousel/watches3.jpg"
                  layout='fill'
-                 objectFit='contain'
+                 objectFit='cover'
+                 className='rounded-2xl'
                  />
             </div>
         </Carousel>

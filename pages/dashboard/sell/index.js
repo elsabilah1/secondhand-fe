@@ -147,7 +147,7 @@ export default function SellProductForm() {
                 </div>
             </div>
             <div className='flex gap-4 mt-5'>
-                <Button variant="outline" width="full" onClick={() => router.push("/")}>
+                <Button variant="outline" width="full" onClick={() => router.push("/dashboard/sell/preview")}>
                     Preview
                 </Button>
                 <Button width="full" onClick={() => router.push("/")}>

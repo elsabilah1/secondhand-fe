@@ -22,4 +22,19 @@
     opacity: 1 !important;
     color: #7126B5 !important;
 }
+
+@media (max-width: 768px) {
+    .slick-dots{
+        top: 240px
+    }
+    .slick-dots li button:before{
+        opacity: 0.8 !important;
+        color: #FFF !important;
+    }
+    
+    .slick-dots li.slick-active button:before{
+        opacity: 1 !important;
+        color: #8A8A8A !important;
+    }
+}
 /* Dots For CarouselDesc */
