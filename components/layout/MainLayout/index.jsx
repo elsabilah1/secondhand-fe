@@ -3,6 +3,10 @@ import Head from 'next/head'
 import Header from './Header'
 import NavMobile from './NavMobile'
 import { useState } from 'react'
+import ModalMakeBid from '../../product/ModalMakeBid'
+import Modal from '../../base/Modal'
+import ModalAcceptBid from '../../product/ModalAcceptBid'
+import ModalChangeStatus from '../../product/ModalChangeStatus'
 
 export default function MainLayout({
   children,
@@ -32,6 +36,9 @@ export default function MainLayout({
         <Carousel />
         <div className="flex-1">{children}</div>
         <NavMobile showNav={showNav} setShowNav={setShowNav} />
+        {/* <ModalMakeBid /> */}
+        {/* <ModalAcceptBid /> */}
+        {/* <ModalChangeStatus /> */}
       </div>
     </>
   )

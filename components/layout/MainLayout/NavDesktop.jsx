@@ -54,12 +54,12 @@ export default withRouter(function NavDesktop({ router }) {
               Masuk
             </span>
           </Button>
-          <Button onClick={() => handleLogout()}>
+          {/* <Button onClick={() => handleLogout()}>
             <span className="flex gap-2">
               <FeatherIcon icon="log-in" className="h-5 w-5" />
               Logout
             </span>
-          </Button>
+          </Button> */}
           <div className="text-primary-03">
             <Text>{alert}</Text>
           </div>
