@@ -33,22 +33,7 @@ export default withRouter(function Login({ router }) {
     setAlert(res.data.message)
 
     if (res.data.success) {
-      setTimeout(() => {
-        router.replace('/dashboard')
-      }, 3000)
-    }
-  }
-
-  const handleLogout = async () => {
-    console.log('loading...')
-    const res = await axios.post('/api/logout')
-
-    console.log(res)
-
-    // setAlert(res.data.message)
-
-    if (res.data.success) {
-      // router.replace('/dashboard')
+      router.replace('/dashboard')
     }
   }
 
@@ -63,7 +48,6 @@ export default withRouter(function Login({ router }) {
         <Text type="heading/24" weight="bold">
           Masuk
         </Text>
-        <button onClick={() => handleLogout()}>logout</button>
         <div className="text-primary-03">
           <Text>{alert}</Text>
         </div>

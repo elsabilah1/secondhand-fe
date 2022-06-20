@@ -27,17 +27,20 @@ _axios.interceptors.response.use(
   },
 )
 
-const header = (type) => {
+const header = (type, token) => {
   if (type === 'form-data') {
     return {
       headers: {
         'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
       },
+      withCredentials: true,
     }
   } else {
     return {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       withCredentials: true,
     }
@@ -62,9 +65,9 @@ export const Get = async (url) => {
   }
 }
 
-export const Post = async (url, params) => {
+export const Post = async (url, params, token) => {
   try {
-    const head = header()
+    const head = header('', token)
     const post = await _axios.post(url, params, head)
     return post
   } catch (error) {

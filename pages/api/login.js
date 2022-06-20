@@ -2,7 +2,7 @@
 import { Post } from '../../utils/Api'
 
 export default async (req, res) => {
-  const { method, headers, body } = req
+  const { method, body } = req
 
   if (method !== 'POST') {
     res.status(404).end()
