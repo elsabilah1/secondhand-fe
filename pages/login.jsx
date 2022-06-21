@@ -6,6 +6,7 @@ import Text from '../components/base/Text'
 import axios from 'axios'
 import { useState } from 'react'
 import { withRouter } from 'next/router'
+import Loader from '../components/base/Loader'
 
 const initialState = {
   email: '',
@@ -29,6 +30,7 @@ export default withRouter(function Login({ router }) {
     setLoading(true)
     const res = await axios.post('/api/login', formValues)
     setLoading(false)
+    console.log(res)
 
     setAlert(res.data.message)
 
@@ -39,11 +41,7 @@ export default withRouter(function Login({ router }) {
 
   return (
     <AuthLayout pageTitle="Login">
-      {loading && (
-        <div className="fixed left-0 z-50 grid h-screen w-screen place-items-center bg-black/60">
-          <div className="animate-pulse text-3xl text-white">loading...</div>
-        </div>
-      )}
+      {loading && <Loader />}
       <div className="mb-10 space-y-6">
         <Text type="heading/24" weight="bold">
           Masuk

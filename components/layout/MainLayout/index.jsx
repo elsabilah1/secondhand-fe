@@ -4,9 +4,9 @@ import Header from './Header'
 import NavMobile from './NavMobile'
 import { useState } from 'react'
 import ModalMakeBid from '../../product/ModalMakeBid'
-import Modal from '../../base/Modal'
 import ModalAcceptBid from '../../product/ModalAcceptBid'
 import ModalChangeStatus from '../../product/ModalChangeStatus'
+import Loader from '../../base/Loader'
 
 export default function MainLayout({
   children,
