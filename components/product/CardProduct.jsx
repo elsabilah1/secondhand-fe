@@ -3,7 +3,7 @@ import Text from '../base/Text'
 
 export default function CardProduct() {
   return (
-    <div className="rounded px-2 py-4 shadow-low ">
+    <div className="cursor-pointer rounded border px-2 py-4 shadow-sm">
       <div className="relative mb-2 h-24 w-full">
         <Image
           src="/sample_product.png"

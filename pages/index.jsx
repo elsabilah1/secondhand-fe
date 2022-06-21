@@ -19,7 +19,7 @@ export default function Home() {
           </div>
         </div>
       </MainLayout>
-      <div className="fixed inset-x-0 bottom-5 z-50 text-center">
+      <div className="fixed inset-x-0 bottom-5 z-30 text-center">
         <Button>
           <FeatherIcon icon="plus" className="inline h-5 w-5" /> Jual
         </Button>

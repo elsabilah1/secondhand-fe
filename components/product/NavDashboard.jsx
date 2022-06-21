@@ -1,20 +1,47 @@
 import FeatherIcon from 'feather-icons-react'
 import Text from '../base/Text'
+import { Tab } from '@headlessui/react'
+import { useState } from 'react'
+import cn from 'classnames'
 
 export default function NavDashboard() {
+  const [categories] = useState({
+    all: {
+      title: 'Semua Produk',
+      titleMobile: 'Produk',
+      icon: 'box',
+    },
+    wishlist: {
+      title: 'Diminati',
+      icon: 'heart',
+    },
+    sold: {
+      title: 'Terjual',
+      icon: 'dollar-sign',
+    },
+  })
+
   return (
-    <div className="rounded-2xl md:p-6 md:shadow-high">
+    <div className="rounded-2xl md:border md:p-6 md:shadow-md">
       <div className="hidden md:inline">
         <Text type="title/16" weight="medium">
           Kategori
         </Text>
       </div>
       <div className="flex gap-4 overflow-x-auto md:block">
-        <NavItem icon="box" title="Semua Produk" titleMobile="Produk" />
-        <div className="hidden border-b border-neutral-02 md:flex"></div>
-        <NavItem icon="heart" title="Diminati" />
-        <div className="hidden border-b border-neutral-02 md:flex"></div>
-        <NavItem icon="dollar-sign" title="Terjual" />
+        {Object.keys(categories).map((category, idx) => (
+          <>
+            <NavItem
+              key={idx}
+              icon={categories[category].icon}
+              title={categories[category].title}
+              titleMobile={categories[category].titleMobile}
+            />
+            {idx !== 2 && (
+              <div className="hidden border-b border-neutral-02 md:flex" />
+            )}
+          </>
+        ))}
       </div>
     </div>
   )
@@ -22,27 +49,39 @@ export default function NavDashboard() {
 
 const NavItem = ({ icon, title, titleMobile }) => {
   return (
-    <div className="flex-none">
-      <button className="group flex w-full justify-between rounded-xl bg-primary-01 px-4  py-3 active:text-white group-active:text-primary-03 md:bg-white md:py-4 md:px-0 md:active:bg-white md:active:text-primary-03">
-        <div className="flex gap-2">
-          <FeatherIcon
-            icon={icon}
-            className="h-5 w-5 text-neutral-03 group-active:text-primary-03 md:h-6 md:w-6"
-          />
-          <div className="hidden md:inline">
-            <Text type="title/16" weight="medium">
-              {title}
-            </Text>
-          </div>
-          <div className="md:hidden">
-            <Text>{titleMobile ?? title}</Text>
-          </div>
-        </div>
+    <Tab
+      className={({ selected }) =>
+        cn(
+          'group flex flex-none justify-between rounded-xl px-4 py-3 focus:outline-none md:w-full md:bg-white md:py-4 md:px-0',
+          selected
+            ? 'bg-primary-03 text-white md:bg-white md:text-primary-03'
+            : 'bg-primary-01',
+        )
+      }
+    >
+      <div className="flex items-center gap-2">
         <FeatherIcon
-          icon="chevron-right"
-          className="hidden text-neutral-02 group-active:text-primary-03 md:flex"
+          icon={icon}
+          className={({ selected }) =>
+            cn(
+              'h-5 w-5 group-active:text-primary-03 md:h-6 md:w-6',
+              selected ? 'text-primary-03' : 'text-neutral-03',
+            )
+          }
         />
-      </button>
-    </div>
+        <div className="hidden md:inline">
+          <Text type="title/16" weight="medium">
+            {title}
+          </Text>
+        </div>
+        <div className="group-active:text-primary-03 md:hidden">
+          <Text>{titleMobile ?? title}</Text>
+        </div>
+      </div>
+      <FeatherIcon
+        icon="chevron-right"
+        className="hidden group-active:text-primary-03 md:flex"
+      />
+    </Tab>
   )
 }

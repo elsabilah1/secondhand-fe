@@ -3,7 +3,7 @@ import Text from '../base/Text'
 
 export default withRouter(function CardProfile({ router, edit }) {
   return (
-    <div className="flex items-center justify-between rounded-2xl p-4 shadow-low">
+    <div className="flex items-center justify-between rounded-2xl border p-4 shadow-sm">
       <div className="flex items-center gap-4">
         <div className="h-12 w-12 rounded-xl bg-black"></div>
         <div className="">
