@@ -1,38 +1,23 @@
+import { useDispatch, useSelector } from 'react-redux'
+
 import Button from '../../base/Button'
 import FeatherIcon from 'feather-icons-react'
-import cn from 'classnames'
-import { withRouter } from 'next/router'
 import Text from '../../base/Text'
-import { useState } from 'react'
-import axios from 'axios'
-import Loader from '../../base/Loader'
+import cn from 'classnames'
+import { logout } from '../../../store/slices/auth'
+import { withRouter } from 'next/router'
 
 export default withRouter(function NavDesktop({ router }) {
-  const isLogin = false
-  const [alert, setAlert] = useState('')
-  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
+  const { user, loading, error } = useSelector((state) => state.auth)
 
   const classes = cn(
     'hover:text-primary-03 active:scale-95 active:text-primary-05',
   )
 
-  const handleLogout = async () => {
-    setLoading(true)
-    const res = await axios.post('/api/logout')
-    setLoading(false)
-
-    console.log(res.data.message)
-
-    setAlert(res.data.message)
-
-    if (res.data.success) {
-      router.replace('/login')
-    }
-  }
-
   return (
     <>
-      {isLogin ? (
+      {user ? (
         <div className="ml-6 hidden space-x-5 text-neutral-05 md:inline">
           <button
             className={classes}
@@ -46,6 +31,16 @@ export default withRouter(function NavDesktop({ router }) {
           <button className={classes} onClick={() => router.replace('/')}>
             <FeatherIcon icon="user" />
           </button>
+          <button
+            className="rounded border px-3 py-2 text-sm disabled:animate-pulse disabled:bg-neutral-02"
+            onClick={() => dispatch(logout())}
+            disabled={loading}
+          >
+            <span className="flex gap-2">
+              <FeatherIcon icon="log-out" className="h-5 w-5" />
+              Logout
+            </span>
+          </button>
         </div>
       ) : (
         <div className="hidden md:flex">
@@ -55,18 +50,12 @@ export default withRouter(function NavDesktop({ router }) {
               Masuk
             </span>
           </Button>
-          <Button onClick={() => handleLogout()}>
-            <span className="flex gap-2">
-              <FeatherIcon icon="log-in" className="h-5 w-5" />
-              Logout
-            </span>
-          </Button>
+
           <div className="text-primary-03">
-            <Text>{alert}</Text>
+            <Text>{error}</Text>
           </div>
         </div>
       )}
-      {loading && <Loader />}
     </>
   )
 })

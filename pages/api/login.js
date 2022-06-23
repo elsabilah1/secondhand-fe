@@ -16,9 +16,12 @@ export default async (req, res) => {
     )
 
     res.status(200).json(data)
-  } catch (e) {
-    const { response } = e
-    const { status, data } = response
-    res.status(status).json(data)
+  } catch (error) {
+    console.log(error)
+    res.send(error)
   }
+
+  // catch ({ response: { status, data } }) {
+  //   res.status(status).json(data)
+  // }
 }

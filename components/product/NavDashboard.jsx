@@ -1,8 +1,8 @@
 import FeatherIcon from 'feather-icons-react'
-import Text from '../base/Text'
 import { Tab } from '@headlessui/react'
-import { useState } from 'react'
+import Text from '../base/Text'
 import cn from 'classnames'
+import { useState } from 'react'
 
 export default function NavDashboard() {
   const [categories] = useState({
@@ -30,9 +30,8 @@ export default function NavDashboard() {
       </div>
       <div className="flex gap-4 overflow-x-auto md:block">
         {Object.keys(categories).map((category, idx) => (
-          <>
+          <div key={idx}>
             <NavItem
-              key={idx}
               icon={categories[category].icon}
               title={categories[category].title}
               titleMobile={categories[category].titleMobile}
@@ -40,7 +39,7 @@ export default function NavDashboard() {
             {idx !== 2 && (
               <div className="hidden border-b border-neutral-02 md:flex" />
             )}
-          </>
+          </div>
         ))}
       </div>
     </div>
@@ -60,28 +59,17 @@ const NavItem = ({ icon, title, titleMobile }) => {
       }
     >
       <div className="flex items-center gap-2">
-        <FeatherIcon
-          icon={icon}
-          className={({ selected }) =>
-            cn(
-              'h-5 w-5 group-active:text-primary-03 md:h-6 md:w-6',
-              selected ? 'text-primary-03' : 'text-neutral-03',
-            )
-          }
-        />
+        <FeatherIcon icon={icon} className="h-5 w-5 md:h-6 md:w-6" />
         <div className="hidden md:inline">
           <Text type="title/16" weight="medium">
             {title}
           </Text>
         </div>
-        <div className="group-active:text-primary-03 md:hidden">
+        <div className="md:hidden">
           <Text>{titleMobile ?? title}</Text>
         </div>
       </div>
-      <FeatherIcon
-        icon="chevron-right"
-        className="hidden group-active:text-primary-03 md:flex"
-      />
+      <FeatherIcon icon="chevron-right" className="hidden md:flex" />
     </Tab>
   )
 }

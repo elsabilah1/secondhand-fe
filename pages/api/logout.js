@@ -1,16 +1,15 @@
 /* eslint-disable import/no-anonymous-default-export */
-
 import { Post } from '../../utils/Api'
 
 export default async (req, res) => {
-  const { method, headers } = req
+  const { method } = req
 
   if (method !== 'POST') {
     res.status(404).end()
   }
 
   try {
-    const token = headers.cookie.split('=')[1]
+    const { token } = req.cookies
 
     const { data, headers: returnedHeaders } = await Post(
       '/auth/logout',

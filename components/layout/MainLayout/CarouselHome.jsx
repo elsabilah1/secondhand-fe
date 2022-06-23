@@ -17,14 +17,6 @@ export default withRouter(function CarouselHome({ router }) {
     adaptiveHeight: true,
     autoplay: true,
     autoplaySpeed: 5000,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          centerPadding: '10%',
-        },
-      },
-    ],
   }
 
   const settingsMobile = {
@@ -61,6 +53,7 @@ export default withRouter(function CarouselHome({ router }) {
                   layout="fill"
                   objectFit="contain"
                   alt={img.title}
+                  priority={true}
                 />
               </div>
             ))}
@@ -78,6 +71,7 @@ export default withRouter(function CarouselHome({ router }) {
                   className="w-full"
                   objectPosition="top"
                   alt={img.title}
+                  priority={true}
                 />
               </div>
             ))}

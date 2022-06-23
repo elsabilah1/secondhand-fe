@@ -1,9 +1,12 @@
+import { useDispatch, useSelector } from 'react-redux'
+
 import Button from '../../base/Button'
 import FeatherIcon from 'feather-icons-react'
 import { Fragment } from 'react'
 import Link from 'next/link'
 import Text from '../../base/Text'
 import { Transition } from '@headlessui/react'
+import { logout } from '../../../store/slices/auth'
 import { withRouter } from 'next/router'
 
 export default withRouter(function NavMobile({
@@ -11,7 +14,8 @@ export default withRouter(function NavMobile({
   showNav = true,
   setShowNav,
 }) {
-  const isLogin = false
+  const dispatch = useDispatch()
+  const { user, loading, error } = useSelector((state) => state.auth)
 
   return (
     <Transition appear show={showNav} as={Fragment}>
@@ -44,7 +48,7 @@ export default withRouter(function NavMobile({
                 <FeatherIcon icon="x" />
               </button>
             </div>
-            {isLogin ? (
+            {user ? (
               <div className="grid gap-4">
                 <Link href="/" replace>
                   <a className="hover:text-primary-03">
@@ -61,6 +65,17 @@ export default withRouter(function NavMobile({
                     <Text>Akun Saya</Text>
                   </a>
                 </Link>
+                <button
+                  className="rounded border px-3 py-2 text-sm disabled:animate-pulse disabled:bg-neutral-02"
+                  onClick={() => dispatch(logout())}
+                  disabled={loading}
+                >
+                  <span className="flex gap-2">
+                    <FeatherIcon icon="log-out" className="h-5 w-5" />
+                    Logout
+                  </span>
+                </button>
+                <p>{error}</p>
               </div>
             ) : (
               <div>

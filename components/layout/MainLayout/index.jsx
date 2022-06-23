@@ -1,12 +1,12 @@
 import Carousel from './CarouselHome'
 import Head from 'next/head'
 import Header from './Header'
-import NavMobile from './NavMobile'
-import { useState } from 'react'
-import ModalMakeBid from '../../product/ModalMakeBid'
+import Loader from '../../base/Loader'
 import ModalAcceptBid from '../../product/ModalAcceptBid'
 import ModalChangeStatus from '../../product/ModalChangeStatus'
-import Loader from '../../base/Loader'
+import ModalMakeBid from '../../product/ModalMakeBid'
+import NavMobile from './NavMobile'
+import { useState } from 'react'
 
 export default function MainLayout({
   children,
@@ -26,13 +26,13 @@ export default function MainLayout({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <Header
+        headerTitle={headerTitle}
+        headerTitleBold={headerTitleBold}
+        setShowNav={setShowNav}
+        arrowLink={arrowLink}
+      />
       <div className="relative mx-auto flex min-h-screen max-w-[1440px] flex-col">
-        <Header
-          headerTitle={headerTitle}
-          headerTitleBold={headerTitleBold}
-          setShowNav={setShowNav}
-          arrowLink={arrowLink}
-        />
         <Carousel />
         <div className="flex-1">{children}</div>
         <NavMobile showNav={showNav} setShowNav={setShowNav} />

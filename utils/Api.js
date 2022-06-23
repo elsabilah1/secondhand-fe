@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const config = {
-  baseUrl: 'https://secondhand-be-api.herokuapp.com/api/v1',
+  baseUrl: process.env.NEXT_PUBLIC_SERVER,
 }
 
 export const _axios = axios.create({
@@ -34,7 +34,6 @@ const header = (type, token) => {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
       },
-      withCredentials: true,
     }
   } else {
     return {
@@ -42,7 +41,6 @@ const header = (type, token) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      withCredentials: true,
     }
   }
 }
@@ -55,9 +53,9 @@ const errors = (errors) => {
   }
 }
 
-export const Get = async (url) => {
+export const Get = async (url, token) => {
   try {
-    const head = header()
+    const head = header('', token)
     const get = await _axios.get(url, head)
     return get
   } catch (error) {

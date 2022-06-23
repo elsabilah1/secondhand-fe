@@ -3,10 +3,14 @@ import CardProduct from '../components/product/CardProduct'
 import FeatherIcon from 'feather-icons-react'
 import FilterProduct from '../components/product/FilterProduct'
 import MainLayout from '../components/layout/MainLayout'
+import { useSelector } from 'react-redux'
+import { withRouter } from 'next/router'
 
 const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-export default function Home() {
+export default withRouter(function Home({ router }) {
+  const { user } = useSelector((state) => state.auth)
+
   return (
     <>
       <MainLayout pageTitle="Home">
@@ -20,10 +24,12 @@ export default function Home() {
         </div>
       </MainLayout>
       <div className="fixed inset-x-0 bottom-5 z-30 text-center">
-        <Button>
+        <Button
+          onClick={() => router.replace(user ? '/dashboard/sell' : '/login')}
+        >
           <FeatherIcon icon="plus" className="inline h-5 w-5" /> Jual
         </Button>
       </div>
     </>
   )
-}
+})

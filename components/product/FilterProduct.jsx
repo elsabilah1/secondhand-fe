@@ -13,7 +13,6 @@ const categories = [
 ]
 
 export default function FilterProduct() {
-  const activeCat = 'Semua'
   const classes = cn(
     'flex gap-2 py-[12px] px-4 md:py-[14px] md:px-6 rounded-2xl active:scale-95 transition-all focus:outline-none focus:ring bg-primary-01 text-neutral-05 border-primary-01 hover:bg-primary-04 hover:text-neutral-01',
   )

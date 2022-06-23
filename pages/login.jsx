@@ -2,11 +2,11 @@ import AuthLayout from '../components/layout/AuthLayout'
 import Button from '../components/base/Button'
 import InputField from '../components/base/InputField'
 import Link from 'next/link'
+import Loader from '../components/base/Loader'
 import Text from '../components/base/Text'
 import axios from 'axios'
 import { useState } from 'react'
 import { withRouter } from 'next/router'
-import Loader from '../components/base/Loader'
 
 const initialState = {
   email: '',
