@@ -38,3 +38,24 @@
     }
 }
 /* Dots For CarouselDesc */
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  color: #222222;
+}
+
+.center .slick-slide {
+  padding: 1.5rem;
+}
+
+.center .slick-current {
+  transform: scale(1.08);
+  opacity: 1;
+}
+
+.center .slick-slide:not(.slick-current) {
+  opacity: 0.35;
+  transition: opacity 0.3s ease-in-out;
+}

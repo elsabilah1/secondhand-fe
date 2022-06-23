@@ -16,7 +16,7 @@ export default function MobilePreview({ BtnTitle, onClick, onClickBack }) {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        initialSlide: 1,
+        initialSlide: 3,
         // autoplay: true,
         // autoplaySpeed: 5000
       };
