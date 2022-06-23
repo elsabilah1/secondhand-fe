@@ -5,6 +5,7 @@ import FeatherIcon from 'feather-icons-react'
 import Image from 'next/image'
 import Text from '../../components/base/Text'
 import { withRouter } from 'next/router'
+import Link from 'next/link'
 
 export default withRouter(function Akun({ router }) {
     const [selectedImages, setSelectedImages] = useState([])
@@ -78,26 +79,36 @@ export default withRouter(function Akun({ router }) {
             </div>
           </div>
           <div className='flex gap-4 justify-center border'>
+            <Link href="/" replace>
             <button className='gap-4 hover:text-primary-04 text-neutral-03'>
-                <FeatherIcon className='' icon='home' />
-                <Text>Home</Text>
+                  <FeatherIcon className='' icon='home' />
+                  <Text>Home</Text>
             </button>
+            </Link>
+            <Link href="/notifikasi" replace>
             <button className='gap-4 hover:text-primary-04 text-neutral-03'>
                 <FeatherIcon className='' icon='bell' />
                 <Text>Notifikasi</Text>
             </button>
+            </Link>
+            <Link href="/dashboard/sell" replace>
             <button className='gap-4 hover:text-primary-04 text-neutral-03'>
                 <FeatherIcon className='' icon='plus-circle' />
                 <Text>Jual</Text>
             </button>
+            </Link>
+            <Link href="/dashboard" replace>
             <button className='gap-4 hover:text-primary-04 text-neutral-03'>
                 <FeatherIcon className='' icon='menu' />
                 <Text>Daftar Jual</Text>
             </button>
+            </Link>
+            <Link href="/profile/akun" replace>
             <button className='gap-4 hover:text-primary-04 text-neutral-03'>
                 <FeatherIcon className='' icon='user' />
                 <Text>Akun</Text>
             </button>
+            </Link>
         </div>
     </div>
   )

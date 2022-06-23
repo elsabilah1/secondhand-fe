@@ -2,6 +2,10 @@ import Button from '../../base/Button'
 import FeatherIcon from 'feather-icons-react'
 import cn from 'classnames'
 import { withRouter } from 'next/router'
+import Dropdown from '../../base/Dropdown'
+import Notifikasi from '../../base/Notifikasi'
+import Text from '../../base/Text'
+import MenuProfile from '../../user/MenuProfile'
 
 export default withRouter(function NavDesktop({ router }) {
   const isLogin = true
@@ -13,19 +17,23 @@ export default withRouter(function NavDesktop({ router }) {
   return (
     <>
       {isLogin ? (
-        <div className="ml-6 hidden space-x-5 text-neutral-05 md:inline">
+        <div className="ml-6 hidden space-x-5 text-neutral-05 md:flex">
           <button
             className={classes}
             onClick={() => router.replace('/dashboard')}
           >
             <FeatherIcon icon="list" />
           </button>
-          <button className={classes} onClick={() => router.replace('/')}>
-            <FeatherIcon icon="bell" />
-          </button>
-          <button className={classes} onClick={() => router.replace('/')}>
-            <FeatherIcon icon="user" />
-          </button>
+          <Dropdown icon="bell">
+          <Notifikasi/>
+          <Notifikasi/>
+          </Dropdown>
+          <Dropdown icon="user">
+            <div className='mx-10'>
+            <MenuProfile/>
+            </div>
+          </Dropdown>
+          
         </div>
       ) : (
         <div className="hidden md:flex">

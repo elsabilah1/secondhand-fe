@@ -46,7 +46,7 @@ export default withRouter(function NavMobile({
             </div>
             {isLogin ? (
               <div className="grid gap-4">
-                <Link href="/" replace>
+                <Link href="/notifikasi" replace>
                   <a className="hover:text-primary-03">
                     <Text>Notifikasi</Text>
                   </a>
@@ -56,7 +56,7 @@ export default withRouter(function NavMobile({
                     <Text>Daftar Jual</Text>
                   </a>
                 </Link>
-                <Link href="/" replace>
+                <Link href="/profile/akun" replace>
                   <a className="hover:text-primary-03">
                     <Text>Akun Saya</Text>
                   </a>
