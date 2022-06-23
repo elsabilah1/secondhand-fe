@@ -51,28 +51,55 @@ export default withRouter(function Akun({ router }) {
           </div>
         </div>
 
-        <div className='gap-4 overflow-x-auto'>
-            <button className='flex gap-4'>
-                <FeatherIcon className="inline" icon='edit-3' />
-                <Text weight="medium">Ubah Akun</Text>
-            </button>
-            <div className='border border-b'></div>
-        </div>
-        <div className='gap-4 overflow-x-auto'>
-            <button className='flex gap-4'>
-                <FeatherIcon className="inline" icon='settings' />
-                <Text weight="medium">Pengaturan Akun</Text>
-            </button>
-            <div className='border border-b'></div>
-        </div>
-        <div className='gap-4 overflow-x-auto'>
-            <button className='flex gap-4'>
-                <FeatherIcon className="inline" icon='log-out' />
-                <Text weight="medium">Keluar</Text>
-            </button>
-            <div className='border border-b'></div>
+        <div>
+          <div className='gap-4 overflow-x-auto'>
+              <button className='flex gap-4'>
+                  <FeatherIcon className="inline" icon='edit-3' />
+                  <Text weight="medium">Ubah Akun</Text>
+              </button>
+              <div className='border border-b'></div>
+          </div>
+          <div className='gap-4 overflow-x-auto'>
+              <button className='flex gap-4'>
+                  <FeatherIcon className="inline" icon='settings' />
+                  <Text weight="medium">Pengaturan Akun</Text>
+              </button>
+              <div className='border border-b'></div>
+          </div>
+          <div className='gap-4 overflow-x-auto'>
+              <button className='flex gap-4'>
+                  <FeatherIcon className="inline" icon='log-out' />
+                  <Text weight="medium">Keluar</Text>
+              </button>
+              <div className='border border-b'></div>
+          </div>
+          <div className='flex justify-center'>
+          <Text className='text-neutral-03' >Version 1.0</Text>
+          </div>
         </div>
 
+        <div className='flex gap-4 justify-center'>
+            <button className='gap-4'>
+                <FeatherIcon className='' icon='home' />
+                <Text weight="medium">Home</Text>
+            </button>
+            <button className='gap-4'>
+                <FeatherIcon className='' icon='bell' />
+                <Text weight="medium">Notifikasi</Text>
+            </button>
+            <button className='gap-4'>
+                <FeatherIcon className='' icon='plus-circle' />
+                <Text weight="medium">Jual</Text>
+            </button>
+            <button className='gap-4'>
+                <FeatherIcon className='' icon='menu' />
+                <Text weight="medium">Daftar Jual</Text>
+            </button>
+            <button className='gap-4'>
+                <FeatherIcon className='' icon='user' />
+                <Text weight="medium">Akun</Text>
+            </button>
+        </div>
     </div>
   )
 })

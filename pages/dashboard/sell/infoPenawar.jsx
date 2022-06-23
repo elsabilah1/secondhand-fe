@@ -8,8 +8,8 @@ import { withRouter } from 'next/router'
 export default withRouter(function InfoPenawar({ router }) {
   return (
     <MainLayout
-      pageTitle="Info Profile"
-      headerTitle="Lengkapi Info Akun"
+      pageTitle="Info Penawar"
+      headerTitle="Info Penawar"
       arrowLink="/dashboard"
     >
       <div className="mx-auto my-6 flex max-w-2xl px-4 md:my-10">
