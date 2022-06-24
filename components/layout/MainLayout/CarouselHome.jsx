@@ -60,10 +60,10 @@ export default withRouter(function CarouselHome({ router }) {
           </Carousel>
         </div>
 
-        <div className="absolute top-0 h-full w-full sm:hidden">
+        <div className="fixed top-0 h-full w-full sm:hidden">
           <Carousel {...settingsMobile}>
             {mobileImages.map((img, idx) => (
-              <div key={idx} className="relative h-[60vh] w-full">
+              <div key={idx} className="relative h-[70vh] w-full">
                 <Image
                   src={img.src}
                   layout="fill"

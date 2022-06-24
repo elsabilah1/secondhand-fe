@@ -4,8 +4,7 @@ import InputField from '../base/InputField'
 import Image from 'next/image'
 import Modal from '../base/Modal'
 
-export default function ModalMakeBid({ isOpen=false, setIsOpen }) {
-  
+export default function ModalMakeBid({ isOpen = false, setIsOpen }) {
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Masukkan Harga Tawarmu">
       <div className="mt-4 mb-6">

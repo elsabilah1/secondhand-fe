@@ -1,13 +1,10 @@
-import { useState } from 'react'
 import Button from '../base/Button'
 import Text from '../base/Text'
 import Image from 'next/image'
 import Modal from '../base/Modal'
 import FeatherIcon from 'feather-icons-react'
 
-export default function ModalAcceptBid() {
-  const [isOpen, setIsOpen] = useState(true)
-
+export default function ModalAcceptBid({ isOpen = false, setIsOpen }) {
   return (
     <Modal
       isOpen={isOpen}

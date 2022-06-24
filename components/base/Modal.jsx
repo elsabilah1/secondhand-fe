@@ -27,12 +27,12 @@ export default function Modal({ isOpen, setIsOpen, children, title }) {
           <div className="flex min-h-full items-end justify-center text-center sm:items-center sm:p-4">
             <Transition.Child
               as={Fragment}
-              enter="transition duration-300 transform"
-              enterFrom="translate-y-full"
-              enterTo="translate-y-0"
-              leave="transition duration-300 transform"
-              leaveFrom="translate-y-0"
-              leaveTo="translate-y-full"
+              enter="transition ease-out duration-300"
+              enterFrom="opacity-0 translate-y-1"
+              enterTo="opacity-100 translate-y-0"
+              leave="transition ease-in duration-300"
+              leaveFrom="opacity-100 translate-y-0"
+              leaveTo="opacity-0 translate-y-1"
             >
               <Dialog.Panel className="w-full transform overflow-hidden rounded-t-2xl bg-white p-6 text-left align-middle shadow-xl transition-all sm:max-w-sm sm:rounded-2xl">
                 <div className="mb-4 flex justify-center sm:justify-end">

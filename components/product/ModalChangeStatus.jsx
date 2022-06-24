@@ -1,11 +1,8 @@
-import { useState } from 'react'
 import Button from '../base/Button'
 import Text from '../base/Text'
 import Modal from '../base/Modal'
 
-export default function ModalChangeStatus() {
-  const [isOpen, setIsOpen] = useState(true)
-
+export default function ModalChangeStatus({ isOpen = false, setIsOpen }) {
   return (
     <Modal
       isOpen={isOpen}
