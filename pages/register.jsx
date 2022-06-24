@@ -6,6 +6,7 @@ import Text from '../components/base/Text'
 import { useState } from 'react'
 import { withRouter } from 'next/router'
 import { Post } from '../utils/Api'
+import Loader from '../components/base/Loader'
 
 const initialState = {
   name: '',
@@ -16,6 +17,7 @@ const initialState = {
 export default withRouter(function Register({ router }) {
   const [formValues, setFormValues] = useState(initialState)
   const [alert, setAlert] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -26,16 +28,20 @@ export default withRouter(function Register({ router }) {
   }
 
   const handleSubmit = async () => {
-    const res = await Post('/register', formValues)
+    console.log('loading')
+    setLoading(true)
+    const res = await Post('/auth/register', formValues)
+    setLoading(false)
     console.log(res)
     setAlert(res.message)
-    setTimeout(() => {
-      router.replace('/login')
-    }, 3000)
+    // setTimeout(() => {
+    //   router.replace('/login')
+    // }, 3000)
   }
 
   return (
     <AuthLayout pageTitle="Register">
+      {loading && <Loader />}
       <div className="mb-10 space-y-6">
         <Text type="heading/24" weight="bold">
           Daftar
