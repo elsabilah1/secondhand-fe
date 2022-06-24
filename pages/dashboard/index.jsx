@@ -14,7 +14,7 @@ const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 export default withRouter(function SellerDashboard({ router }) {
   return (
     <MainLayout pageTitle="Dashboard" headerTitleBold="Daftar Jual Saya">
-      <div className="mx-auto my-2 flex max-w-5xl flex-col gap-6 md:my-10">
+      <div className="mt-2 flex flex-col gap-6 md:mt-10">
         <div className="hidden px-4 md:block">
           <Text type="heading/20" weight="bold">
             Daftar Jual Saya
@@ -65,6 +65,7 @@ export default withRouter(function SellerDashboard({ router }) {
                 </div>
               </div>
             </Tab.Panel>
+
             {/* Sold Products */}
             <Tab.Panel className="mt-6 grid grid-cols-2 gap-6 px-4 sm:grid-cols-3 md:col-span-4 md:mt-0 md:px-0 md:pr-4">
               {products.map((item) => (

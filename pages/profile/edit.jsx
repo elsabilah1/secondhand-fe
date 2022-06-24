@@ -51,7 +51,7 @@ export default withRouter(function DetailProfile({ router }) {
       headerTitle="Lengkapi Info Akun"
       arrowLink="/dashboard"
     >
-      <div className="mx-auto my-6 flex max-w-2xl px-4 md:my-10">
+      <div className="mx-auto my-6 flex max-w-2xl md:my-10">
         <div className="hidden w-2/12 md:block">
           <button onClick={() => router.replace('/dashboard')}>
             <FeatherIcon icon="arrow-left" />

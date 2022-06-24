@@ -4,7 +4,6 @@ import Header from './Header'
 import Loader from '../../base/Loader'
 import ModalAcceptBid from '../../product/ModalAcceptBid'
 import ModalChangeStatus from '../../product/ModalChangeStatus'
-import ModalMakeBid from '../../product/ModalMakeBid'
 import NavMobile from './NavMobile'
 import { useState } from 'react'
 
@@ -34,9 +33,10 @@ export default function MainLayout({
       />
       <div className="relative mx-auto flex min-h-screen max-w-[1440px] flex-col">
         <Carousel />
-        <div className="flex-1">{children}</div>
+        <div className="mx-auto mb-20 w-full flex-1 px-4 md:w-10/12">
+          {children}
+        </div>
         <NavMobile showNav={showNav} setShowNav={setShowNav} />
-        <ModalMakeBid />
         {/* <ModalAcceptBid /> */}
         {/* <ModalChangeStatus /> */}
       </div>

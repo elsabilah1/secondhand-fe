@@ -14,13 +14,11 @@ export default withRouter(function Home({ router }) {
   return (
     <>
       <MainLayout pageTitle="Home">
-        <div className="mx-auto mb-20 px-4 md:w-10/12">
-          <FilterProduct />
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
-            {products.map((item) => (
-              <CardProduct key={item} />
-            ))}
-          </div>
+        <FilterProduct />
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
+          {products.map((item) => (
+            <CardProduct key={item} />
+          ))}
         </div>
       </MainLayout>
       <div className="fixed inset-x-0 bottom-5 z-30 text-center">
