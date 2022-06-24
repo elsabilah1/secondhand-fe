@@ -48,7 +48,7 @@ export default withRouter(function NavMobile({
             </div>
             {user ? (
               <div className="grid gap-4">
-                <Link href="/notifikasi" replace>
+                <Link href="/notification" replace>
                   <a className="hover:text-primary-03">
                     <Text>Notifikasi</Text>
                   </a>
