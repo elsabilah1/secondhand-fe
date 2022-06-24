@@ -5,6 +5,7 @@ import Loader from '../../base/Loader'
 import ModalAcceptBid from '../../product/ModalAcceptBid'
 import ModalChangeStatus from '../../product/ModalChangeStatus'
 import NavMobile from './NavMobile'
+import { useSelector } from 'react-redux'
 import { useState } from 'react'
 
 export default function MainLayout({
@@ -15,6 +16,7 @@ export default function MainLayout({
   arrowLink,
 }) {
   const [showNav, setShowNav] = useState(false)
+  const { loading } = useSelector((state) => state.auth)
 
   return (
     <>
@@ -40,6 +42,8 @@ export default function MainLayout({
         {/* <ModalAcceptBid /> */}
         {/* <ModalChangeStatus /> */}
       </div>
+
+      {loading && <Loader />}
     </>
   )
 }
