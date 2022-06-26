@@ -3,12 +3,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { Get } from '../../utils/Api'
 import axios from 'axios'
 
-export const fetchUser = createAsyncThunk('auth/user', async (token) => {
-  if (token) {
-    const response = await Get('/user/profile', token)
-    return response.data
-  }
-  return
+export const fetchUser = createAsyncThunk('auth/user', async () => {
+  const response = await Get('/user/profile')
+  return response.data
 })
 
 export const login = createAsyncThunk(

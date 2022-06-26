@@ -27,22 +27,19 @@ _axios.interceptors.response.use(
   },
 )
 
-const header = (type, token) => {
-  if (type === 'form-data') {
-    return {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  } else {
-    return {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    }
+const header = async (type) => {
+  const res = await axios.get('/api/getToken')
+
+  const data = {
+    headers: {
+      Authorization: `Bearer ${res.data.token}`,
+    },
   }
+
+  data.headers['Content-Type'] =
+    type === 'form-data' ? 'multipart/form-data' : 'application/json'
+
+  return data
 }
 
 const errors = (errors) => {
@@ -53,9 +50,9 @@ const errors = (errors) => {
   }
 }
 
-export const Get = async (url, token) => {
+export const Get = async (url) => {
   try {
-    const head = header('', token)
+    const head = await header()
     const get = await _axios.get(url, head)
     return get
   } catch (error) {
@@ -63,9 +60,9 @@ export const Get = async (url, token) => {
   }
 }
 
-export const Post = async (url, params, token) => {
+export const Post = async (url, params) => {
   try {
-    const head = header('', token)
+    const head = await header()
     const post = await _axios.post(url, params, head)
     return post
   } catch (error) {
@@ -75,7 +72,7 @@ export const Post = async (url, params, token) => {
 
 export const PostFormData = async (url, params) => {
   try {
-    const head = header('form-data')
+    const head = await header('form-data')
     const post = await _axios.post(url, params, head)
     return post
   } catch (error) {
@@ -85,7 +82,7 @@ export const PostFormData = async (url, params) => {
 
 export const PutFormData = async (url, params) => {
   try {
-    const head = header('form-data')
+    const head = await header('form-data')
     const put = await _axios.put(url, params, head)
     return put
   } catch (error) {
@@ -95,7 +92,7 @@ export const PutFormData = async (url, params) => {
 
 export const Delete = async (url) => {
   try {
-    const head = header()
+    const head = await header()
     const res = await _axios.delete(url, head)
     return res
   } catch (error) {

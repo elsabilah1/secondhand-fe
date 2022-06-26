@@ -1,12 +1,12 @@
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+
 import Carousel from './CarouselHome'
 import Head from 'next/head'
 import Header from './Header'
 import Loader from '../../base/Loader'
-import ModalAcceptBid from '../../product/ModalAcceptBid'
-import ModalChangeStatus from '../../product/ModalChangeStatus'
 import NavMobile from './NavMobile'
-import { useSelector } from 'react-redux'
-import { useState } from 'react'
+import { fetchUser } from '../../../store/slices/auth'
 
 export default function MainLayout({
   children,
@@ -15,8 +15,13 @@ export default function MainLayout({
   headerTitleBold,
   arrowLink,
 }) {
+  const dispatch = useDispatch()
   const [showNav, setShowNav] = useState(false)
   const { loading } = useSelector((state) => state.auth)
+
+  useEffect(() => {
+    dispatch(fetchUser())
+  }, [dispatch])
 
   return (
     <>
@@ -39,8 +44,6 @@ export default function MainLayout({
           {children}
         </div>
         <NavMobile showNav={showNav} setShowNav={setShowNav} />
-        {/* <ModalAcceptBid /> */}
-        {/* <ModalChangeStatus /> */}
       </div>
 
       {loading && <Loader />}
