@@ -1,13 +1,16 @@
 import CardProduct from '../../components/product/CardProduct'
 import CardProfile from '../../components/user/CardProfile'
 import FeatherIcon from 'feather-icons-react'
-import MainLayout from '../../components/layout/MainLayout'
-import NavDashboard from '../../components/product/NavDashboard'
-import Text from '../../components/base/Text'
-import { withRouter } from 'next/router'
-import { Tab } from '@headlessui/react'
 import { Fragment } from 'react'
 import Image from 'next/image'
+import MainLayout from '../../components/layout/MainLayout'
+import NavDashboard from '../../components/product/NavDashboard'
+import { Tab } from '@headlessui/react'
+import Text from '../../components/base/Text'
+import cookies from 'next-cookies'
+import { fetchUser } from '../../store/slices/auth'
+import { withRouter } from 'next/router'
+import { wrapper } from '../../store'
 
 const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
@@ -78,3 +81,14 @@ export default withRouter(function SellerDashboard({ router }) {
     </MainLayout>
   )
 })
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (ctx) => {
+    const { token } = cookies(ctx)
+    await store.dispatch(fetchUser(token))
+
+    return {
+      props: {},
+    }
+  },
+)

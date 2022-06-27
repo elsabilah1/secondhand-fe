@@ -23,16 +23,14 @@ _axios.interceptors.response.use(
     return response
   },
   function (error) {
-    return Promise.reject(error)
+    return Promise.reject(error.response)
   },
 )
 
-const header = async (type) => {
-  const res = await axios.get('/api/getToken')
-
+export const header = async (token, type) => {
   const data = {
     headers: {
-      Authorization: `Bearer ${res.data.token}`,
+      Authorization: `Bearer ${token}`,
     },
   }
 
@@ -50,9 +48,9 @@ const errors = (errors) => {
   }
 }
 
-export const Get = async (url) => {
+export const Get = async (url, token) => {
   try {
-    const head = await header()
+    const head = await header(token)
     const get = await _axios.get(url, head)
     return get
   } catch (error) {

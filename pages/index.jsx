@@ -3,8 +3,11 @@ import CardProduct from '../components/product/CardProduct'
 import FeatherIcon from 'feather-icons-react'
 import FilterProduct from '../components/product/FilterProduct'
 import MainLayout from '../components/layout/MainLayout'
+import cookies from 'next-cookies'
+import { fetchUser } from '../store/slices/auth'
 import { useSelector } from 'react-redux'
 import { withRouter } from 'next/router'
+import { wrapper } from '../store'
 
 const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
@@ -31,3 +34,14 @@ export default withRouter(function Home({ router }) {
     </>
   )
 })
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (ctx) => {
+    const { token } = cookies(ctx)
+    await store.dispatch(fetchUser(token))
+
+    return {
+      props: {},
+    }
+  },
+)

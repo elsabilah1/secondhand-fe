@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { Post } from '../../utils/Api'
+import { _axios } from '../../utils/Api'
 
 export default async (req, res) => {
   const { method } = req
@@ -11,10 +11,14 @@ export default async (req, res) => {
   try {
     const { token } = req.cookies
 
-    const { data, headers: returnedHeaders } = await Post(
+    const { data, headers: returnedHeaders } = await _axios.post(
       '/auth/logout',
       undefined,
-      token,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
     )
 
     Object.keys(returnedHeaders).forEach((key) =>
@@ -23,8 +27,7 @@ export default async (req, res) => {
 
     res.status(200).json(data)
   } catch (e) {
-    const { response } = e
-    const { status, data } = response
-    res.status(status).json(data)
+    console.log(e)
+    res.send(e)
   }
 }

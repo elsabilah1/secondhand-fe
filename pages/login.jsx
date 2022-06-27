@@ -1,10 +1,12 @@
+import { useDispatch, useSelector } from 'react-redux'
+
 import AuthLayout from '../components/layout/AuthLayout'
 import Button from '../components/base/Button'
 import InputField from '../components/base/InputField'
 import Link from 'next/link'
 import Loader from '../components/base/Loader'
 import Text from '../components/base/Text'
-import axios from 'axios'
+import { login } from '../store/slices/auth'
 import { useState } from 'react'
 import { withRouter } from 'next/router'
 
@@ -15,8 +17,8 @@ const initialState = {
 
 export default withRouter(function Login({ router }) {
   const [formValues, setFormValues] = useState(initialState)
-  const [alert, setAlert] = useState('')
-  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
+  const { message, loading, error } = useSelector((state) => state.auth)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -26,17 +28,10 @@ export default withRouter(function Login({ router }) {
     })
   }
 
-  const handleSubmit = async () => {
-    setLoading(true)
-    const res = await axios.post('/api/login', formValues)
-    setLoading(false)
-    console.log(res)
-
-    setAlert(res.data.message)
-
-    if (res.data.success) {
-      router.replace('/dashboard')
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    await dispatch(login(formValues))
+    router.push('/dashboard')
   }
 
   return (
@@ -47,27 +42,29 @@ export default withRouter(function Login({ router }) {
           Masuk
         </Text>
         <div className="text-primary-03">
-          <Text>{alert}</Text>
+          <Text>{message}</Text>
         </div>
-        <div className="space-y-4">
-          <InputField
-            type="email"
-            placeholder="Contoh: johndee@gmail.com"
-            label="Email"
-            name="email"
-            onChange={handleInputChange}
-          />
-          <InputField
-            type="password"
-            placeholder="Masukkan password"
-            label="Password"
-            name="password"
-            onChange={handleInputChange}
-          />
-        </div>
-        <Button width="full" onClick={handleSubmit}>
-          Masuk
-        </Button>
+        <form onSubmit={(e) => handleSubmit(e)} className="space-y-6">
+          <div className="space-y-4">
+            <InputField
+              type="text"
+              placeholder="Contoh: johndee@gmail.com"
+              label="Email"
+              name="email"
+              onChange={handleInputChange}
+            />
+            <InputField
+              type="password"
+              placeholder="Masukkan password"
+              label="Password"
+              name="password"
+              onChange={handleInputChange}
+            />
+          </div>
+          <Button width="full" type="submit">
+            Masuk
+          </Button>
+        </form>
       </div>
       <div className="flex w-full justify-center gap-1">
         <Text>Belum punya akun?</Text>

@@ -1,12 +1,14 @@
+import { useDispatch, useSelector } from 'react-redux'
+
 import AuthLayout from '../components/layout/AuthLayout'
 import Button from '../components/base/Button'
 import InputField from '../components/base/InputField'
 import Link from 'next/link'
+import Loader from '../components/base/Loader'
 import Text from '../components/base/Text'
+import { register } from '../store/slices/auth'
 import { useState } from 'react'
 import { withRouter } from 'next/router'
-import { Post } from '../utils/Api'
-import Loader from '../components/base/Loader'
 
 const initialState = {
   name: '',
@@ -16,8 +18,8 @@ const initialState = {
 
 export default withRouter(function Register({ router }) {
   const [formValues, setFormValues] = useState(initialState)
-  const [alert, setAlert] = useState('')
-  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
+  const { message, loading, error } = useSelector((state) => state.auth)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -28,15 +30,8 @@ export default withRouter(function Register({ router }) {
   }
 
   const handleSubmit = async () => {
-    console.log('loading')
-    setLoading(true)
-    const res = await Post('/auth/register', formValues)
-    setLoading(false)
-    console.log(res)
-    setAlert(res.message)
-    // setTimeout(() => {
-    //   router.replace('/login')
-    // }, 3000)
+    await dispatch(register(formValues))
+    !error && router.push('/login')
   }
 
   return (
@@ -47,7 +42,7 @@ export default withRouter(function Register({ router }) {
           Daftar
         </Text>
         <div className="text-primary-03">
-          <Text>{alert}</Text>
+          <Text>{message}</Text>
         </div>
         <div className="space-y-4">
           <InputField

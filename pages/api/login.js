@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { Post } from '../../utils/Api'
+import { _axios } from '../../utils/Api'
 
 export default async (req, res) => {
   const { method, body } = req
@@ -9,19 +9,23 @@ export default async (req, res) => {
   }
 
   try {
-    const { data, headers: returnedHeaders } = await Post('/auth/login', body)
+    const response = await _axios
+      .post('/auth/login', body)
+      .then((res) => res)
+      .catch((error) => {
+        return { error }
+      })
+
+    const { error, data, headers: returnedHeaders } = response
+
+    if (error) return res.status(error.status).send(error.data)
 
     Object.keys(returnedHeaders).forEach((key) =>
       res.setHeader(key, returnedHeaders[key]),
     )
 
-    res.status(200).json(data)
+    res.status(200).send(data)
   } catch (error) {
-    console.log(error)
     res.send(error)
   }
-
-  // catch ({ response: { status, data } }) {
-  //   res.status(status).json(data)
-  // }
 }
