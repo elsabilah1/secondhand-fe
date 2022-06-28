@@ -1,9 +1,14 @@
+import Alert from '../../base/Alert'
 import FeatherIcon from 'feather-icons-react'
 import Head from 'next/head'
 import Image from 'next/image'
+import Loader from '../../base/Loader'
+import { useSelector } from 'react-redux'
 import { withRouter } from 'next/router'
 
 export default withRouter(function AuthLayout({ router, children, pageTitle }) {
+  const { message, loading, error } = useSelector((state) => state.auth)
+
   return (
     <>
       <Head>
@@ -33,7 +38,7 @@ export default withRouter(function AuthLayout({ router, children, pageTitle }) {
           </div>
         </div>
         <div className="flex flex-col px-4">
-          <div className="py-1 md:hidden">
+          <div className="z-10 py-1 md:hidden">
             <button
               className="py-2 transition-all hover:text-primary-03 active:scale-90"
               onClick={() => router.replace('/')}
@@ -45,6 +50,8 @@ export default withRouter(function AuthLayout({ router, children, pageTitle }) {
             {children}
           </div>
         </div>
+        {message && <Alert error={error} message={message} />}
+        {loading && <Loader />}
       </div>
     </>
   )

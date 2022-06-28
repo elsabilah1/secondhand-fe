@@ -1,12 +1,11 @@
+import Alert from '../../base/Alert'
 import Carousel from './CarouselHome'
 import Head from 'next/head'
 import Header from './Header'
 import Loader from '../../base/Loader'
 import NavMobile from './NavMobile'
-import { fetchUser } from '../../../store/slices/auth'
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
-import { wrapper } from '../../../store'
 
 export default function MainLayout({
   children,

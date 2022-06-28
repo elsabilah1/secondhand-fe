@@ -29,7 +29,7 @@ export default function InputField({
           onChange={onChange}
         />
         {type === 'password' && (
-          <button onClick={() => setShowPassword(!showPassword)}>
+          <button type="button" onClick={() => setShowPassword(!showPassword)}>
             <FeatherIcon
               icon={!showPassword ? 'eye' : 'eye-off'}
               className="absolute inset-y-0 right-0 mr-4 translate-y-1/2 text-neutral-03 transition-all"
