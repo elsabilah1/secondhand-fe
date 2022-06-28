@@ -34,7 +34,7 @@ export default withRouter(function Login({ router }) {
     e.preventDefault()
     dispatch(reset())
     await dispatch(login(formValues))
-    router.reload()
+    // router.reload()
   }
 
   return (
