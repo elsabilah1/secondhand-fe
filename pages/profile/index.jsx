@@ -1,12 +1,11 @@
-import { useCallback, useState } from 'react'
-
-import Dropzone from '../../components/base/Dropzone'
 import FeatherIcon from 'feather-icons-react'
 import Image from 'next/image'
+import { withRouter } from 'next/router'
+import { useCallback, useState } from 'react'
+import Dropzone from '../../components/base/Dropzone'
+import Text from '../../components/base/Text'
 import MenuProfile from '../../components/user/MenuProfile'
 import NavProfile from '../../components/user/NavProfile'
-import Text from '../../components/base/Text'
-import { withRouter } from 'next/router'
 
 export default withRouter(function DetailProfile({ router }) {
   const [selectedImages, setSelectedImages] = useState([])
@@ -16,8 +15,8 @@ export default withRouter(function DetailProfile({ router }) {
       acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        }),
-      ),
+        })
+      )
     )
   }, [])
 

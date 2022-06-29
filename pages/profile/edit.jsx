@@ -1,14 +1,13 @@
-import { useCallback, useState } from 'react'
-
-import Button from '../../components/base/Button'
-import Dropzone from '../../components/base/Dropzone'
 import FeatherIcon from 'feather-icons-react'
 import Image from 'next/image'
+import { withRouter } from 'next/router'
+import { useCallback, useState } from 'react'
+import Button from '../../components/base/Button'
+import Dropzone from '../../components/base/Dropzone'
 import InputField from '../../components/base/InputField'
-import MainLayout from '../../components/layout/MainLayout'
 import SelectField from '../../components/base/SelectField'
 import TextareaField from '../../components/base/TextareaField'
-import { withRouter } from 'next/router'
+import MainLayout from '../../components/layout/MainLayout'
 
 const city = [
   { name: 'Jakarta' },
@@ -27,8 +26,8 @@ export default withRouter(function DetailProfile({ router }) {
       acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        }),
-      ),
+        })
+      )
     )
   }, [])
 

@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
 import FeatherIcon from 'feather-icons-react'
+import { Fragment } from 'react'
 import Text from './Text'
 
 export default function Modal({ isOpen, setIsOpen, children, title }) {

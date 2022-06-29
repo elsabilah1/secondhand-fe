@@ -1,8 +1,8 @@
-import Button from '../base/Button'
-import Text from '../base/Text'
-import InputField from '../base/InputField'
 import Image from 'next/image'
+import Button from '../base/Button'
+import InputField from '../base/InputField'
 import Modal from '../base/Modal'
+import Text from '../base/Text'
 
 export default function ModalMakeBid({ isOpen = false, setIsOpen }) {
   return (

@@ -1,13 +1,12 @@
-import { login, reset } from '../store/slices/auth'
+import Link from 'next/link'
+import { withRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-
-import AuthLayout from '../components/layout/AuthLayout'
+import { useDispatch } from 'react-redux'
 import Button from '../components/base/Button'
 import InputField from '../components/base/InputField'
-import Link from 'next/link'
 import Text from '../components/base/Text'
-import { useDispatch } from 'react-redux'
-import { withRouter } from 'next/router'
+import AuthLayout from '../components/layout/AuthLayout'
+import { login, reset } from '../store/slices/auth'
 
 const initialState = {
   email: '',

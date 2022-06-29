@@ -1,8 +1,8 @@
-import Button from '../base/Button'
-import Text from '../base/Text'
-import Image from 'next/image'
-import Modal from '../base/Modal'
 import FeatherIcon from 'feather-icons-react'
+import Image from 'next/image'
+import Button from '../base/Button'
+import Modal from '../base/Modal'
+import Text from '../base/Text'
 
 export default function ModalAcceptBid({ isOpen = false, setIsOpen }) {
   return (

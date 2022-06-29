@@ -1,16 +1,16 @@
-import CardProduct from '../../components/product/CardProduct'
-import CardProfile from '../../components/user/CardProfile'
-import FeatherIcon from 'feather-icons-react'
-import { Fragment } from 'react'
-import Image from 'next/image'
-import MainLayout from '../../components/layout/MainLayout'
-import NavDashboard from '../../components/product/NavDashboard'
 import { Tab } from '@headlessui/react'
-import Text from '../../components/base/Text'
+import FeatherIcon from 'feather-icons-react'
 import cookies from 'next-cookies'
-import { fetchUser } from '../../store/slices/auth'
+import Image from 'next/image'
 import { withRouter } from 'next/router'
+import { Fragment } from 'react'
+import Text from '../../components/base/Text'
+import MainLayout from '../../components/layout/MainLayout'
+import CardProduct from '../../components/product/CardProduct'
+import NavDashboard from '../../components/product/NavDashboard'
+import CardProfile from '../../components/user/CardProfile'
 import { wrapper } from '../../store'
+import { fetchUser } from '../../store/slices/auth'
 
 const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
@@ -90,5 +90,5 @@ export const getServerSideProps = wrapper.getServerSideProps(
     return {
       props: {},
     }
-  },
+  }
 )

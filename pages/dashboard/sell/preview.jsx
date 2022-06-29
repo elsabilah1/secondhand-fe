@@ -1,11 +1,11 @@
-import MainLayout from '../../../components/layout/MainLayout'
+import FeatherIcon from 'feather-icons-react'
 import { withRouter } from 'next/router'
+import Button from '../../../components/base/Button'
+import MainLayout from '../../../components/layout/MainLayout'
+import CardPrice from '../../../components/product/CardPrice'
 import CarouselProduct from '../../../components/product/CarouselProduct'
 import DescProduct from '../../../components/product/DescProduct'
-import FeatherIcon from 'feather-icons-react'
 import CardProfile from '../../../components/user/CardProfile'
-import Button from '../../../components/base/Button'
-import CardPrice from '../../../components/product/CardPrice'
 
 export default withRouter(function PreviewProduct({ router }) {
   return (

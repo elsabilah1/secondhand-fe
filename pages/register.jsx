@@ -1,13 +1,12 @@
-import { register, reset } from '../store/slices/auth'
-import { useDispatch, useSelector } from 'react-redux'
+import Link from 'next/link'
+import { withRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-
-import AuthLayout from '../components/layout/AuthLayout'
+import { useDispatch } from 'react-redux'
 import Button from '../components/base/Button'
 import InputField from '../components/base/InputField'
-import Link from 'next/link'
 import Text from '../components/base/Text'
-import { withRouter } from 'next/router'
+import AuthLayout from '../components/layout/AuthLayout'
+import { register, reset } from '../store/slices/auth'
 
 const initialState = {
   name: '',
@@ -18,7 +17,7 @@ const initialState = {
 export default withRouter(function Register({ router }) {
   const dispatch = useDispatch()
   const [formValues, setFormValues] = useState(initialState)
-  const { error } = useSelector((state) => state.auth)
+  // const { error } = useSelector((state) => state.auth)
 
   useEffect(() => {
     dispatch(reset())

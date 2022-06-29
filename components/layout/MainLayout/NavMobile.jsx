@@ -1,12 +1,11 @@
-import { useDispatch, useSelector } from 'react-redux'
-
-import Button from '../../base/Button'
-import FeatherIcon from 'feather-icons-react'
-import { Fragment } from 'react'
-import Link from 'next/link'
-import Text from '../../base/Text'
 import { Transition } from '@headlessui/react'
+import FeatherIcon from 'feather-icons-react'
+import Link from 'next/link'
 import { withRouter } from 'next/router'
+import { Fragment } from 'react'
+import { useSelector } from 'react-redux'
+import Button from '../../base/Button'
+import Text from '../../base/Text'
 
 export default withRouter(function NavMobile({
   router,

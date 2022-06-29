@@ -1,10 +1,11 @@
-import { HYDRATE, createWrapper } from 'next-redux-wrapper'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-
+import { createWrapper, HYDRATE } from 'next-redux-wrapper'
 import { authSlice } from './slices/auth'
+import { productSlice } from './slices/product'
 
 const combinedReducers = combineReducers({
   auth: authSlice.reducer,
+  product: productSlice.reducer,
 })
 
 const rootReducer = (state, action) => {

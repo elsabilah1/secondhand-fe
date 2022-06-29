@@ -1,6 +1,6 @@
 import FeatherIcon from 'feather-icons-react'
-import Text from './Text'
 import { useState } from 'react'
+import Text from './Text'
 
 export default function InputField({
   label,

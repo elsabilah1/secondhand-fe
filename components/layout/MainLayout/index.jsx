@@ -1,11 +1,10 @@
-import Alert from '../../base/Alert'
-import Carousel from './CarouselHome'
 import Head from 'next/head'
-import Header from './Header'
-import Loader from '../../base/Loader'
-import NavMobile from './NavMobile'
-import { useSelector } from 'react-redux'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import Loader from '../../base/Loader'
+import Carousel from './CarouselHome'
+import Header from './Header'
+import NavMobile from './NavMobile'
 
 export default function MainLayout({
   children,

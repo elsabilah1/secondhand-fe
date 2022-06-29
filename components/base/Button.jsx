@@ -1,5 +1,5 @@
-import Text from './Text'
 import cn from 'classnames'
+import Text from './Text'
 
 export default function Button({
   children,
@@ -14,7 +14,7 @@ export default function Button({
       'bg-primary-04 text-neutral-01 hover:bg-primary-03 hover:border-primary-03 focus:ring-primary-01',
     variant === 'outline' &&
       'bg-neutral-01 text-neutral-05 hover:bg-primary-04 hover:text-neutral-01',
-    width === 'full' && 'w-full',
+    width === 'full' && 'w-full'
   )
 
   return (

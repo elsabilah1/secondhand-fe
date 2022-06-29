@@ -1,13 +1,13 @@
-import { useState } from 'react'
+import FeatherIcon from 'feather-icons-react'
 import { withRouter } from 'next/router'
+import { useState } from 'react'
+import Button from '../../components/base/Button'
 import MainLayout from '../../components/layout/MainLayout'
-import ModalMakeBid from '../../components/product/ModalMakeBid'
+import CardPrice from '../../components/product/CardPrice'
 import CarouselProduct from '../../components/product/CarouselProduct'
 import DescProduct from '../../components/product/DescProduct'
-import Button from '../../components/base/Button'
+import ModalMakeBid from '../../components/product/ModalMakeBid'
 import CardProfile from '../../components/user/CardProfile'
-import FeatherIcon from 'feather-icons-react'
-import CardPrice from '../../components/product/CardPrice'
 
 export default withRouter(function DetailProduct({ router }) {
   const [isOpen, setIsOpen] = useState(false)

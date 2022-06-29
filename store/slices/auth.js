@@ -1,5 +1,5 @@
-import { Get, Post } from '../../utils/Api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { Get, Post } from '../../utils/Api'
 
 import axios from 'axios'
 
@@ -19,7 +19,7 @@ export const login = createAsyncThunk(
         error: error.response.data.data[0].msg,
       })
     }
-  },
+  }
 )
 
 export const register = createAsyncThunk(
@@ -35,7 +35,7 @@ export const register = createAsyncThunk(
     }
 
     return data
-  },
+  }
 )
 
 export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {

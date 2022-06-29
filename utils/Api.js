@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import axios from 'axios'
 
 const config = {
@@ -15,7 +16,7 @@ _axios.interceptors.request.use(
   },
   function (error) {
     return Promise.reject(error)
-  },
+  }
 )
 
 _axios.interceptors.response.use(
@@ -24,7 +25,7 @@ _axios.interceptors.response.use(
   },
   function (error) {
     return Promise.reject(error.response)
-  },
+  }
 )
 
 export const header = async (token, type) => {
@@ -68,9 +69,9 @@ export const Post = async (url, params) => {
   }
 }
 
-export const PostFormData = async (url, params) => {
+export const PostFormData = async (url, params, token) => {
   try {
-    const head = await header('form-data')
+    const head = await header(token, 'form-data')
     const post = await _axios.post(url, params, head)
     return post
   } catch (error) {
