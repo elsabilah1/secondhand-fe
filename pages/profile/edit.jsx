@@ -1,5 +1,4 @@
-import { useCallback, useState } from 'react'
-
+import { useCallback, useEffect, useState } from 'react'
 import Button from '../../components/base/Button'
 import Dropzone from '../../components/base/Dropzone'
 import FeatherIcon from 'feather-icons-react'
@@ -8,7 +7,12 @@ import InputField from '../../components/base/InputField'
 import MainLayout from '../../components/layout/MainLayout'
 import SelectField from '../../components/base/SelectField'
 import TextareaField from '../../components/base/TextareaField'
-import { withRouter } from 'next/router'
+import { useRouter, withRouter } from 'next/router'
+
+import { wrapper } from '../../store'
+import { fetchUser } from '../../store/slices/auth'
+import { Get } from '../../utils/Api'
+import cookies from 'next-cookies'
 
 const city = [
   { name: 'Jakarta' },
@@ -18,7 +22,13 @@ const city = [
   { name: 'Bogor' },
 ]
 
-export default withRouter(function DetailProfile({ router }) {
+export default withRouter(function DetailProfile({ router, token, cities, profile }) {
+  // console.log(token)
+  const city = cities.map(res => res.city)
+  // console.log(city)
+  // console.log(cities)
+  console.log(profile)
+  // const [selected, setSelected] = useState(city[0])
   const [selected, setSelected] = useState(city[0])
   const [selectedImages, setSelectedImages] = useState([])
 
@@ -44,6 +54,45 @@ export default withRouter(function DetailProfile({ router }) {
       />
     </div>
   ))
+
+  const { idPost } = router.query
+  const [slugBeasiswa, setSlugBeasiswa] = useState([])
+  const [error, setError] = useState(null)
+
+  useEffect(() =>{
+    function getBeasiswa(){
+      return axiosInstance.get("/user/profile" + idPost)
+    }
+    async function getBeasiswaSlug(){
+      try{
+        const res = await getBeasiswa();
+        if(res){
+          setSlugBeasiswa(res.data.data)
+        }
+      } catch (error){}
+    }
+    getBeasiswaSlug()
+  }, [router.isReady])
+
+  console.log(slugBeasiswa)
+
+  const updateData = async (e) => {
+    const idEditPost = slugBeasiswa.id;
+    const url = "/user/profile" + idEditPost;
+    try {
+      await axiosInstance.put(url, {
+        name: slugBeasiswa.name,
+        // kota: slugBeasiswa.kota,
+        address: slugBeasiswa.address,
+        phoneNumber: slugBeasiswa.phoneNumber,
+      })
+      router.push("/dashboard")
+    } catch (error){
+      if (error.response.status == 400){
+        setError(true);
+      }
+    }
+  }
 
   return (
     <MainLayout
@@ -73,7 +122,7 @@ export default withRouter(function DetailProfile({ router }) {
 
           <InputField
             type="text"
-            // value=""
+            value={slugBeasiswa.name}
             placeholder="Nama"
             label="Nama"
             name="nama"
@@ -84,6 +133,7 @@ export default withRouter(function DetailProfile({ router }) {
             selected={selected}
             setSelected={setSelected}
             data={city}
+            // data={cities}
             label="Kota"
             placeholder="Pilih Kota"
           />
@@ -98,7 +148,7 @@ export default withRouter(function DetailProfile({ router }) {
 
           <InputField
             type="text"
-            // value=""
+            value={slugBeasiswa.phoneNumber}
             placeholder="Contoh: +628123456789"
             label="No. Handphone"
             name="nohandphone"
@@ -115,3 +165,19 @@ export default withRouter(function DetailProfile({ router }) {
     </MainLayout>
   )
 })
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (ctx) => {
+    const { token } = cookies(ctx)
+    await store.dispatch(fetchUser(token))
+    // const resp = await Get('/user/profile')
+    // const profile = resp.data.data.name
+    const res = await Get('/cities')
+    const cities = res.data.data
+
+    return {
+      // props: { categories, token },
+      props: { cities, token },
+    }
+  }
+)
