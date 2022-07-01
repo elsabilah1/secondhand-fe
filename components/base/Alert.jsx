@@ -1,20 +1,13 @@
 import cn from 'classnames'
 import FeatherIcon from 'feather-icons-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Text from './Text'
 
 export default function Alert({ error, message }) {
   const [msg, setMsg] = useState(message)
 
-  useEffect(() => {
-    setMsg(message)
-    setTimeout(() => {
-      setMsg('')
-    }, 4000)
-  }, [message])
-
   return (
-    <div className="absolute right-6 top-6 max-w-md bg-white transition-all">
+    <div className="fixed right-6 top-6 z-[1000] max-w-md bg-white transition-all">
       <div
         className={cn(
           'flex items-center justify-between gap-10 rounded px-3 py-2 font-bold',

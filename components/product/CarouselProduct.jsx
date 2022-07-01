@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Carousel from 'react-slick'
 
-export default function CarouselProduct() {
+export default function CarouselProduct({ images }) {
   const settings = {
     dots: true,
     arrows: false,
@@ -15,33 +15,34 @@ export default function CarouselProduct() {
   return (
     <div className="md:rounded-2xl">
       <Carousel {...settings}>
-        <div className="relative h-[300px] w-full md:h-[436px]">
-          <Image
-            src="/carousel/watches.png"
-            layout="fill"
-            objectFit="cover"
-            className="md:rounded-2xl"
-            alt="watches"
-          />
-        </div>
-        <div className="relative h-[300px] w-full md:h-[436px]">
-          <Image
-            src="/carousel/watches2.jpg"
-            layout="fill"
-            objectFit="cover"
-            className="md:rounded-2xl"
-            alt="watches2"
-          />
-        </div>
-        <div className="relative h-[300px] w-full md:h-[436px]">
-          <Image
-            src="/carousel/watches3.jpg"
-            layout="fill"
-            objectFit="cover"
-            className="md:rounded-2xl"
-            alt="watches3"
-          />
-        </div>
+        {typeof images !== 'string' ? (
+          images.map((img, idx) => (
+            <div
+              key={idx}
+              className="relative h-[300px] w-full md:h-[436px] md:rounded-2xl md:border"
+            >
+              <Image
+                src={img}
+                layout="fill"
+                objectFit="contain"
+                className="md:rounded-2xl"
+                objectPosition="top"
+                alt={img}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="relative h-[300px] w-full md:h-[436px] md:rounded-2xl md:border">
+            <Image
+              src={images}
+              layout="fill"
+              objectFit="contain"
+              className="md:rounded-2xl"
+              objectPosition="top"
+              alt={images}
+            />
+          </div>
+        )}
       </Carousel>
     </div>
   )

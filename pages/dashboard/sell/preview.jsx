@@ -1,5 +1,6 @@
 import FeatherIcon from 'feather-icons-react'
 import { withRouter } from 'next/router'
+import { useState } from 'react'
 import Button from '../../../components/base/Button'
 import MainLayout from '../../../components/layout/MainLayout'
 import CardPrice from '../../../components/product/CardPrice'
@@ -8,24 +9,35 @@ import DescProduct from '../../../components/product/DescProduct'
 import CardProfile from '../../../components/user/CardProfile'
 
 export default withRouter(function PreviewProduct({ router }) {
+  const [product] = useState(router.query)
+  console.log(product)
+
   return (
     <>
       <div className="hidden md:block">
         <MainLayout pageTitle="Preview Product">
           <div className="mx-auto mt-10 grid max-w-4xl grid-cols-7 gap-6">
             <div className="col-span-4">
-              <CarouselProduct />
-              <DescProduct />
+              <CarouselProduct images={product.images} />
+              <DescProduct content={product.description} />
             </div>
             <div className="col-span-3 space-y-6">
-              <CardPrice>
+              <CardPrice item={product}>
                 <Button width="full" onClick={() => router.push('/dashboard')}>
                   Terbitkan
                 </Button>
                 <Button
                   variant="outline"
                   width="full"
-                  onClick={() => router.push('/dashboard/sell')}
+                  onClick={() =>
+                    router.replace(
+                      {
+                        pathname: '/dashboard/sell',
+                        query: { ...product },
+                      },
+                      '/dashboard/sell'
+                    )
+                  }
                 >
                   Edit
                 </Button>
@@ -43,12 +55,12 @@ export default withRouter(function PreviewProduct({ router }) {
           </button>
         </div>
         <div className="absolute top-0 h-full w-full">
-          <CarouselProduct />
+          <CarouselProduct images={product.images} />
         </div>
         <div className="relative mt-[42vh] space-y-4 px-4 pb-20">
-          <CardPrice />
+          <CardPrice item={product} />
           <CardProfile />
-          <DescProduct />
+          <DescProduct content={product.description} />
         </div>
         <div className="fixed bottom-0 mb-6 w-full px-4">
           <div className="px-6">

@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import { useState } from 'react'
-import { useSelector } from 'react-redux'
-import Loader from '../../base/Loader'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { fetchUser } from '../../../store/slices/auth'
 import Carousel from './CarouselHome'
 import Header from './Header'
 import NavMobile from './NavMobile'
@@ -13,8 +13,12 @@ export default function MainLayout({
   headerTitleBold,
   arrowLink,
 }) {
+  const dispatch = useDispatch()
   const [showNav, setShowNav] = useState(false)
-  const { loading } = useSelector((state) => state.auth)
+
+  useEffect(() => {
+    dispatch(fetchUser())
+  }, [])
 
   return (
     <>
@@ -38,8 +42,6 @@ export default function MainLayout({
         </div>
         <NavMobile showNav={showNav} setShowNav={setShowNav} />
       </div>
-
-      {loading && <Loader />}
     </>
   )
 }

@@ -1,12 +1,11 @@
-import Link from 'next/link'
 import { withRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Button from '../components/base/Button'
 import InputField from '../components/base/InputField'
 import Text from '../components/base/Text'
 import AuthLayout from '../components/layout/AuthLayout'
-import { login, reset } from '../store/slices/auth'
+import { login } from '../store/slices/auth'
 
 const initialState = {
   email: '',
@@ -14,12 +13,13 @@ const initialState = {
 }
 
 export default withRouter(function Login({ router }) {
-  const [formValues, setFormValues] = useState(initialState)
   const dispatch = useDispatch()
+  const [formValues, setFormValues] = useState(initialState)
+  const { error, message } = useSelector((state) => state.auth)
 
-  useEffect(() => {
-    dispatch(reset())
-  }, [])
+  if (!error && message) {
+    router.replace('/dashboard')
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -29,11 +29,9 @@ export default withRouter(function Login({ router }) {
     })
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(reset())
-    await dispatch(login(formValues))
-    // router.reload()
+    dispatch(login(formValues))
   }
 
   return (
@@ -66,11 +64,12 @@ export default withRouter(function Login({ router }) {
       </form>
       <div className="flex w-full justify-center gap-1">
         <Text>Belum punya akun?</Text>
-        <Link href="/register" replace>
-          <a className="text-primary-04 hover:text-primary-03 focus:outline-none">
-            <Text weight="bold">Daftar di sini</Text>
-          </a>
-        </Link>
+        <button
+          onClick={() => router.replace('/register')}
+          className="text-primary-04 hover:text-primary-03 focus:outline-none"
+        >
+          <Text weight="bold">Daftar di sini</Text>
+        </button>
       </div>
     </AuthLayout>
   )

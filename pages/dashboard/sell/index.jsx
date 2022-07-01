@@ -1,5 +1,4 @@
 import FeatherIcon from 'feather-icons-react'
-import cookies from 'next-cookies'
 import Image from 'next/image'
 import { withRouter } from 'next/router'
 import { useCallback, useState } from 'react'
@@ -14,24 +13,52 @@ import Text from '../../../components/base/Text'
 import TextareaField from '../../../components/base/TextareaField'
 import MainLayout from '../../../components/layout/MainLayout'
 import { wrapper } from '../../../store'
-import { fetchUser } from '../../../store/slices/auth'
-import { createNewProduct } from '../../../store/slices/product'
+import { createNewProduct, reset } from '../../../store/slices/product'
 import { Get } from '../../../utils/Api'
 
-export default withRouter(function SellProductForm({
-  router,
-  categories,
-  token,
-}) {
+export default withRouter(function SellProductForm({ router, categories }) {
   const dispatch = useDispatch()
   const { loading, error, message } = useSelector((state) => state.product)
   const [selected, setSelected] = useState([])
-  const [formValues, setFormValues] = useState()
+  const [formValues, setFormValues] = useState({ categories: [] })
   const [selectedImages, setSelectedImages] = useState([])
+
+  if (error && message) {
+    setTimeout(() => {
+      dispatch(reset())
+    }, 4000)
+  }
+
+  if (!error && message) {
+    setTimeout(() => {
+      dispatch(reset())
+      router.replace('/dashboard')
+    }, 4000)
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormValues({ ...formValues, [name]: value })
+  }
+
+  const handlePreview = () => {
+    if (selected.length > 0) {
+      formValues.categories = selected.map((item) => item.category)
+    }
+
+    if (selectedImages.length > 0) {
+      formValues.images = selectedImages.map((file) => file.preview)
+    }
+
+    router.push(
+      {
+        pathname: '/dashboard/sell/preview',
+        query: {
+          ...formValues,
+        },
+      },
+      '/dashboard/sell/preview'
+    )
   }
 
   const handleSubmit = async (e) => {
@@ -41,6 +68,7 @@ export default withRouter(function SellProductForm({
     if (selected.length > 0) {
       formValues.categories = selected.map((item) => categories.push(item.id))
     }
+
     selectedImages.forEach((file) => formData.append('images', file))
     setFormValues({ ...formValues })
 
@@ -48,16 +76,21 @@ export default withRouter(function SellProductForm({
       formData.append(key, formValues[key])
     }
 
-    dispatch(createNewProduct({ formData, token }))
+    dispatch(createNewProduct(formData))
   }
 
   const onDrop = useCallback((acceptedFiles) => {
-    setSelectedImages(
-      acceptedFiles.map((file) =>
-        Object.assign(file, { preview: URL.createObjectURL(file) })
-      )
+    const images = acceptedFiles.map((file) =>
+      Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      })
     )
+    setSelectedImages((prev) => [...images, ...prev])
   }, [])
+
+  const handleDelete = (idx) => {
+    setSelectedImages((prev) => prev.filter((_, i) => i !== idx))
+  }
 
   return (
     <>
@@ -85,6 +118,7 @@ export default withRouter(function SellProductForm({
               placeholder="Nama Produk"
               label="Nama Produk"
               name="name"
+              defaultValue={router.query.name ?? ''}
               onChange={handleInputChange}
             />
 
@@ -93,6 +127,7 @@ export default withRouter(function SellProductForm({
               placeholder="Rp 0,00"
               label="Harga Produk"
               name="price"
+              defaultValue={router.query.price ?? ''}
               onChange={handleInputChange}
             />
 
@@ -111,6 +146,7 @@ export default withRouter(function SellProductForm({
               label="Deskripsi"
               rows="3"
               cols="30"
+              defaultValue={router.query.description ?? ''}
               onChange={handleInputChange}
             ></TextareaField>
 
@@ -118,7 +154,7 @@ export default withRouter(function SellProductForm({
               <div className="mb-2">
                 <Text type="body/12">Foto Produk</Text>
               </div>
-              <Dropzone maxFiles={5} onDrop={onDrop}>
+              <Dropzone multiple={true} maxFiles={5} onDrop={onDrop}>
                 <button
                   type="button"
                   className="group h-24 w-24 rounded-xl border border-dashed border-[#D0D0D0] group-hover:border-primary-03"
@@ -129,16 +165,22 @@ export default withRouter(function SellProductForm({
                   />
                 </button>
               </Dropzone>
-              <div className="mt-4 flex flex-wrap gap-3">
+              <div className="mt-4 grid grid-cols-3 gap-1 sm:grid-cols-5">
                 {selectedImages?.map((file, idx) => (
-                  <div key={idx} className="rounded-xl">
+                  <div key={idx} className="relative h-24 w-24 rounded-xl">
                     <Image
                       src={file.preview}
                       alt={file.name}
-                      width={96}
-                      height={96}
+                      layout="fill"
                       objectFit="contain"
                     />
+                    <button
+                      type="button"
+                      className="absolute z-50 h-full w-full cursor-pointer rounded-sm bg-danger/20 opacity-0 transition-all hover:opacity-100"
+                      onClick={() => handleDelete(idx)}
+                    >
+                      <FeatherIcon icon="x" className="w-full text-danger" />
+                    </button>
                   </div>
                 ))}
               </div>
@@ -148,7 +190,7 @@ export default withRouter(function SellProductForm({
               <Button
                 variant="outline"
                 width="full"
-                onClick={() => router.push('/dashboard/sell/preview')}
+                onClick={() => handlePreview()}
               >
                 Preview
               </Button>
@@ -163,15 +205,11 @@ export default withRouter(function SellProductForm({
   )
 })
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (ctx) => {
-    const { token } = cookies(ctx)
-    await store.dispatch(fetchUser(token))
-    const res = await Get('/products/categories')
-    const categories = res.data.data
+export const getServerSideProps = wrapper.getServerSideProps(() => async () => {
+  const res = await Get('/products/categories')
+  const categories = res.data.data
 
-    return {
-      props: { categories, token },
-    }
+  return {
+    props: { categories },
   }
-)
+})

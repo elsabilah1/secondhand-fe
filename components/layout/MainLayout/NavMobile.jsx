@@ -12,7 +12,7 @@ export default withRouter(function NavMobile({
   showNav = true,
   setShowNav,
 }) {
-  const { user } = useSelector((state) => state.auth)
+  const { user, loading } = useSelector((state) => state.auth)
 
   return (
     <Transition appear show={showNav} as={Fragment}>
@@ -45,7 +45,9 @@ export default withRouter(function NavMobile({
                 <FeatherIcon icon="x" />
               </button>
             </div>
-            {user ? (
+            {loading ? (
+              <></>
+            ) : user ? (
               <div className="grid gap-4">
                 <Link href="/notification" replace>
                   <a className="hover:text-primary-03">

@@ -5,7 +5,7 @@ import Text from './Text'
 export default function InputField({
   label,
   type,
-  value,
+  defaultValue,
   name,
   placeholder,
   onChange,
@@ -23,7 +23,7 @@ export default function InputField({
             type === 'password' ? (showPassword ? 'text' : 'password') : type
           }
           id={name}
-          value={value}
+          defaultValue={defaultValue}
           name={name}
           placeholder={placeholder}
           onChange={onChange}

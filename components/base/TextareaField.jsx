@@ -3,7 +3,7 @@ import Text from './Text'
 export default function TextareaField({
   label,
   name,
-  value,
+  defaultValue,
   placeholder,
   rows,
   cols,
@@ -19,7 +19,7 @@ export default function TextareaField({
           className="focus:shadow-outline w-full appearance-none rounded-2xl border border-neutral-02 bg-neutral-01 py-3 px-4 text-sm text-neutral-05 placeholder:text-sm placeholder:text-neutral-03 focus:outline-none focus:ring focus:ring-primary-01"
           id={name}
           name={name}
-          value={value}
+          defaultValue={defaultValue}
           placeholder={placeholder}
           rows={rows}
           cols={cols}
