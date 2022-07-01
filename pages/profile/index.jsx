@@ -1,13 +1,12 @@
 import FeatherIcon from 'feather-icons-react'
 import Image from 'next/image'
-import { withRouter } from 'next/router'
 import { useCallback, useState } from 'react'
 import Dropzone from '../../components/base/Dropzone'
 import Text from '../../components/base/Text'
 import MenuProfile from '../../components/user/MenuProfile'
 import NavProfile from '../../components/user/NavProfile'
 
-export default withRouter(function DetailProfile({ router }) {
+export default function DetailProfile() {
   const [selectedImages, setSelectedImages] = useState([])
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -61,4 +60,4 @@ export default withRouter(function DetailProfile({ router }) {
       <NavProfile />
     </div>
   )
-})
+}

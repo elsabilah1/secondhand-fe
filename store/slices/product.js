@@ -7,8 +7,11 @@ export const createNewProduct = createAsyncThunk(
     const { data: resData, error } = await PostFormData('/user/products', data)
 
     if (error) {
+      const message = error.data.message
+        ? error.data.message
+        : error.data.data[0].msg
       return thunkApi.rejectWithValue({
-        error: error.data.data[0].msg,
+        error: message,
       })
     }
 
@@ -33,7 +36,7 @@ export const productSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(createNewProduct.fulfilled, (state, action) => {
       state.loading = false
-      state.message = action.payload.message
+      ;(state.error = false), (state.message = action.payload.message)
     })
     builder.addCase(createNewProduct.pending, (state) => {
       state.loading = true

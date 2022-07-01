@@ -5,20 +5,19 @@ import { useCallback, useState } from 'react'
 import Button from '../../components/base/Button'
 import Dropzone from '../../components/base/Dropzone'
 import InputField from '../../components/base/InputField'
-import SelectField from '../../components/base/SelectField'
 import TextareaField from '../../components/base/TextareaField'
 import MainLayout from '../../components/layout/MainLayout'
 
-const city = [
-  { name: 'Jakarta' },
-  { name: 'Malang' },
-  { name: 'Surabaya' },
-  { name: 'Bandung' },
-  { name: 'Bogor' },
-]
+// const city = [
+//   { name: 'Jakarta' },
+//   { name: 'Malang' },
+//   { name: 'Surabaya' },
+//   { name: 'Bandung' },
+//   { name: 'Bogor' },
+// ]
 
 export default withRouter(function DetailProfile({ router }) {
-  const [selected, setSelected] = useState(city[0])
+  // const [selected, setSelected] = useState(city[0])
   const [selectedImages, setSelectedImages] = useState([])
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -79,13 +78,13 @@ export default withRouter(function DetailProfile({ router }) {
             // onChange=""
           />
 
-          <SelectField
+          {/* <SelectField
             selected={selected}
             setSelected={setSelected}
             data={city}
             label="Kota"
             placeholder="Pilih Kota"
-          />
+          /> */}
 
           <TextareaField
             name="alamat"

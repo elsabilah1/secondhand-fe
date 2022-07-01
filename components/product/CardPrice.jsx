@@ -8,7 +8,7 @@ export default function CardPrice({ children, item }) {
           <Text weight="bold">{item?.name}</Text>
         </div>
         <div className="mb-4">
-          <Text>{item?.categories.join(', ')}</Text>
+          <Text>{item?.categories?.join(', ') ?? ''}</Text>
         </div>
         <Text>Rp. {item?.price.toLocaleString()}</Text>
         <div className="mt-6 mb-2 space-y-3.5">{children}</div>

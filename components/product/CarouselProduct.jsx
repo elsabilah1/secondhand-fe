@@ -16,7 +16,7 @@ export default function CarouselProduct({ images }) {
     <div className="md:rounded-2xl">
       <Carousel {...settings}>
         {typeof images !== 'string' ? (
-          images.map((img, idx) => (
+          images?.map((img, idx) => (
             <div
               key={idx}
               className="relative h-[300px] w-full md:h-[436px] md:rounded-2xl md:border"

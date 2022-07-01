@@ -1,22 +1,15 @@
-import FeatherIcon from 'feather-icons-react'
 import { withRouter } from 'next/router'
-import { useState } from 'react'
-import Button from '../../../components/base/Button'
 import MainLayout from '../../../components/layout/MainLayout'
-import CardPrice from '../../../components/product/CardPrice'
-import CarouselProduct from '../../../components/product/CarouselProduct'
-import DescProduct from '../../../components/product/DescProduct'
-import CardProfile from '../../../components/user/CardProfile'
 
-export default withRouter(function PreviewProduct({ router }) {
-  const [product] = useState(router.query)
-  console.log(product)
+export default withRouter(function PreviewProduct() {
+  // const [product] = useState(router.query)
+  // console.log(product)
 
   return (
     <>
       <div className="hidden md:block">
         <MainLayout pageTitle="Preview Product">
-          <div className="mx-auto mt-10 grid max-w-4xl grid-cols-7 gap-6">
+          {/* <div className="mx-auto mt-10 grid max-w-4xl grid-cols-7 gap-6">
             <div className="col-span-4">
               <CarouselProduct images={product.images} />
               <DescProduct content={product.description} />
@@ -44,12 +37,12 @@ export default withRouter(function PreviewProduct({ router }) {
               </CardPrice>
               <CardProfile />
             </div>
-          </div>
+          </div> */}
         </MainLayout>
       </div>
 
       <div className="w-full md:hidden">
-        <div className="absolute top-[44px] left-4 z-50 flex h-7 w-7 justify-center rounded-full bg-neutral-01 md:hidden">
+        {/* <div className="absolute top-[44px] left-4 z-50 flex h-7 w-7 justify-center rounded-full bg-neutral-01 md:hidden">
           <button onClick={() => router.replace('/dashboard/sell')}>
             <FeatherIcon icon="arrow-left" />
           </button>
@@ -68,7 +61,7 @@ export default withRouter(function PreviewProduct({ router }) {
               Terbitkan
             </Button>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   )

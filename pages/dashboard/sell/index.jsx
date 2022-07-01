@@ -65,6 +65,7 @@ export default withRouter(function SellProductForm({ router, categories }) {
     e.preventDefault()
 
     const formData = new FormData()
+
     if (selected.length > 0) {
       formValues.categories = selected.map((item) => categories.push(item.id))
     }

@@ -11,6 +11,7 @@ export default function SelectField({
   placeholder,
   multiple,
 }) {
+  console.log(selected)
   return (
     <Listbox value={selected} onChange={setSelected} multiple={multiple}>
       <div className="relative">
@@ -19,9 +20,13 @@ export default function SelectField({
         </label>
         <Listbox.Button className="focus:shadow-outline relative w-full appearance-none rounded-2xl border border-neutral-02 bg-neutral-01 py-3 px-4 text-left text-sm text-neutral-05 placeholder:text-sm placeholder:text-neutral-03 focus:outline-none focus:ring focus:ring-primary-01">
           <span className="block truncate">
-            {selected.length > 0 || selected.name ? (
-              <Text>{selected.map((item) => item.category).join(', ')}</Text>
-            ) : (
+            {selected &&
+              (selected?.length > 0 ? (
+                <Text>{selected?.map((item) => item.category).join(', ')}</Text>
+              ) : (
+                <Text>{selected.city}</Text>
+              ))}
+            {(selected?.length === 0 || !selected) && (
               <div className="text-sm text-neutral-03">
                 <Text>{placeholder}</Text>
               </div>
@@ -58,7 +63,7 @@ export default function SelectField({
                         selected ? 'font-medium' : 'font-normal'
                       }`}
                     >
-                      <Text>{item?.category}</Text>
+                      <Text>{item?.category ?? item?.city}</Text>
                     </span>
                     {selected ? (
                       <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary-05">
