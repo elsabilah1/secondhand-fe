@@ -1,8 +1,19 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import Text from '../base/Text'
+import { useState, useEffect } from 'react';
+import axios from 'axios'
 
+const baseURL = "https://secondhand-be-api.herokuapp.com/api/v1/products";
 export default function CardProduct() {
+  const [products, setProducts] = useState([])
+useEffect(() => {
+  const getProducts = async () => {
+    const { data: res } = await axios.get(baseURL);
+    setProducts(res);
+  };
+  getProducts();
+}, []);
   return (
     <Link href={`/product/1`} passHref>
       <div className="cursor-pointer rounded border px-2 py-4 shadow-sm">
