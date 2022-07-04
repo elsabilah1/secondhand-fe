@@ -1,25 +1,23 @@
-import { useCallback, useState } from 'react'
-
-import Button from '../../components/base/Button'
-import Dropzone from '../../components/base/Dropzone'
 import FeatherIcon from 'feather-icons-react'
 import Image from 'next/image'
-import InputField from '../../components/base/InputField'
-import MainLayout from '../../components/layout/MainLayout'
-import SelectField from '../../components/base/SelectField'
-import TextareaField from '../../components/base/TextareaField'
 import { withRouter } from 'next/router'
+import { useCallback, useState } from 'react'
+import Button from '../../components/base/Button'
+import Dropzone from '../../components/base/Dropzone'
+import InputField from '../../components/base/InputField'
+import TextareaField from '../../components/base/TextareaField'
+import MainLayout from '../../components/layout/MainLayout'
 
-const city = [
-  { name: 'Jakarta' },
-  { name: 'Malang' },
-  { name: 'Surabaya' },
-  { name: 'Bandung' },
-  { name: 'Bogor' },
-]
+// const city = [
+//   { name: 'Jakarta' },
+//   { name: 'Malang' },
+//   { name: 'Surabaya' },
+//   { name: 'Bandung' },
+//   { name: 'Bogor' },
+// ]
 
 export default withRouter(function DetailProfile({ router }) {
-  const [selected, setSelected] = useState(city[0])
+  // const [selected, setSelected] = useState(city[0])
   const [selectedImages, setSelectedImages] = useState([])
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -27,8 +25,8 @@ export default withRouter(function DetailProfile({ router }) {
       acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        }),
-      ),
+        })
+      )
     )
   }, [])
 
@@ -80,13 +78,13 @@ export default withRouter(function DetailProfile({ router }) {
             // onChange=""
           />
 
-          <SelectField
+          {/* <SelectField
             selected={selected}
             setSelected={setSelected}
             data={city}
             label="Kota"
             placeholder="Pilih Kota"
-          />
+          /> */}
 
           <TextareaField
             name="alamat"

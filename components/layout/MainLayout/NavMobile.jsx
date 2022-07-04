@@ -1,19 +1,18 @@
-import { useDispatch, useSelector } from 'react-redux'
-
-import Button from '../../base/Button'
-import FeatherIcon from 'feather-icons-react'
-import { Fragment } from 'react'
-import Link from 'next/link'
-import Text from '../../base/Text'
 import { Transition } from '@headlessui/react'
+import FeatherIcon from 'feather-icons-react'
+import Link from 'next/link'
 import { withRouter } from 'next/router'
+import { Fragment } from 'react'
+import { useSelector } from 'react-redux'
+import Button from '../../base/Button'
+import Text from '../../base/Text'
 
 export default withRouter(function NavMobile({
   router,
   showNav = true,
   setShowNav,
 }) {
-  const { user } = useSelector((state) => state.auth)
+  const { user, loading } = useSelector((state) => state.auth)
 
   return (
     <Transition appear show={showNav} as={Fragment}>
@@ -46,7 +45,9 @@ export default withRouter(function NavMobile({
                 <FeatherIcon icon="x" />
               </button>
             </div>
-            {user ? (
+            {loading ? (
+              <div></div>
+            ) : user ? (
               <div className="grid gap-4">
                 <Link href="/notification" replace>
                   <a className="hover:text-primary-03">

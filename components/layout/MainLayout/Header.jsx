@@ -1,10 +1,10 @@
 import FeatherIcon from 'feather-icons-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { withRouter } from 'next/router'
+import Text from '../../base/Text'
 import NavDesktop from './NavDesktop'
 import SearchField from './SearchField'
-import Text from '../../base/Text'
-import { withRouter } from 'next/router'
 
 export default withRouter(function Header({
   router,

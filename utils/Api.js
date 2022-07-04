@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import axios from 'axios'
 
 const config = {
@@ -10,12 +11,12 @@ export const _axios = axios.create({
 })
 
 _axios.interceptors.request.use(
-  function (config) {
+  async function (config) {
     return config
   },
   function (error) {
-    return Promise.reject(error)
-  },
+    return Promise.reject(error.response)
+  }
 )
 
 _axios.interceptors.response.use(
@@ -24,21 +25,8 @@ _axios.interceptors.response.use(
   },
   function (error) {
     return Promise.reject(error.response)
-  },
-)
-
-export const header = async (token, type) => {
-  const data = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
   }
-
-  data.headers['Content-Type'] =
-    type === 'form-data' ? 'multipart/form-data' : 'application/json'
-
-  return data
-}
+)
 
 const errors = (errors) => {
   return {
@@ -48,10 +36,9 @@ const errors = (errors) => {
   }
 }
 
-export const Get = async (url, token) => {
+export const Get = async (url) => {
   try {
-    const head = await header(token)
-    const get = await _axios.get(url, head)
+    const get = await _axios.get(url)
     return get
   } catch (error) {
     return errors(error)
@@ -60,18 +47,21 @@ export const Get = async (url, token) => {
 
 export const Post = async (url, params) => {
   try {
-    const head = await header()
-    const post = await _axios.post(url, params, head)
+    const post = await _axios.post(url, params)
     return post
   } catch (error) {
     return errors(error)
   }
 }
 
-export const PostFormData = async (url, params) => {
+export const PostFormData = async (url, params, token) => {
   try {
-    const head = await header('form-data')
-    const post = await _axios.post(url, params, head)
+    const post = await _axios.post(url, params, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+    })
     return post
   } catch (error) {
     return errors(error)
@@ -80,8 +70,11 @@ export const PostFormData = async (url, params) => {
 
 export const PutFormData = async (url, params) => {
   try {
-    const head = await header('form-data')
-    const put = await _axios.put(url, params, head)
+    const put = await _axios.put(url, params, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
     return put
   } catch (error) {
     return errors(error)
@@ -90,10 +83,9 @@ export const PutFormData = async (url, params) => {
 
 export const Delete = async (url) => {
   try {
-    const head = await header()
-    const res = await _axios.delete(url, head)
-    return res
+    const del = await _axios.delete(url)
+    return del
   } catch (error) {
-    return errors(error.message)
+    return errors(error)
   }
 }

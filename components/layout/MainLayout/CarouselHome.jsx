@@ -1,7 +1,6 @@
-import Carousel from 'react-slick'
 import Image from 'next/image'
-import React from 'react'
 import { withRouter } from 'next/router'
+import Carousel from 'react-slick'
 
 export default withRouter(function CarouselHome({ router }) {
   const settingsDesktop = {

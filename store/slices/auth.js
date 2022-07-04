@@ -1,11 +1,17 @@
-import { Get, Post } from '../../utils/Api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-
 import axios from 'axios'
+import { Get, Post } from '../../utils/Api'
 
-export const fetchUser = createAsyncThunk('auth/user', async (token) => {
-  const response = await Get('/user/profile', token)
-  return response.data || null
+export const fetchUser = createAsyncThunk('auth/user', async (_, thunkAPI) => {
+  const { data, error } = await Get('/user/profile')
+
+  if (error) {
+    return thunkAPI.rejectWithValue({
+      error: error.data.message,
+    })
+  }
+
+  return data
 })
 
 export const login = createAsyncThunk(
@@ -19,7 +25,7 @@ export const login = createAsyncThunk(
         error: error.response.data.data[0].msg,
       })
     }
-  },
+  }
 )
 
 export const register = createAsyncThunk(
@@ -28,14 +34,13 @@ export const register = createAsyncThunk(
     const { data, error } = await Post('/auth/register', credentials)
 
     if (error) {
-      console.log(error.data.data[0].msg)
       return thunkAPI.rejectWithValue({
         error: error.data.data[0].msg,
       })
     }
 
     return data
-  },
+  }
 )
 
 export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
@@ -71,8 +76,8 @@ export const authSlice = createSlice({
     })
     builder.addCase(login.rejected, (state, action) => {
       state.loading = false
-      state.error = true
       state.message = action.payload.error
+      state.error = true
     })
 
     builder.addCase(register.fulfilled, (state, action) => {
@@ -94,7 +99,16 @@ export const authSlice = createSlice({
     builder.addCase(logout.fulfilled, () => initialState)
 
     builder.addCase(fetchUser.fulfilled, (state, action) => {
-      state.user = action.payload
+      state.loading = false
+      state.user = action.payload.data
+    })
+    builder.addCase(fetchUser.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(fetchUser.rejected, (state) => {
+      state.loading = false
+      state.error = true
+      // state.message = action.payload.error
     })
   },
 })

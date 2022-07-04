@@ -1,74 +1,143 @@
-import {
-  GET_LIST_PRODUCT,
-  GET_PRODUCT_ID,
-  ADD_PRODUCT,
-  UPDATE_PRODUCT,
-  DELETE_PRODUCT,
-} from "../types";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { Get, PostFormData } from '../../utils/Api'
+
+export const getAllProduct = createAsyncThunk(
+  'products',
+  async (_, thunkAPI) => {
+    try {
+      const response = await Get('/products')
+      return response.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue({
+        error: error.response.data.data[0].msg,
+      })
+    }
+  }
+)
+
+export const getProductById = createAsyncThunk(
+  'product/id',
+  async (id, thunkAPI) => {
+    try {
+      const response = await Get(`/user/products/${id}`)
+      return response.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue({
+        error: error.response.data.data[0].msg,
+      })
+    }
+  }
+)
+
+export const getUserProduct = createAsyncThunk(
+  'product/user',
+  async (_, thunkAPI) => {
+    try {
+      const response = await Get('/user/products')
+      return response.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue({
+        error: error.response.data.data[0].msg,
+      })
+    }
+  }
+)
+
+export const createNewProduct = createAsyncThunk(
+  'product/create',
+  async (data, thunkApi) => {
+    const { data: resData, error } = await PostFormData(
+      '/user/products',
+      data.formData,
+      data.token
+    )
+
+    if (error) {
+      const message = error.data.data
+        ? error.data.data[0].msg
+        : error.data.message
+
+      return thunkApi.rejectWithValue({
+        error: message,
+      })
+    }
+    return resData
+  }
+)
 
 const initialState = {
-  getListProductResult: false,
-  getListProductLoading: false,
-  getListProductError: false,
+  loading: false,
+  message: '',
+  error: false,
+  itemList: [],
+  item: {},
+}
 
-  getProductIdResult: false,
-  getProductIdLoading: false,
-  getProductIdError: false,
+export const productSlice = createSlice({
+  name: 'product',
+  initialState,
+  reducers: {
+    reset: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getAllProduct.fulfilled, (state, action) => {
+      state.error = false
+      state.loading = false
+      state.message = action.payload.message
+      state.itemList = action.payload.data
+    })
+    builder.addCase(getAllProduct.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(getAllProduct.rejected, (state, action) => {
+      state.loading = false
+      state.message = action.payload.error
+      state.error = true
+    })
 
-  addProductResult: false,
-  addProductLoading: false,
-  addProductError: false,
+    builder.addCase(getProductById.fulfilled, (state, action) => {
+      state.error = false
+      state.loading = false
+      // state.message = action.payload.message
+      state.item = action.payload.data
+    })
+    builder.addCase(getProductById.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(getProductById.rejected, (state, action) => {
+      state.loading = false
+      state.message = action.payload.error
+      state.error = true
+    })
 
-  updateProductResult: false,
-  updateProductLoading: false,
-  updateProductError: false,
+    builder.addCase(getUserProduct.fulfilled, (state, action) => {
+      state.error = false
+      state.loading = false
+      // state.message = action.payload.message
+      state.itemList = action.payload.data
+    })
+    builder.addCase(getUserProduct.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(getUserProduct.rejected, (state, action) => {
+      state.loading = false
+      state.message = action.payload.error
+      state.error = true
+    })
 
-  deleteProductResult: false,
-  deleteProductLoading: false,
-  deleteProductError: false,
-};
+    builder.addCase(createNewProduct.fulfilled, (state, action) => {
+      state.loading = false
+      ;(state.error = false), (state.message = action.payload.message)
+    })
+    builder.addCase(createNewProduct.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(createNewProduct.rejected, (state, action) => {
+      state.loading = false
+      state.error = true
+      state.message = action.payload.error
+    })
+  },
+})
 
-const product = (state = initialState, action) => {
-  switch (action.type) {
-    case GET_LIST_PRODUCT:
-      return {
-        ...state,
-        getListProductResult: action.payload.data,
-        getListProductLoading: action.payload.loading,
-        getListProductError: action.payload.errorMessage,
-      };
-    case GET_PRODUCT_ID:
-      return {
-        ...state,
-        getProductIdResult: action.payload.data,
-        getProductIdLoading: action.payload.loading,
-        getProductIdError: action.payload.errorMessage,
-      };
-    case ADD_PRODUCT:
-      return {
-        ...state,
-        addProductResult: action.payload.data,
-        addProductLoading: action.payload.loading,
-        addProductError: action.payload.errorMessage,
-      };
-    case UPDATE_PRODUCT:
-      return {
-        ...state,
-        updateProductResult: action.payload.data,
-        updateProductLoading: action.payload.loading,
-        updateProductError: action.payload.errorMessage,
-      };
-    case DELETE_PRODUCT:
-      console.log("4. Masuk reducer", action);
-      return {
-        ...state,
-        deleteProductResult: action.payload.data,
-        deleteProductLoading: action.payload.loading,
-        deleteProductError: action.payload.errorMessage,
-      };
-    default:
-      return state;
-  }
-};
-
-export default product;
+export const { reset } = productSlice.actions

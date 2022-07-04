@@ -1,13 +1,11 @@
-import { register, reset } from '../store/slices/auth'
-import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
-
-import AuthLayout from '../components/layout/AuthLayout'
+import { withRouter } from 'next/router'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import Button from '../components/base/Button'
 import InputField from '../components/base/InputField'
-import Link from 'next/link'
 import Text from '../components/base/Text'
-import { withRouter } from 'next/router'
+import AuthLayout from '../components/layout/AuthLayout'
+import { register } from '../store/slices/auth'
 
 const initialState = {
   name: '',
@@ -18,11 +16,6 @@ const initialState = {
 export default withRouter(function Register({ router }) {
   const dispatch = useDispatch()
   const [formValues, setFormValues] = useState(initialState)
-  const { error } = useSelector((state) => state.auth)
-
-  useEffect(() => {
-    dispatch(reset())
-  }, [])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -34,9 +27,7 @@ export default withRouter(function Register({ router }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(reset())
     dispatch(register(formValues))
-    // !error && router.push('/login')
   }
 
   return (
@@ -76,11 +67,12 @@ export default withRouter(function Register({ router }) {
       </form>
       <div className="flex w-full justify-center gap-1">
         <Text>Sudah punya akun?</Text>
-        <Link href="/login" replace>
-          <a className="text-primary-04 hover:text-primary-03 focus:outline-none">
-            <Text weight="bold">Masuk di sini</Text>
-          </a>
-        </Link>
+        <button
+          onClick={() => router.replace('/login')}
+          className="text-primary-04 hover:text-primary-03 focus:outline-none"
+        >
+          <Text weight="bold">Masuk di sini</Text>
+        </button>
       </div>
     </AuthLayout>
   )

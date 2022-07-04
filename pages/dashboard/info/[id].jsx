@@ -1,11 +1,11 @@
-import CardProfile from '../../../components/user/CardProfile'
 import FeatherIcon from 'feather-icons-react'
-import MainLayout from '../../../components/layout/MainLayout'
-import Text from '../../../components/base/Text'
 import { withRouter } from 'next/router'
-import ModalAcceptBid from '../../../components/product/ModalAcceptBid'
 import { useState } from 'react'
-import ModalChangeStatus from '../../../components/product/ModalChangeStatus'
+import Text from '../../../components/base/Text'
+import MainLayout from '../../../components/layout/MainLayout'
+import ModalAcceptBid from '../../../components/product/ModalAcceptBid'
+import CardProfile from '../../../components/user/CardProfile'
+// import ModalChangeStatus from '../../../components/product/ModalChangeStatus'
 
 export default withRouter(function InfoPenawar({ router }) {
   const [isOpen, setIsOpen] = useState(false)

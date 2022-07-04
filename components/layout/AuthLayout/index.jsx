@@ -1,18 +1,26 @@
-import Alert from '../../base/Alert'
 import FeatherIcon from 'feather-icons-react'
 import Head from 'next/head'
 import Image from 'next/image'
-import Loader from '../../base/Loader'
-import { useSelector } from 'react-redux'
 import { withRouter } from 'next/router'
+import { useDispatch, useSelector } from 'react-redux'
+import { reset } from '../../../store/slices/auth'
+import Alert from '../../base/Alert'
+import Loader from '../../base/Loader'
 
 export default withRouter(function AuthLayout({ router, children, pageTitle }) {
+  const dispatch = useDispatch()
   const { message, loading, error } = useSelector((state) => state.auth)
+
+  if (message) {
+    setTimeout(() => {
+      dispatch(reset())
+    }, 4000)
+  }
 
   return (
     <>
       <Head>
-        <title>SecondHand | {pageTitle}</title>
+        <title>{pageTitle}</title>
         <meta name="description" content="secondhand web" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/favicon.ico" />

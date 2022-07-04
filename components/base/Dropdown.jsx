@@ -1,7 +1,6 @@
-import { Fragment, useEffect } from 'react'
 import { Popover, Transition } from '@headlessui/react'
-
 import FeatherIcon from 'feather-icons-react'
+import { Fragment } from 'react'
 
 export default function Dropdown({ icon, children }) {
   return (
