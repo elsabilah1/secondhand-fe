@@ -20,7 +20,7 @@ export default withRouter(function AuthLayout({ router, children, pageTitle }) {
   return (
     <>
       <Head>
-        <title>SecondHand | {pageTitle}</title>
+        <title>{pageTitle}</title>
         <meta name="description" content="secondhand web" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/favicon.ico" />

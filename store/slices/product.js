@@ -1,11 +1,39 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { PostFormData } from '../../utils/Api'
+import { Get, PostFormData } from '../../utils/Api'
 
-export const products = createAsyncThunk(
-  'product',
+export const getAllProduct = createAsyncThunk(
+  'products',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.Get('/products')
+      const response = await Get('/products')
+      return response.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue({
+        error: error.response.data.data[0].msg,
+      })
+    }
+  }
+)
+
+export const getProductById = createAsyncThunk(
+  'product/id',
+  async (id, thunkAPI) => {
+    try {
+      const response = await Get(`/user/products/${id}`)
+      return response.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue({
+        error: error.response.data.data[0].msg,
+      })
+    }
+  }
+)
+
+export const getUserProduct = createAsyncThunk(
+  'product/user',
+  async (_, thunkAPI) => {
+    try {
+      const response = await Get('/user/products')
       return response.data
     } catch (error) {
       return thunkAPI.rejectWithValue({
@@ -18,12 +46,17 @@ export const products = createAsyncThunk(
 export const createNewProduct = createAsyncThunk(
   'product/create',
   async (data, thunkApi) => {
-    const { data: resData, error } = await PostFormData('/user/products', data)
+    const { data: resData, error } = await PostFormData(
+      '/user/products',
+      data.formData,
+      data.token
+    )
 
     if (error) {
-      const message = error.data.message
-        ? error.data.message
-        : error.data.data[0].msg
+      const message = error.data.data
+        ? error.data.data[0].msg
+        : error.data.message
+
       return thunkApi.rejectWithValue({
         error: message,
       })
@@ -47,15 +80,46 @@ export const productSlice = createSlice({
     reset: () => initialState,
   },
   extraReducers: (builder) => {
-    builder.addCase(products.fulfilled, (state, action) => {
+    builder.addCase(getAllProduct.fulfilled, (state, action) => {
       state.error = false
       state.loading = false
       state.message = action.payload.message
+      state.itemList = action.payload.data
     })
-    builder.addCase(products.pending, (state) => {
+    builder.addCase(getAllProduct.pending, (state) => {
       state.loading = true
     })
-    builder.addCase(products.rejected, (state, action) => {
+    builder.addCase(getAllProduct.rejected, (state, action) => {
+      state.loading = false
+      state.message = action.payload.error
+      state.error = true
+    })
+
+    builder.addCase(getProductById.fulfilled, (state, action) => {
+      state.error = false
+      state.loading = false
+      // state.message = action.payload.message
+      state.item = action.payload.data
+    })
+    builder.addCase(getProductById.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(getProductById.rejected, (state, action) => {
+      state.loading = false
+      state.message = action.payload.error
+      state.error = true
+    })
+
+    builder.addCase(getUserProduct.fulfilled, (state, action) => {
+      state.error = false
+      state.loading = false
+      // state.message = action.payload.message
+      state.itemList = action.payload.data
+    })
+    builder.addCase(getUserProduct.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(getUserProduct.rejected, (state, action) => {
       state.loading = false
       state.message = action.payload.error
       state.error = true

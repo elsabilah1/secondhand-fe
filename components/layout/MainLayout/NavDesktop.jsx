@@ -8,13 +8,11 @@ import MenuProfile from '../../user/MenuProfile'
 import NotifItem from './NotifItem'
 
 export default withRouter(function NavDesktop({ router }) {
-  const { user, loading } = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth)
 
   const classes = cn(
     'hover:text-primary-03 active:scale-95 active:text-primary-05'
   )
-
-  if (loading) return <div className="animate-pulse">loading...</div>
 
   return (
     <>

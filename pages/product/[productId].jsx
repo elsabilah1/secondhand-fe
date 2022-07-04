@@ -1,6 +1,7 @@
 import FeatherIcon from 'feather-icons-react'
 import { withRouter } from 'next/router'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import Button from '../../components/base/Button'
 import MainLayout from '../../components/layout/MainLayout'
 import CardPrice from '../../components/product/CardPrice'
@@ -8,9 +9,21 @@ import CarouselProduct from '../../components/product/CarouselProduct'
 import DescProduct from '../../components/product/DescProduct'
 import ModalMakeBid from '../../components/product/ModalMakeBid'
 import CardProfile from '../../components/user/CardProfile'
+import { wrapper } from '../../store'
+import { fetchUser } from '../../store/slices/auth'
+import { getProductById } from '../../store/slices/product'
+import { requireAuth } from '../../utils/requireAuth'
 
+export const getServerSideProps = wrapper.getServerSideProps((store) =>
+  requireAuth(async (context) => {
+    await store.dispatch(fetchUser())
+    await store.dispatch(getProductById(context.query.productId))
+  })
+)
 export default withRouter(function DetailProduct({ router }) {
   const [isOpen, setIsOpen] = useState(false)
+  const { item } = useSelector((state) => state.product)
+  console.log(item)
 
   return (
     <>
@@ -20,10 +33,10 @@ export default withRouter(function DetailProduct({ router }) {
           <div className="mx-auto mt-10 grid max-w-4xl grid-cols-7 gap-6">
             <div className="col-span-4">
               <CarouselProduct />
-              <DescProduct />
+              <DescProduct content={item.description} />
             </div>
             <div className="col-span-3 space-y-6">
-              <CardPrice>
+              <CardPrice item={item}>
                 <Button width="full" onClick={() => setIsOpen(true)}>
                   Saya Tertarik dan Ingin Nego
                 </Button>

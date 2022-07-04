@@ -54,11 +54,12 @@ export const Post = async (url, params) => {
   }
 }
 
-export const PostFormData = async (url, params) => {
+export const PostFormData = async (url, params, token) => {
   try {
     const post = await _axios.post(url, params, {
       headers: {
         'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
       },
     })
     return post

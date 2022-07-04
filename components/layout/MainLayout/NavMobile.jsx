@@ -46,7 +46,7 @@ export default withRouter(function NavMobile({
               </button>
             </div>
             {loading ? (
-              <></>
+              <div></div>
             ) : user ? (
               <div className="grid gap-4">
                 <Link href="/notification" replace>

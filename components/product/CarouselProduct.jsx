@@ -15,34 +15,21 @@ export default function CarouselProduct({ images }) {
   return (
     <div className="md:rounded-2xl">
       <Carousel {...settings}>
-        {typeof images !== 'string' ? (
-          images?.map((img, idx) => (
-            <div
-              key={idx}
-              className="relative h-[300px] w-full md:h-[436px] md:rounded-2xl md:border"
-            >
-              <Image
-                src={img}
-                layout="fill"
-                objectFit="contain"
-                className="md:rounded-2xl"
-                objectPosition="top"
-                alt={img}
-              />
-            </div>
-          ))
-        ) : (
-          <div className="relative h-[300px] w-full md:h-[436px] md:rounded-2xl md:border">
+        {images?.map((img, idx) => (
+          <div
+            key={idx}
+            className="relative h-[300px] w-full md:h-[436px] md:rounded-2xl md:border"
+          >
             <Image
-              src={images}
+              src={img.preview ?? img}
               layout="fill"
               objectFit="contain"
               className="md:rounded-2xl"
               objectPosition="top"
-              alt={images}
+              alt={img.path ?? img}
             />
           </div>
-        )}
+        ))}
       </Carousel>
     </div>
   )
