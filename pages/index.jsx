@@ -5,8 +5,17 @@ import Button from '../components/base/Button'
 import MainLayout from '../components/layout/MainLayout'
 import CardProduct from '../components/product/CardProduct'
 import FilterProduct from '../components/product/FilterProduct'
+import { wrapper } from '../store'
+import { fetchUser } from '../store/slices/auth'
+import { requireAuth } from '../utils/requireAuth'
 
 const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+export const getServerSideProps = wrapper.getServerSideProps((store) =>
+  requireAuth(async () => {
+    await store.dispatch(fetchUser())
+  })
+)
 
 export default withRouter(function Home({ router }) {
   const { user, loading } = useSelector((state) => state.auth)

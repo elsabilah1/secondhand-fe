@@ -4,12 +4,17 @@ import { PostFormData } from '../../utils/Api'
 export const createNewProduct = createAsyncThunk(
   'product/create',
   async (data, thunkApi) => {
-    const { data: resData, error } = await PostFormData('/user/products', data)
+    const { data: resData, error } = await PostFormData(
+      '/user/products',
+      data.formData,
+      data.token
+    )
 
     if (error) {
-      const message = error.data.message
-        ? error.data.message
-        : error.data.data[0].msg
+      const message = error.data.data
+        ? error.data.data[0].msg
+        : error.data.message
+
       return thunkApi.rejectWithValue({
         error: message,
       })

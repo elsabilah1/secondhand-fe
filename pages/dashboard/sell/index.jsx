@@ -1,4 +1,5 @@
 import FeatherIcon from 'feather-icons-react'
+import Cookies from 'js-cookie'
 import Image from 'next/image'
 import { withRouter } from 'next/router'
 import { useCallback, useState } from 'react'
@@ -13,15 +14,37 @@ import Text from '../../../components/base/Text'
 import TextareaField from '../../../components/base/TextareaField'
 import MainLayout from '../../../components/layout/MainLayout'
 import { wrapper } from '../../../store'
+import { fetchUser } from '../../../store/slices/auth'
 import { createNewProduct, reset } from '../../../store/slices/product'
 import { Get } from '../../../utils/Api'
+import { requireAuth } from '../../../utils/requireAuth'
 
-export default withRouter(function SellProductForm({ router, categories }) {
+export const getServerSideProps = wrapper.getServerSideProps((store) =>
+  requireAuth(async (context) => {
+    await store.dispatch(fetchUser())
+
+    const res = await Get('/products/categories')
+    const categories = res.data.data
+    const { temp_product } = context.req.cookies
+
+    return {
+      props: { categories, product: JSON.parse(temp_product || '{}') },
+    }
+  })
+)
+
+export default withRouter(function SellProductForm({
+  router,
+  categories,
+  product,
+}) {
   const dispatch = useDispatch()
   const { loading, error, message } = useSelector((state) => state.product)
-  const [selected, setSelected] = useState([])
-  const [formValues, setFormValues] = useState({ categories: [] })
-  const [selectedImages, setSelectedImages] = useState([])
+  const [selected, setSelected] = useState(product.categories ?? [])
+  const [formValues, setFormValues] = useState(
+    { ...product } ?? { categories: [] }
+  )
+  const [selectedImages, setSelectedImages] = useState(product.images ?? [])
 
   if (error && message) {
     setTimeout(() => {
@@ -43,26 +66,22 @@ export default withRouter(function SellProductForm({ router, categories }) {
 
   const handlePreview = () => {
     if (selected.length > 0) {
-      formValues.categories = selected.map((item) => item.category)
+      formValues.categories = selected
     }
 
     if (selectedImages.length > 0) {
-      formValues.images = selectedImages.map((file) => file.preview)
+      formValues.images = selectedImages
     }
 
-    router.push(
-      {
-        pathname: '/dashboard/sell/preview',
-        query: {
-          ...formValues,
-        },
-      },
-      '/dashboard/sell/preview'
-    )
+    Cookies.set('temp_product', JSON.stringify(formValues))
+
+    router.push('/dashboard/sell/preview')
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    Cookies.remove('temp_product')
 
     const formData = new FormData()
 
@@ -77,7 +96,8 @@ export default withRouter(function SellProductForm({ router, categories }) {
       formData.append(key, formValues[key])
     }
 
-    dispatch(createNewProduct(formData))
+    const token = Cookies.get('token')
+    dispatch(createNewProduct({ formData, token }))
   }
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -119,7 +139,7 @@ export default withRouter(function SellProductForm({ router, categories }) {
               placeholder="Nama Produk"
               label="Nama Produk"
               name="name"
-              defaultValue={router.query.name ?? ''}
+              defaultValue={formValues.name ?? ''}
               onChange={handleInputChange}
             />
 
@@ -128,7 +148,7 @@ export default withRouter(function SellProductForm({ router, categories }) {
               placeholder="Rp 0,00"
               label="Harga Produk"
               name="price"
-              defaultValue={router.query.price ?? ''}
+              defaultValue={formValues.price ?? ''}
               onChange={handleInputChange}
             />
 
@@ -147,7 +167,7 @@ export default withRouter(function SellProductForm({ router, categories }) {
               label="Deskripsi"
               rows="3"
               cols="30"
-              defaultValue={router.query.description ?? ''}
+              defaultValue={formValues.description ?? ''}
               onChange={handleInputChange}
             ></TextareaField>
 
@@ -204,13 +224,4 @@ export default withRouter(function SellProductForm({ router, categories }) {
       </MainLayout>
     </>
   )
-})
-
-export const getServerSideProps = wrapper.getServerSideProps(() => async () => {
-  const res = await Get('/products/categories')
-  const categories = res.data.data
-
-  return {
-    props: { categories },
-  }
 })

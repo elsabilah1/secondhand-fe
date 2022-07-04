@@ -1,9 +1,9 @@
 import { Tab } from '@headlessui/react'
 import FeatherIcon from 'feather-icons-react'
-import cookies from 'next-cookies'
 import Image from 'next/image'
 import { withRouter } from 'next/router'
 import { Fragment } from 'react'
+import { useSelector } from 'react-redux'
 import Text from '../../components/base/Text'
 import MainLayout from '../../components/layout/MainLayout'
 import CardProduct from '../../components/product/CardProduct'
@@ -11,10 +11,18 @@ import NavDashboard from '../../components/product/NavDashboard'
 import CardProfile from '../../components/user/CardProfile'
 import { wrapper } from '../../store'
 import { fetchUser } from '../../store/slices/auth'
+import { requireAuth } from '../../utils/requireAuth'
 
 const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+export const getServerSideProps = wrapper.getServerSideProps((store) =>
+  requireAuth(async () => {
+    await store.dispatch(fetchUser())
+  })
+)
+
 export default withRouter(function SellerDashboard({ router }) {
+  const { user } = useSelector((state) => state.auth)
   return (
     <MainLayout pageTitle="Dashboard" headerTitleBold="Daftar Jual Saya">
       <div className="mt-2 flex flex-col gap-6 md:mt-10">
@@ -25,7 +33,7 @@ export default withRouter(function SellerDashboard({ router }) {
         </div>
 
         <div className="px-4">
-          <CardProfile edit />
+          <CardProfile user={user} edit />
         </div>
 
         <Tab.Group as="div" className="gap-x-8 md:grid md:grid-cols-6">
@@ -81,14 +89,3 @@ export default withRouter(function SellerDashboard({ router }) {
     </MainLayout>
   )
 })
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (ctx) => {
-    const { token } = cookies(ctx)
-    await store.dispatch(fetchUser(token))
-
-    return {
-      props: {},
-    }
-  }
-)

@@ -24,9 +24,9 @@ export default withRouter(function MenuProfile({ router, dropdown }) {
       <MenuItem
         icon="log-out"
         title="Keluar"
-        onClick={() => {
-          dispatch(logout())
-          router.push('/')
+        onClick={async () => {
+          await dispatch(logout())
+          router.reload()
         }}
         dropdown={dropdown}
       />

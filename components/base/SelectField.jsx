@@ -11,7 +11,6 @@ export default function SelectField({
   placeholder,
   multiple,
 }) {
-  console.log(selected)
   return (
     <Listbox value={selected} onChange={setSelected} multiple={multiple}>
       <div className="relative">
