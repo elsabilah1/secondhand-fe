@@ -96,8 +96,7 @@ export default withRouter(function SellProductForm({
       formData.append(key, formValues[key])
     }
 
-    const token = Cookies.get('token')
-    dispatch(createNewProduct({ formData, token }))
+    dispatch(createNewProduct(formData))
   }
 
   const onDrop = useCallback((acceptedFiles) => {

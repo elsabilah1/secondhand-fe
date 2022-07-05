@@ -11,13 +11,12 @@ import { getAllProduct } from '../store/slices/product'
 import { Get } from '../utils/Api'
 import { requireAuth } from '../utils/requireAuth'
 
-const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 export const getServerSideProps = wrapper.getServerSideProps((store) =>
   requireAuth(async () => {
     await store.dispatch(fetchUser())
     await store.dispatch(getAllProduct())
     const res = await Get('/products/categories')
-    const categories = res.data.data
+    const categories = res.data
 
     return {
       props: { categories },
@@ -28,12 +27,13 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
 export default withRouter(function Home({ router, categories }) {
   const { user, loading } = useSelector((state) => state.auth)
   const { itemList } = useSelector((state) => state.product)
+
   return (
     <>
       <MainLayout pageTitle="Home">
         <FilterProduct data={categories} />
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
-          {itemList.map((item) => (
+          {itemList?.map((item) => (
             <CardProduct product={item} key={item.id} />
           ))}
         </div>

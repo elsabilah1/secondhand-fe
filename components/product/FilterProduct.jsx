@@ -18,7 +18,7 @@ export default function FilterProduct({ data }) {
           Telusuri Kategori
         </Text>
       </div>
-      <div className="relative flex gap-4 overflow-x-auto">
+      <div className="relative flex gap-4 overflow-x-auto p-1">
         {data.map((cat) => (
           <button className={classes} key={cat.id}>
             <FeatherIcon className="inline h-5 w-5" icon="search" />

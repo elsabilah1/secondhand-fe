@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { _axios } from '../../utils/Api'
+import axios from 'axios'
 
 export default async (req, res) => {
   const { method } = req
@@ -11,9 +11,9 @@ export default async (req, res) => {
   try {
     const { token } = req.cookies
 
-    const { data, headers: returnedHeaders } = await _axios.post(
-      '/auth/logout',
-      undefined,
+    const { data, headers: returnedHeaders } = await axios.post(
+      `${process.env.NEXT_PUBLIC_SERVER}/auth/logout`,
+      null,
       {
         headers: {
           Authorization: `Bearer ${token}`,

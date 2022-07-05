@@ -14,8 +14,6 @@ import { fetchUser } from '../../store/slices/auth'
 import { getUserProduct } from '../../store/slices/product'
 import { requireAuth } from '../../utils/requireAuth'
 
-const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
 export const getServerSideProps = wrapper.getServerSideProps((store) =>
   requireAuth(async () => {
     await store.dispatch(fetchUser())
@@ -47,13 +45,13 @@ export default withRouter(function SellerDashboard({ router }) {
             {/* All Products */}
             <Tab.Panel className="mt-6 grid grid-cols-2 gap-6 px-4 sm:grid-cols-3 md:col-span-4 md:mt-0 md:px-0 md:pr-4">
               <button
-                className="rounded border border-dashed border-neutral-02 text-neutral-03 shadow-sm hover:border-primary-03 hover:text-primary-03 active:scale-95"
+                className="rounded border border-dashed border-neutral-02 py-10 text-neutral-03 shadow-sm hover:border-primary-03 hover:text-primary-03 active:scale-95"
                 onClick={() => router.replace('/dashboard/sell')}
               >
                 <FeatherIcon icon="plus" className="mb-2 inline" />
                 <Text type="body/12">Tambah Produk</Text>
               </button>
-              {itemList.map((item) => (
+              {itemList?.map((item) => (
                 <CardProduct product={item} key={item.id} />
               ))}
             </Tab.Panel>
@@ -82,7 +80,7 @@ export default withRouter(function SellerDashboard({ router }) {
 
             {/* Sold Products */}
             <Tab.Panel className="mt-6 grid grid-cols-2 gap-6 px-4 sm:grid-cols-3 md:col-span-4 md:mt-0 md:px-0 md:pr-4">
-              {itemList.map((item) => (
+              {itemList?.map((item) => (
                 <CardProduct product={item} key={item.id} />
               ))}
             </Tab.Panel>

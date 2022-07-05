@@ -2,7 +2,7 @@ import { Transition } from '@headlessui/react'
 import FeatherIcon from 'feather-icons-react'
 import Link from 'next/link'
 import { withRouter } from 'next/router'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Button from '../../base/Button'
 import Text from '../../base/Text'
@@ -12,7 +12,8 @@ export default withRouter(function NavMobile({
   showNav = true,
   setShowNav,
 }) {
-  const { user, loading } = useSelector((state) => state.auth)
+  const { user: userData, loading } = useSelector((state) => state.auth)
+  const [user] = useState(userData)
 
   return (
     <Transition appear show={showNav} as={Fragment}>
@@ -54,9 +55,14 @@ export default withRouter(function NavMobile({
                     <Text>Notifikasi</Text>
                   </a>
                 </Link>
-                <Link href="/dashboard" replace>
+                <Link
+                  href={router.pathname === '/' ? '/dashboard' : '/'}
+                  replace
+                >
                   <a className="hover:text-primary-03">
-                    <Text>Daftar Jual</Text>
+                    <Text>
+                      {router.pathname === '/' ? 'Daftar Jual' : 'Home'}
+                    </Text>
                   </a>
                 </Link>
                 <Link href="/profile" replace>

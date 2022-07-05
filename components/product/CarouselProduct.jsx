@@ -1,5 +1,7 @@
 import Image from 'next/image'
 import Carousel from 'react-slick'
+import 'slick-carousel/slick/slick-theme.css'
+import 'slick-carousel/slick/slick.css'
 
 export default function CarouselProduct({ images }) {
   const settings = {
