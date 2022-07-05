@@ -21,7 +21,7 @@ export default async (req, res) => {
     if (error) return res.status(error.status).send(error.data)
 
     Object.keys(returnedHeaders).forEach((key) =>
-      res.setHeader(key, returnedHeaders[key]),
+      res.setHeader(key, returnedHeaders[key])
     )
 
     res.status(200).send(data)

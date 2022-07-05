@@ -1,11 +1,11 @@
-import Alert from '../../base/Alert'
-import Carousel from './CarouselHome'
+/* eslint-disable react-hooks/exhaustive-deps */
 import Head from 'next/head'
-import Header from './Header'
-import Loader from '../../base/Loader'
-import NavMobile from './NavMobile'
-import { useSelector } from 'react-redux'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import Loader from '../../base/Loader'
+import Carousel from './CarouselHome'
+import Header from './Header'
+import NavMobile from './NavMobile'
 
 export default function MainLayout({
   children,
@@ -20,12 +20,13 @@ export default function MainLayout({
   return (
     <>
       <Head>
-        <title>SecondHand | {pageTitle}</title>
+        <title>{pageTitle}</title>
         <meta name="description" content="secondhand web" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      {loading && <Loader />}
       <Header
         headerTitle={headerTitle}
         headerTitleBold={headerTitleBold}
@@ -39,8 +40,6 @@ export default function MainLayout({
         </div>
         <NavMobile showNav={showNav} setShowNav={setShowNav} />
       </div>
-
-      {loading && <Loader />}
     </>
   )
 }

@@ -18,11 +18,11 @@ export default async (req, res) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      },
+      }
     )
 
     Object.keys(returnedHeaders).forEach((key) =>
-      res.setHeader(key, returnedHeaders[key]),
+      res.setHeader(key, returnedHeaders[key])
     )
 
     res.status(200).json(data)

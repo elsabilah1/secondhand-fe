@@ -1,18 +1,17 @@
+import cn from 'classnames'
+import FeatherIcon from 'feather-icons-react'
+import { withRouter } from 'next/router'
+import { useSelector } from 'react-redux'
 import Button from '../../base/Button'
 import Dropdown from '../../base/Dropdown'
-import FeatherIcon from 'feather-icons-react'
 import MenuProfile from '../../user/MenuProfile'
 import NotifItem from './NotifItem'
-import Text from '../../base/Text'
-import cn from 'classnames'
-import { useSelector } from 'react-redux'
-import { withRouter } from 'next/router'
 
 export default withRouter(function NavDesktop({ router }) {
-  const { user, error } = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth)
 
   const classes = cn(
-    'hover:text-primary-03 active:scale-95 active:text-primary-05',
+    'hover:text-primary-03 active:scale-95 active:text-primary-05'
   )
 
   return (
@@ -47,10 +46,6 @@ export default withRouter(function NavDesktop({ router }) {
               Masuk
             </span>
           </Button>
-
-          <div className="text-primary-03">
-            <Text>{error}</Text>
-          </div>
         </div>
       )}
     </>

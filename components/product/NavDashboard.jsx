@@ -1,8 +1,8 @@
-import FeatherIcon from 'feather-icons-react'
 import { Tab } from '@headlessui/react'
-import Text from '../base/Text'
 import cn from 'classnames'
+import FeatherIcon from 'feather-icons-react'
 import { useState } from 'react'
+import Text from '../base/Text'
 
 export default function NavDashboard() {
   const [categories] = useState({
@@ -54,7 +54,7 @@ const NavItem = ({ icon, title, titleMobile }) => {
           'group flex flex-none justify-between rounded-xl px-4 py-3 focus:outline-none md:w-full md:bg-white md:py-4 md:px-0',
           selected
             ? 'bg-primary-03 text-white md:bg-white md:text-primary-03'
-            : 'bg-primary-01',
+            : 'bg-primary-01'
         )
       }
     >

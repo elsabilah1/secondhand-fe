@@ -1,6 +1,6 @@
 import Button from '../base/Button'
-import Text from '../base/Text'
 import Modal from '../base/Modal'
+import Text from '../base/Text'
 
 export default function ModalChangeStatus({ isOpen = false, setIsOpen }) {
   return (
