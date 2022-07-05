@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { _axios } from '../../utils/Api'
+import axios from 'axios'
 
 export default async (req, res) => {
   const { method, body } = req
@@ -9,8 +9,8 @@ export default async (req, res) => {
   }
 
   try {
-    const response = await _axios
-      .post('/auth/login', body)
+    const response = await axios
+      .post(`${process.env.NEXT_PUBLIC_SERVER}/auth/login`, body)
       .then((res) => res)
       .catch((error) => {
         return { error }

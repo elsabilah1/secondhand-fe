@@ -2,13 +2,11 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { Get, Post } from '../../utils/Api'
 
-export const fetchUser = createAsyncThunk('auth/user', async (_, thunkAPI) => {
+export const fetchUser = createAsyncThunk('auth/user', async () => {
   const { data, error } = await Get('/user/profile')
 
   if (error) {
-    return thunkAPI.rejectWithValue({
-      error: error.data.message,
-    })
+    return null
   }
 
   return data
@@ -19,6 +17,7 @@ export const login = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const response = await axios.post('api/login', credentials)
+      console.log({ res: response })
       return response.data
     } catch (error) {
       return thunkAPI.rejectWithValue({
@@ -31,15 +30,15 @@ export const login = createAsyncThunk(
 export const register = createAsyncThunk(
   'auth/register',
   async (credentials, thunkAPI) => {
-    const { data, error } = await Post('/auth/register', credentials)
+    const response = await Post('/auth/register', credentials)
 
-    if (error) {
+    if (response.error) {
       return thunkAPI.rejectWithValue({
-        error: error.data.data[0].msg,
+        error: response.error.data.data[0].msg,
       })
     }
 
-    return data
+    return response
   }
 )
 
@@ -100,15 +99,10 @@ export const authSlice = createSlice({
 
     builder.addCase(fetchUser.fulfilled, (state, action) => {
       state.loading = false
-      state.user = action.payload.data
+      state.user = action.payload
     })
     builder.addCase(fetchUser.pending, (state) => {
       state.loading = true
-    })
-    builder.addCase(fetchUser.rejected, (state) => {
-      state.loading = false
-      state.error = true
-      // state.message = action.payload.error
     })
   },
 })

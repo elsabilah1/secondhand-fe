@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { NextResponse } from 'next/server'
 
 export async function middleware(req) {
@@ -5,6 +6,7 @@ export async function middleware(req) {
   const dashboardRoutes = path.startsWith('/dashboard')
   const profileRoutes = path.startsWith('/profile')
   const notifRoutes = path.startsWith('/notification')
+  const response = NextResponse.next()
 
   const token = req.cookies.get('token')
 
@@ -20,5 +22,5 @@ export async function middleware(req) {
     }
   }
 
-  return NextResponse.next()
+  return response
 }

@@ -6,7 +6,7 @@ export const getAllProduct = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await Get('/products')
-      return response.data
+      return response.data || null
     } catch (error) {
       return thunkAPI.rejectWithValue({
         error: error.response.data.data[0].msg,
@@ -20,7 +20,7 @@ export const getProductById = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await Get(`/user/products/${id}`)
-      return response.data
+      return response
     } catch (error) {
       return thunkAPI.rejectWithValue({
         error: error.response.data.data[0].msg,
@@ -34,7 +34,7 @@ export const getUserProduct = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await Get('/user/products')
-      return response.data
+      return response.data || null
     } catch (error) {
       return thunkAPI.rejectWithValue({
         error: error.response.data.data[0].msg,
@@ -46,11 +46,7 @@ export const getUserProduct = createAsyncThunk(
 export const createNewProduct = createAsyncThunk(
   'product/create',
   async (data, thunkApi) => {
-    const { data: resData, error } = await PostFormData(
-      '/user/products',
-      data.formData,
-      data.token
-    )
+    const { data: resData, error } = await PostFormData('/user/products', data)
 
     if (error) {
       const message = error.data.data
@@ -83,8 +79,7 @@ export const productSlice = createSlice({
     builder.addCase(getAllProduct.fulfilled, (state, action) => {
       state.error = false
       state.loading = false
-      state.message = action.payload.message
-      state.itemList = action.payload.data
+      state.itemList = action.payload
     })
     builder.addCase(getAllProduct.pending, (state) => {
       state.loading = true
@@ -98,7 +93,7 @@ export const productSlice = createSlice({
     builder.addCase(getProductById.fulfilled, (state, action) => {
       state.error = false
       state.loading = false
-      // state.message = action.payload.message
+      state.message = action.payload.message
       state.item = action.payload.data
     })
     builder.addCase(getProductById.pending, (state) => {
@@ -113,8 +108,7 @@ export const productSlice = createSlice({
     builder.addCase(getUserProduct.fulfilled, (state, action) => {
       state.error = false
       state.loading = false
-      // state.message = action.payload.message
-      state.itemList = action.payload.data
+      state.itemList = action.payload
     })
     builder.addCase(getUserProduct.pending, (state) => {
       state.loading = true

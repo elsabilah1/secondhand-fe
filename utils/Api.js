@@ -10,18 +10,9 @@ export const _axios = axios.create({
   withCredentials: true,
 })
 
-_axios.interceptors.request.use(
-  async function (config) {
-    return config
-  },
-  function (error) {
-    return Promise.reject(error.response)
-  }
-)
-
 _axios.interceptors.response.use(
   function (response) {
-    return response
+    return response.data ? response.data : response
   },
   function (error) {
     return Promise.reject(error.response)
@@ -54,12 +45,11 @@ export const Post = async (url, params) => {
   }
 }
 
-export const PostFormData = async (url, params, token) => {
+export const PostFormData = async (url, params) => {
   try {
     const post = await _axios.post(url, params, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`,
       },
     })
     return post

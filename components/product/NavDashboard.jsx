@@ -28,7 +28,7 @@ export default function NavDashboard() {
           Kategori
         </Text>
       </div>
-      <div className="flex gap-4 overflow-x-auto md:block">
+      <div className="flex gap-4 overflow-x-auto py-1 md:block">
         {Object.keys(categories).map((category, idx) => (
           <div key={idx}>
             <NavItem

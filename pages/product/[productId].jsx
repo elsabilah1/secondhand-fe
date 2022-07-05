@@ -23,7 +23,6 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
 export default withRouter(function DetailProduct({ router }) {
   const [isOpen, setIsOpen] = useState(false)
   const { item } = useSelector((state) => state.product)
-  console.log(item)
 
   return (
     <>
