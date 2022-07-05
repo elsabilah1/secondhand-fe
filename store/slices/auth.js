@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { Get, Post } from '../../utils/Api'
+import { Get, Post, PutFormData } from '../../utils/Api'
 
 export const fetchUser = createAsyncThunk('auth/user', async () => {
   const { data, error } = await Get('/user/profile')
@@ -50,6 +50,24 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue({ error: error.message })
   }
 })
+
+export const updateProfileUser = createAsyncThunk(
+  'user/update',
+  async (data, thunkAPI) => {
+    const { data: resData, error } = await PutFormData('/user/profile', data)
+    if (error) {
+      const message = error.data.data
+        ? error.data.data[0].msg
+        : error.data.message
+
+      return thunkAPI.rejectWithValue({
+        error: message,
+      })
+    }
+    console.log(error)
+    return resData
+  }
+)
 
 const initialState = {
   loading: false,
@@ -103,6 +121,20 @@ export const authSlice = createSlice({
     })
     builder.addCase(fetchUser.pending, (state) => {
       state.loading = true
+    })
+
+    builder.addCase(updateProfileUser.fulfilled, (state, action) => {
+      state.loading = false
+      state.error = false
+      state.message = action.payload.message
+    })
+    builder.addCase(updateProfileUser.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(updateProfileUser.rejected, (state, action) => {
+      state.loading = false
+      state.error = true
+      state.message = action.payload.error
     })
   },
 })
