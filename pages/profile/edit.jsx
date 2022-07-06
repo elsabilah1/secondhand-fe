@@ -12,7 +12,7 @@ import SelectField from '../../components/base/SelectField'
 import TextareaField from '../../components/base/TextareaField'
 import MainLayout from '../../components/layout/MainLayout'
 import { wrapper } from '../../store'
-import { fetchUser, updateProfileUser } from '../../store/slices/auth'
+import { fetchUser, reset, updateProfileUser } from '../../store/slices/auth'
 import { Get } from '../../utils/Api'
 import { requireAuth } from '../../utils/requireAuth'
 
@@ -31,7 +31,16 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
 
 export default withRouter(function DetailProfile({ router, cities }) {
   const dispatch = useDispatch()
-  const { loading, error, message } = useSelector((state) => state.auth)
+  const { user, loading, error, message } = useSelector((state) => state.auth)
+  const [selected, setSelected] = useState(user?.City || null)
+  const [selectedImage, setSelectedImage] = useState()
+  const [formValues, setFormValues] = useState({
+    name: user.name,
+    address: user.address,
+    phoneNumber: user.phoneNumber,
+  })
+
+  console.log(selectedImage)
 
   if (error && message) {
     setTimeout(() => {
@@ -45,18 +54,6 @@ export default withRouter(function DetailProfile({ router, cities }) {
       router.replace('/dashboard')
     }, 4000)
   }
-  const { user } = useSelector((state) => state.auth)
-  console.log(user)
-
-  const [selected, setSelected] = useState(user.City)
-  const [selectedImages, setSelectedImages] = useState([])
-
-  const [formValues, setFormValues] = useState({
-    name: user.name,
-    cityId: user.cityId,
-    address: user.address,
-    phoneNumber: user.phoneNumber,
-  })
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -70,7 +67,7 @@ export default withRouter(function DetailProfile({ router, cities }) {
     }
 
     const formData = new FormData()
-    selectedImages.forEach((file) => formData.append('profilePicture', file))
+    formData.append('profilePicture', selectedImage)
 
     for (const key in formValues) {
       formData.append(key, formValues[key])
@@ -81,31 +78,14 @@ export default withRouter(function DetailProfile({ router, cities }) {
     dispatch(updateProfileUser(formData))
   }
 
-  const onDrop = useCallback((acceptedFiles) => {
-    setSelectedImages(
-      acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        })
-      )
-    )
+  const onDrop = useCallback((acceptedFile) => {
+    console.log(acceptedFile[0])
+    acceptedFile[0].preview = URL.createObjectURL(acceptedFile)
+    setSelectedImage(acceptedFile[0])
   }, [])
 
-  const selected_images = selectedImages?.map((file, idx) => (
-    <div key={idx} onClick={() => setSelectedImages([])}>
-      <Image
-        src={file.preview}
-        alt={file.name}
-        width={96}
-        height={96}
-        objectFit="cover"
-        className="rounded-xl"
-      />
-    </div>
-  ))
-
-  const handleDelete = (idx) => {
-    setSelectedImages((prev) => prev.filter((_, i) => i !== idx))
+  const handleDelete = () => {
+    setSelectedImage({})
   }
 
   return (
@@ -131,35 +111,49 @@ export default withRouter(function DetailProfile({ router, cities }) {
               onSubmit={(e) => handleSubmit(e)}
             >
               <div className="relative flex justify-center">
-                <Dropzone maxFiles={1} onDrop={onDrop}>
-                  <button className="group h-24 w-24 rounded-xl border border-primary-01 bg-primary-01 active:scale-95 group-hover:border-primary-03">
-                    <FeatherIcon
-                      icon="camera"
-                      className="inline h-6 w-6 text-primary-04 active:scale-95 group-hover:text-primary-03"
+                <Dropzone multiple={false} onDrop={onDrop}>
+                  <button
+                    type="button"
+                    className="group relative h-24 w-24 rounded-xl border border-primary-01 active:scale-95 group-hover:border-primary-03"
+                  >
+                    <Image
+                      src={user.profilePicture}
+                      alt={user.name}
+                      layout="fill"
+                      objectFit="contain"
+                      className="rounded-xl"
                     />
+                    <div className="absolute inset-0 grid place-items-center rounded-xl bg-primary-01/70 opacity-40 group-hover:opacity-100">
+                      <FeatherIcon
+                        icon="camera"
+                        className="inline h-6 w-6 text-primary-04 active:scale-95 group-hover:text-primary-03"
+                      />
+                    </div>
                   </button>
                 </Dropzone>
-                <div className="absolute">
-                  {selectedImages?.map((file, idx) => (
-                    <div key={idx} className="relative h-24 w-24 rounded-xl">
+                {selectedImage && (
+                  <div className="absolute">
+                    <div
+                      key={user.id}
+                      className="relative h-24 w-24 rounded-xl"
+                    >
                       <Image
-                        src={file.preview}
-                        alt={file.name}
+                        src={selectedImage.preview}
+                        alt={selectedImage.name}
                         layout="fill"
                         objectFit="contain"
                       />
                       <button
                         type="button"
                         className="absolute z-50 h-full w-full cursor-pointer rounded-sm bg-danger/20 opacity-0 transition-all hover:opacity-100"
-                        onClick={() => handleDelete(idx)}
+                        onClick={() => handleDelete()}
                       >
                         <FeatherIcon icon="x" className="w-full text-danger" />
                       </button>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                )}
               </div>
-
               <InputField
                 type="text"
                 placeholder="Nama"
