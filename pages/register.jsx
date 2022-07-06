@@ -1,6 +1,6 @@
 import { withRouter } from 'next/router'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Button from '../components/base/Button'
 import InputField from '../components/base/InputField'
 import Text from '../components/base/Text'
@@ -16,6 +16,12 @@ const initialState = {
 export default withRouter(function Register({ router }) {
   const dispatch = useDispatch()
   const [formValues, setFormValues] = useState(initialState)
+  const { error, message } = useSelector((state) => state.auth)
+
+  if (!error && message) {
+    setFormValues(initialState)
+    router.replace('/login')
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target

@@ -5,9 +5,7 @@ import { Get, Post, PutFormData } from '../../utils/Api'
 export const fetchUser = createAsyncThunk('auth/user', async () => {
   const { data, error } = await Get('/user/profile')
 
-  if (error) {
-    return null
-  }
+  if (error) return null
 
   return data
 })
@@ -100,6 +98,7 @@ export const authSlice = createSlice({
     })
 
     builder.addCase(register.fulfilled, (state, action) => {
+      state.error = false
       state.loading = false
       state.message = action.payload.message
     })
