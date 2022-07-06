@@ -46,18 +46,18 @@ export const getUserProduct = createAsyncThunk(
 export const createNewProduct = createAsyncThunk(
   'product/create',
   async (data, thunkApi) => {
-    const { data: resData, error } = await PostFormData('/user/products', data)
+    const response = await PostFormData('/user/products', data)
 
-    if (error) {
-      const message = error.data.data
-        ? error.data.data[0].msg
-        : error.data.message
+    if (response.error) {
+      const message = response.error.data.data
+        ? response.error.data.data[0].msg
+        : response.error.data.message
 
       return thunkApi.rejectWithValue({
         error: message,
       })
     }
-    return resData
+    return response
   }
 )
 

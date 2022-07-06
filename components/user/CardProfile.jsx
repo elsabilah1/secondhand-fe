@@ -4,7 +4,7 @@ import Text from '../base/Text'
 
 export default withRouter(function CardProfile({ router, edit, user }) {
   return (
-    <div className="flex items-center justify-between rounded-2xl border p-4 shadow-sm">
+    <div className="flex items-center justify-between gap-3 rounded-2xl border p-4 shadow-sm">
       <div className="flex items-center gap-4">
         <Image
           src={user.profilePicture}

@@ -23,12 +23,12 @@ export default function CarouselProduct({ images }) {
             className="relative h-[300px] w-full md:h-[436px] md:rounded-2xl md:border"
           >
             <Image
-              src={img.preview ?? img}
+              src={img.preview || img}
               layout="fill"
               objectFit="contain"
               className="md:rounded-2xl"
               objectPosition="top"
-              alt={img.path ?? img}
+              alt={img.path || img}
             />
           </div>
         ))}

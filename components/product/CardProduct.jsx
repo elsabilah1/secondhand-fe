@@ -8,8 +8,8 @@ export default function CardProduct({ product }) {
       <div className="cursor-pointer rounded border px-2 py-4 shadow-sm">
         <div className="relative mb-2 h-24 w-full">
           <Image
-            src="/sample_product.png"
-            alt="name"
+            src={product.ProductResources[0].filename}
+            alt={product.name}
             layout="fill"
             objectFit="cover"
             className="rounded"
@@ -22,7 +22,7 @@ export default function CardProduct({ product }) {
         </div>
 
         <div className="mb-2 text-neutral-03">
-          <Text type="body/10">Aksesoris</Text>
+          <Text type="body/10">{product.ProductCategories.join(', ')}</Text>
         </div>
         <Text>Rp.{product.price}</Text>
       </div>

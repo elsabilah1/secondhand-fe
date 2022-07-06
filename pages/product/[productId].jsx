@@ -23,6 +23,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
 export default withRouter(function DetailProduct({ router }) {
   const [isOpen, setIsOpen] = useState(false)
   const { item } = useSelector((state) => state.product)
+  const { user } = useSelector((state) => state.auth)
+  const [images] = useState(item.ProductResources.map((item) => item.filename))
+  console.log({ item })
 
   return (
     <>
@@ -31,7 +34,7 @@ export default withRouter(function DetailProduct({ router }) {
         <MainLayout pageTitle="Detail Product">
           <div className="mx-auto mt-10 grid max-w-4xl grid-cols-7 gap-6">
             <div className="col-span-4">
-              <CarouselProduct />
+              <CarouselProduct images={images} />
               <DescProduct content={item.description} />
             </div>
             <div className="col-span-3 space-y-6">
@@ -40,7 +43,7 @@ export default withRouter(function DetailProduct({ router }) {
                   Saya Tertarik dan Ingin Nego
                 </Button>
               </CardPrice>
-              <CardProfile />
+              <CardProfile user={user} />
             </div>
           </div>
         </MainLayout>
@@ -53,12 +56,12 @@ export default withRouter(function DetailProduct({ router }) {
           </button>
         </div>
         <div className="absolute top-0 h-full w-full">
-          <CarouselProduct />
+          <CarouselProduct images={images} />
         </div>
         <div className="relative mt-[42vh] space-y-4 px-4 pb-20">
-          <CardPrice />
-          <CardProfile />
-          <DescProduct />
+          <CardPrice item={item} />
+          <CardProfile user={user} />
+          <DescProduct content={item.description} />
         </div>
         <div className="fixed bottom-0 mb-6 w-full px-4">
           <div className="px-6">
