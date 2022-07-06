@@ -24,7 +24,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
     await store.dispatch(fetchUser())
 
     const res = await Get('/products/categories')
-    const categories = res.data.data
+    const categories = res.data
     const { temp_product } = context.req.cookies
 
     return {

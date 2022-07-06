@@ -17,7 +17,6 @@ export const login = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const response = await axios.post('api/login', credentials)
-      console.log({ res: response })
       return response.data
     } catch (error) {
       return thunkAPI.rejectWithValue({
@@ -54,18 +53,17 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
 export const updateProfileUser = createAsyncThunk(
   'user/update',
   async (data, thunkAPI) => {
-    const { data: resData, error } = await PutFormData('/user/profile', data)
-    if (error) {
-      const message = error.data.data
-        ? error.data.data[0].msg
-        : error.data.message
+    const response = await PutFormData('/user/profile', data)
+    if (response.error) {
+      const message = response.error.data.data
+        ? response.error.data.data[0].msg
+        : response.error.data.message
 
       return thunkAPI.rejectWithValue({
         error: message,
       })
     }
-    console.log(error)
-    return resData
+    return response
   }
 )
 
@@ -80,7 +78,11 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    reset: () => initialState,
+    reset: (state) => {
+      state.loading = false
+      state.error = false
+      state.message = ''
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {

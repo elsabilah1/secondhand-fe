@@ -35,12 +35,10 @@ export default withRouter(function DetailProfile({ router, cities }) {
   const [selected, setSelected] = useState(user?.City || null)
   const [selectedImage, setSelectedImage] = useState()
   const [formValues, setFormValues] = useState({
-    name: user.name,
-    address: user.address,
-    phoneNumber: user.phoneNumber,
+    name: user.name ?? '',
+    address: user.address ?? '',
+    phoneNumber: user.phoneNumber ?? '',
   })
-
-  console.log(selectedImage)
 
   if (error && message) {
     setTimeout(() => {
@@ -73,19 +71,17 @@ export default withRouter(function DetailProfile({ router, cities }) {
       formData.append(key, formValues[key])
     }
 
-    console.log('test')
-
     dispatch(updateProfileUser(formData))
   }
 
   const onDrop = useCallback((acceptedFile) => {
-    console.log(acceptedFile[0])
-    acceptedFile[0].preview = URL.createObjectURL(acceptedFile)
-    setSelectedImage(acceptedFile[0])
+    const newProfile = acceptedFile[0]
+    newProfile.preview = URL.createObjectURL(newProfile)
+    setSelectedImage(newProfile)
   }, [])
 
   const handleDelete = () => {
-    setSelectedImage({})
+    setSelectedImage(null)
   }
 
   return (
@@ -116,19 +112,24 @@ export default withRouter(function DetailProfile({ router, cities }) {
                     type="button"
                     className="group relative h-24 w-24 rounded-xl border border-primary-01 active:scale-95 group-hover:border-primary-03"
                   >
-                    <Image
-                      src={user.profilePicture}
-                      alt={user.name}
-                      layout="fill"
-                      objectFit="contain"
-                      className="rounded-xl"
-                    />
-                    <div className="absolute inset-0 grid place-items-center rounded-xl bg-primary-01/70 opacity-40 group-hover:opacity-100">
-                      <FeatherIcon
-                        icon="camera"
-                        className="inline h-6 w-6 text-primary-04 active:scale-95 group-hover:text-primary-03"
-                      />
-                    </div>
+                    {!selectedImage && (
+                      <>
+                        <Image
+                          src={user.profilePicture}
+                          alt={user.name}
+                          layout="fill"
+                          objectFit="contain"
+                          className="rounded-xl"
+                          priority
+                        />
+                        <div className="absolute inset-0 grid place-items-center rounded-xl bg-primary-01/70 opacity-40 group-hover:opacity-100">
+                          <FeatherIcon
+                            icon="camera"
+                            className="inline h-6 w-6 text-primary-04 active:scale-95 group-hover:text-primary-03"
+                          />
+                        </div>
+                      </>
+                    )}
                   </button>
                 </Dropzone>
                 {selectedImage && (
@@ -142,6 +143,7 @@ export default withRouter(function DetailProfile({ router, cities }) {
                         alt={selectedImage.name}
                         layout="fill"
                         objectFit="contain"
+                        priority
                       />
                       <button
                         type="button"
