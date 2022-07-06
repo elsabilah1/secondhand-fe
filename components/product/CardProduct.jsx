@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Text from '../base/Text'
 
-export default function CardProduct({product}) {
+export default function CardProduct({ product }) {
   return (
     <Link href={`/product/${product.id}`} passHref>
       <div className="cursor-pointer rounded border px-2 py-4 shadow-sm">
