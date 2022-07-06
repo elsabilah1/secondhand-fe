@@ -19,7 +19,7 @@ export default withRouter(function CardProfile({ router, edit, user }) {
         <div className="">
           <Text weight="medium">{user?.name}</Text>
           <div className="text-neutral-03">
-            <Text type="body/10">{user?.city ?? 'kota kosong'}</Text>
+            <Text type="body/10">{user?.City?.city ?? 'kota kosong'}</Text>
           </div>
         </div>
       </div>
