@@ -5,9 +5,7 @@ import { Get, Post } from '../../utils/Api'
 export const fetchUser = createAsyncThunk('auth/user', async () => {
   const { data, error } = await Get('/user/profile')
 
-  if (error) {
-    return null
-  }
+  if (error) return null
 
   return data
 })
@@ -17,7 +15,6 @@ export const login = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const response = await axios.post('api/login', credentials)
-      console.log({ res: response })
       return response.data
     } catch (error) {
       return thunkAPI.rejectWithValue({
@@ -80,6 +77,7 @@ export const authSlice = createSlice({
     })
 
     builder.addCase(register.fulfilled, (state, action) => {
+      state.error = false
       state.loading = false
       state.message = action.payload.message
     })

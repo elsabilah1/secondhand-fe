@@ -7,7 +7,7 @@ export default function Alert({ error, message }) {
   const [msg, setMsg] = useState(message)
 
   return (
-    <div className="fixed right-6 top-6 z-[1000] max-w-md bg-white transition-all">
+    <div className="fixed right-6 top-6 z-[1000] max-w-xs bg-white transition-all">
       <div
         className={cn(
           'flex items-center justify-between gap-10 rounded px-3 py-2 font-bold',

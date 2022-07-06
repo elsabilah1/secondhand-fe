@@ -24,7 +24,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
     await store.dispatch(fetchUser())
 
     const res = await Get('/products/categories')
-    const categories = res.data.data
+    const categories = res.data
     const { temp_product } = context.req.cookies
 
     return {
@@ -40,11 +40,19 @@ export default withRouter(function SellProductForm({
 }) {
   const dispatch = useDispatch()
   const { loading, error, message } = useSelector((state) => state.product)
+  const { user } = useSelector((state) => state.auth)
   const [selected, setSelected] = useState(product.categories ?? [])
+  const [selectedImages, setSelectedImages] = useState(product.images ?? [])
   const [formValues, setFormValues] = useState(
     { ...product } ?? { categories: [] }
   )
-  const [selectedImages, setSelectedImages] = useState(product.images ?? [])
+
+  const hasNull = () => {
+    for (var data in user) {
+      if (user[data] == null) return true
+    }
+    return false
+  }
 
   if (error && message) {
     setTimeout(() => {
@@ -96,7 +104,11 @@ export default withRouter(function SellProductForm({
       formData.append(key, formValues[key])
     }
 
-    dispatch(createNewProduct(formData))
+    if (hasNull()) {
+      router.push('/profile/edit')
+    } else {
+      dispatch(createNewProduct(formData))
+    }
   }
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -174,17 +186,19 @@ export default withRouter(function SellProductForm({
               <div className="mb-2">
                 <Text type="body/12">Foto Produk</Text>
               </div>
-              <Dropzone multiple={true} maxFiles={5} onDrop={onDrop}>
-                <button
-                  type="button"
-                  className="group h-24 w-24 rounded-xl border border-dashed border-[#D0D0D0] group-hover:border-primary-03"
-                >
-                  <FeatherIcon
-                    icon="plus"
-                    className="inline h-6 w-6 text-neutral-03 active:scale-95 group-hover:text-primary-03"
-                  />
-                </button>
-              </Dropzone>
+              <div className="inline-flex">
+                <Dropzone multiple={true} maxFiles={5} onDrop={onDrop}>
+                  <button
+                    type="button"
+                    className="group h-24 w-24 rounded-xl border border-dashed border-[#D0D0D0] group-hover:border-primary-03"
+                  >
+                    <FeatherIcon
+                      icon="plus"
+                      className="inline h-6 w-6 text-neutral-03 active:scale-95 group-hover:text-primary-03"
+                    />
+                  </button>
+                </Dropzone>
+              </div>
               <div className="mt-4 grid grid-cols-3 gap-1 sm:grid-cols-5">
                 {selectedImages?.map((file, idx) => (
                   <div key={idx} className="relative h-24 w-24 rounded-xl">
