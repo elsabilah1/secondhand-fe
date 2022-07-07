@@ -1,13 +1,24 @@
 import FeatherIcon from 'feather-icons-react'
 import { withRouter } from 'next/router'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import Text from '../../../components/base/Text'
 import MainLayout from '../../../components/layout/MainLayout'
 import ModalAcceptBid from '../../../components/product/ModalAcceptBid'
 import CardProfile from '../../../components/user/CardProfile'
 // import ModalChangeStatus from '../../../components/product/ModalChangeStatus'
+import { wrapper } from '../../../store'
+import { fetchUser } from '../../../store/slices/auth'
+import { requireAuth } from '../../../utils/requireAuth'
+
+export const getServerSideProps = wrapper.getServerSideProps((store) =>
+  requireAuth(async () => {
+    await store.dispatch(fetchUser())
+  })
+)
 
 export default withRouter(function InfoPenawar({ router }) {
+  const { user } = useSelector((state) => state.auth)
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -28,7 +39,7 @@ export default withRouter(function InfoPenawar({ router }) {
 
           <div className="w-full space-y-4 md:w-10/12">
             <div>
-              <CardProfile />
+              <CardProfile user={user} />
             </div>
             <Text weight="bold">Daftar Produkmu yang Ditawar</Text>
 

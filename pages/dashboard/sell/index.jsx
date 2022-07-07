@@ -43,9 +43,7 @@ export default withRouter(function SellProductForm({
   const { user } = useSelector((state) => state.auth)
   const [selected, setSelected] = useState(product.categories ?? [])
   const [selectedImages, setSelectedImages] = useState(product.images ?? [])
-  const [formValues, setFormValues] = useState(
-    { ...product } ?? { categories: [] }
-  )
+  const [formValues, setFormValues] = useState({ ...product })
 
   const hasNull = () => {
     for (var data in user) {
@@ -89,26 +87,21 @@ export default withRouter(function SellProductForm({
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    Cookies.remove('temp_product')
-
     const formData = new FormData()
 
-    if (selected.length > 0) {
-      formValues.categories = selected.map((item) => categories.push(item.id))
-    }
-
+    selected.forEach((file) => formData.append('categories', file.id))
     selectedImages.forEach((file) => formData.append('images', file))
-    setFormValues({ ...formValues })
 
     for (const key in formValues) {
       formData.append(key, formValues[key])
     }
 
     if (hasNull()) {
-      router.push('/profile/edit')
-    } else {
-      dispatch(createNewProduct(formData))
+      return router.push('/profile/edit')
     }
+
+    Cookies.remove('temp_product')
+    dispatch(createNewProduct(formData))
   }
 
   const onDrop = useCallback((acceptedFiles) => {

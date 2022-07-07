@@ -52,7 +52,7 @@ export default withRouter(function SellerDashboard({ router }) {
                 <Text type="body/12">Tambah Produk</Text>
               </button>
               {itemList?.map((item) => (
-                <CardProduct product={item} key={item.id} />
+                <CardProduct item={item} key={item.id} />
               ))}
             </Tab.Panel>
 
@@ -81,7 +81,7 @@ export default withRouter(function SellerDashboard({ router }) {
             {/* Sold Products */}
             <Tab.Panel className="mt-6 grid grid-cols-2 gap-6 px-4 sm:grid-cols-3 md:col-span-4 md:mt-0 md:px-0 md:pr-4">
               {itemList?.map((item) => (
-                <CardProduct product={item} key={item.id} />
+                <CardProduct item={item} key={item.id} />
               ))}
             </Tab.Panel>
           </Tab.Panels>

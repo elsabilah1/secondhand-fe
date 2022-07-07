@@ -1,11 +1,25 @@
 import cn from 'classnames'
 import FeatherIcon from 'feather-icons-react'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { getProductList } from '../../store/slices/product'
 import Text from '../base/Text'
 
 export default function FilterProduct({ data }) {
-  const classes = cn(
-    'flex gap-2 py-[12px] px-4 md:py-[14px] md:px-6 rounded-2xl active:scale-95 transition-all focus:outline-none focus:ring bg-primary-01 text-neutral-05 border-primary-01 hover:bg-primary-04 hover:text-neutral-01'
-  )
+  const dispatch = useDispatch()
+  const [cat, setCat] = useState(null)
+
+  const classes = (active) =>
+    cn(
+      'flex gap-2 py-[12px] px-4 md:py-[14px] md:px-6 rounded-2xl active:scale-95 transition-all focus:outline-none focus:ring  hover:bg-primary-04 hover:text-neutral-01',
+      active
+        ? 'bg-primary-04 text-neutral-01'
+        : 'bg-primary-01 text-neutral-05 border-primary-01'
+    )
+
+  useEffect(() => {
+    dispatch(getProductList(cat))
+  }, [cat, dispatch])
 
   return (
     <div className="z-10 mb-10 space-y-4">
@@ -19,10 +33,18 @@ export default function FilterProduct({ data }) {
         </Text>
       </div>
       <div className="relative flex gap-4 overflow-x-auto p-1">
-        {data.map((cat) => (
-          <button className={classes} key={cat.id}>
+        <button className={classes(cat === null)} onClick={() => setCat(null)}>
+          <FeatherIcon className="inline h-5 w-5" icon="search" />
+          <Text>Semua</Text>
+        </button>
+        {data.map((item) => (
+          <button
+            className={classes(cat === item.category)}
+            key={item.id}
+            onClick={() => setCat(item.category)}
+          >
             <FeatherIcon className="inline h-5 w-5" icon="search" />
-            <Text>{cat.category}</Text>
+            <Text>{item.category}</Text>
           </button>
         ))}
       </div>

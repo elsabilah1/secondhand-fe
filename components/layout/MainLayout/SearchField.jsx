@@ -1,12 +1,17 @@
 import FeatherIcon from 'feather-icons-react'
+import { useDispatch } from 'react-redux'
+import { getProductList, searchProduct } from '../../../store/slices/product'
 import Text from '../../base/Text'
 
 export default function SearchField({ title }) {
+  const dispatch = useDispatch()
+
   const handleSearch = (e) => {
     e.preventDefault()
     const keyword = e.target.keyword.value
+    if (keyword) return dispatch(searchProduct(keyword))
 
-    console.log(keyword)
+    dispatch(getProductList())
   }
 
   return (

@@ -7,14 +7,14 @@ import CardProduct from '../components/product/CardProduct'
 import FilterProduct from '../components/product/FilterProduct'
 import { wrapper } from '../store'
 import { fetchUser } from '../store/slices/auth'
-import { getAllProduct } from '../store/slices/product'
+import { getProductList } from '../store/slices/product'
 import { Get } from '../utils/Api'
 import { requireAuth } from '../utils/requireAuth'
 
 export const getServerSideProps = wrapper.getServerSideProps((store) =>
   requireAuth(async () => {
     await store.dispatch(fetchUser())
-    await store.dispatch(getAllProduct())
+    await store.dispatch(getProductList())
     const res = await Get('/products/categories')
     const categories = res.data
 
@@ -26,16 +26,22 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
 
 export default withRouter(function Home({ router, categories }) {
   const { user, loading } = useSelector((state) => state.auth)
-  const { itemList } = useSelector((state) => state.product)
+  const { itemList, loading: productLoading } = useSelector(
+    (state) => state.product
+  )
 
   return (
     <>
       <MainLayout pageTitle="Home">
         <FilterProduct data={categories} />
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
-          {itemList?.map((item) => (
-            <CardProduct product={item} key={item.id} />
-          ))}
+          {productLoading ? (
+            <div>Loading...</div>
+          ) : (
+            itemList?.map((item, idx) => (
+              <CardProduct item={item} key={idx} />
+            )) ?? <div>Empty List</div>
+          )}
         </div>
       </MainLayout>
       <div

@@ -8,7 +8,6 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* Dots For CarouselDesc */
 .slick-dots {
   top: 404px;
 }
@@ -36,10 +35,6 @@
     opacity: 1 !important;
     color: #8a8a8a !important;
   }
-}
-/* Dots For CarouselDesc */
-* {
-  font-family: 'Poppins', sans-serif;
 }
 
 body {
