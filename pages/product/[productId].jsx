@@ -24,8 +24,7 @@ export default withRouter(function DetailProduct({ router }) {
   const [isOpen, setIsOpen] = useState(false)
   const { item } = useSelector((state) => state.product)
   const { user } = useSelector((state) => state.auth)
-  const [images] = useState(item.ProductResources.map((item) => item.filename))
-  console.log({ item })
+  const images = item?.ProductResources?.map((item) => item.filename)
 
   return (
     <>

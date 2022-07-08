@@ -122,7 +122,7 @@ export default withRouter(function DetailProfile({ router, cities }) {
                           className="rounded-xl"
                           priority
                         />
-                        <div className="absolute inset-0 grid place-items-center rounded-xl bg-primary-01/70 opacity-40 group-hover:opacity-100">
+                        <div className="absolute inset-0 grid place-items-center rounded-xl bg-primary-01/70 opacity-20 group-hover:opacity-100">
                           <FeatherIcon
                             icon="camera"
                             className="inline h-6 w-6 text-primary-04 active:scale-95 group-hover:text-primary-03"

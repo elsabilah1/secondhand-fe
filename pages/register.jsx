@@ -19,7 +19,6 @@ export default withRouter(function Register({ router }) {
   const { error, message } = useSelector((state) => state.auth)
 
   if (!error && message) {
-    setFormValues(initialState)
     router.replace('/login')
   }
 

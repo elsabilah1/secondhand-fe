@@ -24,6 +24,8 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
 export default withRouter(function SellerDashboard({ router }) {
   const { user } = useSelector((state) => state.auth)
   const { itemList } = useSelector((state) => state.product)
+  const soldList = itemList.filter((item) => item.status === false)
+
   return (
     <MainLayout pageTitle="Dashboard" headerTitleBold="Daftar Jual Saya">
       <div className="mt-2 flex flex-col gap-6 md:mt-10">
@@ -80,9 +82,13 @@ export default withRouter(function SellerDashboard({ router }) {
 
             {/* Sold Products */}
             <Tab.Panel className="mt-6 grid grid-cols-2 gap-6 px-4 sm:grid-cols-3 md:col-span-4 md:mt-0 md:px-0 md:pr-4">
-              {itemList?.map((item) => (
-                <CardProduct item={item} key={item.id} />
-              ))}
+              {soldList?.length > 0 ? (
+                soldList.map((item) => (
+                  <CardProduct item={item} key={item.id} />
+                ))
+              ) : (
+                <div>Empty List</div>
+              )}
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
