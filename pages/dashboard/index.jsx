@@ -11,20 +11,17 @@ import NavDashboard from '../../components/product/NavDashboard'
 import CardProfile from '../../components/user/CardProfile'
 import { wrapper } from '../../store'
 import { fetchUser } from '../../store/slices/auth'
-import { getUserProduct } from '../../store/slices/product'
 import { requireAuth } from '../../utils/requireAuth'
 
 export const getServerSideProps = wrapper.getServerSideProps((store) =>
   requireAuth(async () => {
     await store.dispatch(fetchUser())
-    await store.dispatch(getUserProduct())
   })
 )
 
 export default withRouter(function SellerDashboard({ router }) {
   const { user } = useSelector((state) => state.auth)
-  const { itemList } = useSelector((state) => state.product)
-  const soldList = itemList.filter((item) => item.status === false)
+  const { itemList, loading } = useSelector((state) => state.product)
 
   return (
     <MainLayout pageTitle="Dashboard" headerTitleBold="Daftar Jual Saya">
@@ -53,41 +50,53 @@ export default withRouter(function SellerDashboard({ router }) {
                 <FeatherIcon icon="plus" className="mb-2 inline" />
                 <Text type="body/12">Tambah Produk</Text>
               </button>
-              {itemList?.map((item) => (
-                <CardProduct item={item} key={item.id} />
-              ))}
+              {loading ? (
+                <div>Loading...</div>
+              ) : (
+                itemList?.map((item) => (
+                  <CardProduct item={item} key={item.id} />
+                )) ?? <div>Empty List</div>
+              )}
             </Tab.Panel>
 
             {/* Wishlist Products */}
             <Tab.Panel className="mt-6 grid grid-cols-2 gap-6 px-4 sm:grid-cols-3 md:col-span-4 md:mt-0 md:px-0 md:pr-4">
-              <div className="col-span-full grid h-full place-items-center">
-                <div className="w-full max-w-[300px] space-y-5 text-center text-neutral-03 md:max-w-xs">
-                  <div className="mx-auto mt-20 max-w-[172px] md:mt-0 md:max-w-none">
-                    <Image
-                      src="/empty_wishlist.png"
-                      alt="empty wishlist"
-                      width={276}
-                      height={194}
-                      objectFit="contain"
-                      layout="responsive"
-                    />
+              {loading ? (
+                <div>Loading...</div>
+              ) : (
+                itemList?.map((item) => (
+                  <CardProduct item={item} key={item.id} />
+                )) ?? (
+                  <div className="col-span-full grid h-full place-items-center">
+                    <div className="w-full max-w-[300px] space-y-5 text-center text-neutral-03 md:max-w-xs">
+                      <div className="mx-auto mt-20 max-w-[172px] md:mt-0 md:max-w-none">
+                        <Image
+                          src="/empty_wishlist.png"
+                          alt="empty wishlist"
+                          width={276}
+                          height={194}
+                          objectFit="contain"
+                          layout="responsive"
+                        />
+                      </div>
+                      <Text>
+                        Belum ada produkmu yang diminati nih, sabar ya rejeki
+                        nggak kemana kok
+                      </Text>
+                    </div>
                   </div>
-                  <Text>
-                    Belum ada produkmu yang diminati nih, sabar ya rejeki nggak
-                    kemana kok
-                  </Text>
-                </div>
-              </div>
+                )
+              )}
             </Tab.Panel>
 
             {/* Sold Products */}
             <Tab.Panel className="mt-6 grid grid-cols-2 gap-6 px-4 sm:grid-cols-3 md:col-span-4 md:mt-0 md:px-0 md:pr-4">
-              {soldList?.length > 0 ? (
-                soldList.map((item) => (
-                  <CardProduct item={item} key={item.id} />
-                ))
+              {loading ? (
+                <div>Loading...</div>
               ) : (
-                <div>Empty List</div>
+                itemList?.map((item) => (
+                  <CardProduct item={item} key={item.id} />
+                )) ?? <div>Empty List</div>
               )}
             </Tab.Panel>
           </Tab.Panels>

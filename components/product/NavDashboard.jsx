@@ -2,6 +2,8 @@ import { Tab } from '@headlessui/react'
 import cn from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { getUserProduct } from '../../store/slices/product'
 import Text from '../base/Text'
 
 export default function NavDashboard() {
@@ -14,10 +16,12 @@ export default function NavDashboard() {
     wishlist: {
       title: 'Diminati',
       icon: 'heart',
+      sort: 'wishlist',
     },
     sold: {
       title: 'Terjual',
       icon: 'dollar-sign',
+      sort: 'sold',
     },
   })
 
@@ -32,6 +36,7 @@ export default function NavDashboard() {
         {Object.keys(categories).map((category, idx) => (
           <div key={idx}>
             <NavItem
+              sort={categories[category].sort || ''}
               icon={categories[category].icon}
               title={categories[category].title}
               titleMobile={categories[category].titleMobile}
@@ -46,7 +51,9 @@ export default function NavDashboard() {
   )
 }
 
-const NavItem = ({ icon, title, titleMobile }) => {
+const NavItem = ({ icon, title, titleMobile, sort }) => {
+  const dispatch = useDispatch()
+
   return (
     <Tab
       className={({ selected }) =>
@@ -57,6 +64,7 @@ const NavItem = ({ icon, title, titleMobile }) => {
             : 'bg-primary-01'
         )
       }
+      onClick={() => dispatch(getUserProduct(sort))}
     >
       <div className="flex items-center gap-2">
         <FeatherIcon icon={icon} className="h-5 w-5 md:h-6 md:w-6" />

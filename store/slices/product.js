@@ -47,9 +47,9 @@ export const getProductById = createAsyncThunk(
 
 export const getUserProduct = createAsyncThunk(
   'product/user',
-  async (_, thunkAPI) => {
+  async (sort, thunkAPI) => {
     try {
-      const response = await Get('/user/products')
+      const response = await Get(`/user/products?sortBy=${sort}`)
       return response.data || null
     } catch (error) {
       return thunkAPI.rejectWithValue({
