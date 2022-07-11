@@ -1,21 +1,41 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+import Cookies from 'js-cookie'
 import Head from 'next/head'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { _axios } from '../../../utils/Api'
 import Loader from '../../base/Loader'
 import Carousel from './CarouselHome'
 import Header from './Header'
 import NavMobile from './NavMobile'
 
-export default function MainLayout({
+const MainLayout = ({
   children,
   pageTitle,
   headerTitle,
   headerTitleBold,
   arrowLink,
-}) {
+}) => {
   const [showNav, setShowNav] = useState(false)
   const { loading } = useSelector((state) => state.auth)
+
+  useEffect(() => {
+    const token = Cookies.get('token')
+    if (token) {
+      const requestInt = _axios.interceptors.request.use(
+        (config) => {
+          config.headers.Authorization = `Bearer ${token}`
+          return config
+        },
+        (error) => {
+          // eslint-disable-next-line no-undef
+          return Promise.reject(error.response)
+        }
+      )
+      return () => {
+        _axios.interceptors.request.eject(requestInt)
+      }
+    }
+  }, [])
 
   return (
     <>
@@ -43,3 +63,5 @@ export default function MainLayout({
     </>
   )
 }
+
+export default MainLayout

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { getProductList, searchProduct } from '../../../store/slices/product'
 import Text from '../../base/Text'
 
-export default function SearchField({ title }) {
+const SearchField = ({ title }) => {
   const dispatch = useDispatch()
 
   const handleSearch = (e) => {
@@ -39,3 +39,5 @@ export default function SearchField({ title }) {
     </>
   )
 }
+
+export default SearchField

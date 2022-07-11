@@ -3,7 +3,7 @@ import FeatherIcon from 'feather-icons-react'
 import { useState } from 'react'
 import Text from './Text'
 
-export default function Alert({ error, message }) {
+const Alert = ({ error, message }) => {
   const [msg, setMsg] = useState(message)
 
   return (
@@ -23,3 +23,5 @@ export default function Alert({ error, message }) {
     </div>
   )
 }
+
+export default Alert

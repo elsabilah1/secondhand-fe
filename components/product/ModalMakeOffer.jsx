@@ -4,7 +4,7 @@ import InputField from '../base/InputField'
 import Modal from '../base/Modal'
 import Text from '../base/Text'
 
-export default function ModalMakeBid({ isOpen = false, setIsOpen }) {
+const ModalMakeOffer = ({ isOpen = false, setIsOpen }) => {
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Masukkan Harga Tawarmu">
       <div className="mt-4 mb-6">
@@ -40,3 +40,5 @@ export default function ModalMakeBid({ isOpen = false, setIsOpen }) {
     </Modal>
   )
 }
+
+export default ModalMakeOffer

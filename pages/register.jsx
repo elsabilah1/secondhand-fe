@@ -1,4 +1,4 @@
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '../components/base/Button'
@@ -7,16 +7,15 @@ import Text from '../components/base/Text'
 import AuthLayout from '../components/layout/AuthLayout'
 import { register } from '../store/slices/auth'
 
-const initialState = {
-  name: '',
-  email: '',
-  password: '',
-}
-
-export default withRouter(function Register({ router }) {
+const Register = () => {
+  const router = useRouter()
   const dispatch = useDispatch()
-  const [formValues, setFormValues] = useState(initialState)
   const { error, message } = useSelector((state) => state.auth)
+  const [formValues, setFormValues] = useState({
+    name: '',
+    email: '',
+    password: '',
+  })
 
   if (!error && message) {
     router.replace('/login')
@@ -36,7 +35,7 @@ export default withRouter(function Register({ router }) {
   }
 
   return (
-    <AuthLayout pageTitle="Register">
+    <>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="mb-10 space-y-6">
           <Text type="heading/24" weight="bold">
@@ -79,6 +78,12 @@ export default withRouter(function Register({ router }) {
           <Text weight="bold">Masuk di sini</Text>
         </button>
       </div>
-    </AuthLayout>
+    </>
   )
-})
+}
+
+export default Register
+
+Register.getLayout = (page) => {
+  return <AuthLayout pageTitle="Register">{page}</AuthLayout>
+}

@@ -2,14 +2,14 @@ import FeatherIcon from 'feather-icons-react'
 import { useState } from 'react'
 import Text from './Text'
 
-export default function InputField({
+const InputField = ({
   label,
   type,
   defaultValue,
   name,
   placeholder,
   onChange,
-}) {
+}) => {
   const [showPassword, setShowPassword] = useState(false)
   return (
     <div className="w-full">
@@ -41,3 +41,5 @@ export default function InputField({
     </div>
   )
 }
+
+export default InputField

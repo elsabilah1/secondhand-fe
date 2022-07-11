@@ -4,7 +4,7 @@ import Button from '../base/Button'
 import Modal from '../base/Modal'
 import Text from '../base/Text'
 
-export default function ModalAcceptBid({ isOpen = false, setIsOpen }) {
+const ModalAcceptOffer = ({ isOpen = false, setIsOpen }) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -73,3 +73,5 @@ export default function ModalAcceptBid({ isOpen = false, setIsOpen }) {
     </Modal>
   )
 }
+
+export default ModalAcceptOffer

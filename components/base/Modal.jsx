@@ -3,7 +3,7 @@ import FeatherIcon from 'feather-icons-react'
 import { Fragment } from 'react'
 import Text from './Text'
 
-export default function Modal({ isOpen, setIsOpen, children, title }) {
+const Modal = ({ isOpen, setIsOpen, children, title }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
@@ -56,3 +56,5 @@ export default function Modal({ isOpen, setIsOpen, children, title }) {
     </Transition>
   )
 }
+
+export default Modal

@@ -2,7 +2,7 @@ import { Popover, Transition } from '@headlessui/react'
 import FeatherIcon from 'feather-icons-react'
 import { Fragment } from 'react'
 
-export default function Dropdown({ icon, children }) {
+const Dropdown = ({ icon, children }) => {
   return (
     <div className="flex items-center">
       <Popover className="relative">
@@ -36,3 +36,5 @@ export default function Dropdown({ icon, children }) {
     </div>
   )
 }
+
+export default Dropdown

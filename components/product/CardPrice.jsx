@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Text from '../base/Text'
 
-export default function CardPrice({ children, item }) {
+const CardPrice = ({ children, item }) => {
   const [categories] = useState(
     item?.categories?.map((item) => item.category) ?? []
   )
@@ -28,3 +28,5 @@ export default function CardPrice({ children, item }) {
     </div>
   )
 }
+
+export default CardPrice

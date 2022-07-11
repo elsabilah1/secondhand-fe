@@ -1,13 +1,13 @@
 import cn from 'classnames'
 import Text from './Text'
 
-export default function Button({
+const Button = ({
   children,
   variant = 'primary',
   width,
   onClick,
   type = 'button',
-}) {
+}) => {
   const classes = cn(
     'py-[14px] px-6  rounded-2xl border border-primary-04 active:scale-95 transition-all focus:outline-none focus:ring',
     variant === 'primary' &&
@@ -28,3 +28,5 @@ export default function Button({
     </button>
   )
 }
+
+export default Button

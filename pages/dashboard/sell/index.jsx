@@ -1,17 +1,19 @@
 import FeatherIcon from 'feather-icons-react'
 import Cookies from 'js-cookie'
 import Image from 'next/image'
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Alert from '../../../components/base/Alert'
-import Button from '../../../components/base/Button'
-import Dropzone from '../../../components/base/Dropzone'
-import InputField from '../../../components/base/InputField'
-import Loader from '../../../components/base/Loader'
-import SelectField from '../../../components/base/SelectField'
-import Text from '../../../components/base/Text'
-import TextareaField from '../../../components/base/TextareaField'
+import {
+  Alert,
+  Button,
+  Dropzone,
+  InputField,
+  Loader,
+  SelectField,
+  Text,
+  TextAreaField,
+} from '../../../components/base'
 import MainLayout from '../../../components/layout/MainLayout'
 import { wrapper } from '../../../store'
 import { fetchUser } from '../../../store/slices/auth'
@@ -33,11 +35,8 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
   })
 )
 
-export default withRouter(function SellProductForm({
-  router,
-  categories,
-  product,
-}) {
+const SellProductForm = ({ categories, product }) => {
+  const router = useRouter()
   const dispatch = useDispatch()
   const { loading, error, message } = useSelector((state) => state.product)
   const { user } = useSelector((state) => state.auth)
@@ -121,113 +120,119 @@ export default withRouter(function SellProductForm({
     <>
       {loading && <Loader />}
       {message && <Alert error={error} message={message} />}
-      <MainLayout
-        pageTitle="Jual Produk"
-        headerTitle="Lengkapi Detail Produk"
-        arrowLink="/dashboard"
-      >
-        <div className="mx-auto mt-6 flex max-w-2xl md:my-10">
-          <div className="hidden w-2/12 md:block">
-            <button onClick={() => router.replace('/dashboard')}>
-              <FeatherIcon icon="arrow-left" />
-            </button>
-          </div>
+      <div className="mx-auto mt-6 flex max-w-2xl md:my-10">
+        <div className="hidden w-2/12 md:block">
+          <button onClick={() => router.replace('/dashboard')}>
+            <FeatherIcon icon="arrow-left" />
+          </button>
+        </div>
 
-          <form
-            encType="multipart/form-data"
-            className="w-full space-y-4 md:w-10/12"
-            onSubmit={(e) => handleSubmit(e)}
-          >
-            <InputField
-              type="text"
-              placeholder="Nama Produk"
-              label="Nama Produk"
-              name="name"
-              defaultValue={formValues.name ?? ''}
-              onChange={handleInputChange}
-            />
+        <form
+          encType="multipart/form-data"
+          className="w-full space-y-4 md:w-10/12"
+          onSubmit={(e) => handleSubmit(e)}
+        >
+          <InputField
+            type="text"
+            placeholder="Nama Produk"
+            label="Nama Produk"
+            name="name"
+            defaultValue={formValues.name ?? ''}
+            onChange={handleInputChange}
+          />
 
-            <InputField
-              type="text"
-              placeholder="Rp 0,00"
-              label="Harga Produk"
-              name="price"
-              defaultValue={formValues.price ?? ''}
-              onChange={handleInputChange}
-            />
+          <InputField
+            type="text"
+            placeholder="Rp 0,00"
+            label="Harga Produk"
+            name="price"
+            defaultValue={formValues.price ?? ''}
+            onChange={handleInputChange}
+          />
 
-            <SelectField
-              label="Kategori"
-              selected={selected}
-              setSelected={setSelected}
-              data={categories}
-              placeholder="Pilih Kategori"
-              multiple
-            />
+          <SelectField
+            label="Kategori"
+            selected={selected}
+            setSelected={setSelected}
+            data={categories}
+            placeholder="Pilih Kategori"
+            multiple
+          />
 
-            <TextareaField
-              name="description"
-              placeholder="Contoh: Jalan Ikan Hiu 33"
-              label="Deskripsi"
-              rows="3"
-              cols="30"
-              defaultValue={formValues.description ?? ''}
-              onChange={handleInputChange}
-            ></TextareaField>
+          <TextAreaField
+            name="description"
+            placeholder="Contoh: Jalan Ikan Hiu 33"
+            label="Deskripsi"
+            rows="3"
+            cols="30"
+            defaultValue={formValues.description ?? ''}
+            onChange={handleInputChange}
+          />
 
-            <div>
-              <div className="mb-2">
-                <Text type="body/12">Foto Produk</Text>
-              </div>
-              <div className="inline-flex">
-                <Dropzone multiple={true} maxFiles={5} onDrop={onDrop}>
+          <div>
+            <div className="mb-2">
+              <Text type="body/12">Foto Produk</Text>
+            </div>
+            <div className="inline-flex">
+              <Dropzone multiple={true} maxFiles={5} onDrop={onDrop}>
+                <button
+                  type="button"
+                  className="group h-24 w-24 rounded-xl border border-dashed border-[#D0D0D0] group-hover:border-primary-03"
+                >
+                  <FeatherIcon
+                    icon="plus"
+                    className="inline h-6 w-6 text-neutral-03 active:scale-95 group-hover:text-primary-03"
+                  />
+                </button>
+              </Dropzone>
+            </div>
+            <div className="mt-4 grid grid-cols-3 gap-1 sm:grid-cols-5">
+              {selectedImages?.map((file, idx) => (
+                <div key={idx} className="relative h-24 w-24 rounded-xl">
+                  <Image
+                    src={file.preview}
+                    alt={file.name}
+                    layout="fill"
+                    objectFit="contain"
+                  />
                   <button
                     type="button"
-                    className="group h-24 w-24 rounded-xl border border-dashed border-[#D0D0D0] group-hover:border-primary-03"
+                    className="absolute z-50 h-full w-full cursor-pointer rounded-sm bg-danger/20 opacity-0 transition-all hover:opacity-100"
+                    onClick={() => handleDelete(idx)}
                   >
-                    <FeatherIcon
-                      icon="plus"
-                      className="inline h-6 w-6 text-neutral-03 active:scale-95 group-hover:text-primary-03"
-                    />
+                    <FeatherIcon icon="x" className="w-full text-danger" />
                   </button>
-                </Dropzone>
-              </div>
-              <div className="mt-4 grid grid-cols-3 gap-1 sm:grid-cols-5">
-                {selectedImages?.map((file, idx) => (
-                  <div key={idx} className="relative h-24 w-24 rounded-xl">
-                    <Image
-                      src={file.preview}
-                      alt={file.name}
-                      layout="fill"
-                      objectFit="contain"
-                    />
-                    <button
-                      type="button"
-                      className="absolute z-50 h-full w-full cursor-pointer rounded-sm bg-danger/20 opacity-0 transition-all hover:opacity-100"
-                      onClick={() => handleDelete(idx)}
-                    >
-                      <FeatherIcon icon="x" className="w-full text-danger" />
-                    </button>
-                  </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
+          </div>
 
-            <div className="mt-1 flex gap-4">
-              <Button
-                variant="outline"
-                width="full"
-                onClick={() => handlePreview()}
-              >
-                Preview
-              </Button>
-              <Button width="full" type="submit">
-                Terbitkan
-              </Button>
-            </div>
-          </form>
-        </div>
-      </MainLayout>
+          <div className="mt-1 flex gap-4">
+            <Button
+              variant="outline"
+              width="full"
+              onClick={() => handlePreview()}
+            >
+              Preview
+            </Button>
+            <Button width="full" type="submit">
+              Terbitkan
+            </Button>
+          </div>
+        </form>
+      </div>
     </>
   )
-})
+}
+
+export default SellProductForm
+
+SellProductForm.getLayout = (page) => (
+  <MainLayout
+    pageTitle="Jual Produk"
+    headerTitle="Lengkapi Detail Produk"
+    arrowLink="/dashboard"
+  >
+    {page}
+  </MainLayout>
+)

@@ -1,8 +1,10 @@
 import Image from 'next/image'
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import Text from '../base/Text'
 
-export default withRouter(function CardProfile({ router, edit, user }) {
+const CardProfile = ({ edit, user }) => {
+  const router = useRouter()
+
   return (
     <div className="flex items-center justify-between gap-3 rounded-2xl border p-4 shadow-sm">
       <div className="flex items-center gap-4">
@@ -32,4 +34,6 @@ export default withRouter(function CardProfile({ router, edit, user }) {
       )}
     </div>
   )
-})
+}
+
+export default CardProfile

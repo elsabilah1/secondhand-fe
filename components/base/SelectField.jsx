@@ -3,14 +3,14 @@ import FeatherIcon from 'feather-icons-react'
 import { Fragment } from 'react'
 import Text from './Text'
 
-export default function SelectField({
+const SelectField = ({
   label,
   selected,
   setSelected,
   data,
   placeholder,
   multiple,
-}) {
+}) => {
   return (
     <Listbox value={selected} onChange={setSelected} multiple={multiple}>
       <div className="relative">
@@ -79,3 +79,5 @@ export default function SelectField({
     </Listbox>
   )
 }
+
+export default SelectField

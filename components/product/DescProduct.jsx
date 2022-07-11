@@ -1,6 +1,6 @@
 import Text from '../base/Text'
 
-export default function DescProduct({ content }) {
+const DescProduct = ({ content }) => {
   return (
     <div className="mb-20 mt-6 rounded-2xl border bg-neutral-01 px-4 py-4 shadow-sm md:mb-10">
       <div className="pb-4">
@@ -12,3 +12,5 @@ export default function DescProduct({ content }) {
     </div>
   )
 }
+
+export default DescProduct

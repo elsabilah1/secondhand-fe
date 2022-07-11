@@ -9,7 +9,7 @@
 }
 
 .slick-dots {
-  top: 404px;
+  top: 360px;
 }
 
 .slick-dots li button:before {
@@ -24,7 +24,7 @@
 
 @media (max-width: 768px) {
   .slick-dots {
-    top: 240px;
+    top: 200px;
   }
   .slick-dots li button:before {
     opacity: 0.8 !important;

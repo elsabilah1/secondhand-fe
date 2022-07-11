@@ -6,7 +6,7 @@ import Text from '../../components/base/Text'
 import MenuProfile from '../../components/user/MenuProfile'
 import NavProfile from '../../components/user/NavProfile'
 
-export default function DetailProfile() {
+const DetailProfile = () => {
   const [selectedImages, setSelectedImages] = useState([])
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -31,6 +31,7 @@ export default function DetailProfile() {
       />
     </div>
   ))
+
   return (
     <div className="flex h-screen flex-col">
       <div className="mx-auto my-6 w-full flex-1 px-4">
@@ -61,3 +62,5 @@ export default function DetailProfile() {
     </div>
   )
 }
+
+export default DetailProfile

@@ -2,10 +2,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Text from '../base/Text'
 
-export default function CardProduct({ item }) {
-  const categories = item?.ProductCategories?.map((item) => item.category)
-
+const CardProduct = ({ item }) => {
   const product = item.Product || item
+  const categories = product?.ProductCategories?.map((item) => item.category)
 
   return (
     <Link href={`/product/${product.id}`} passHref>
@@ -26,12 +25,12 @@ export default function CardProduct({ item }) {
         </div>
 
         <div className="mb-2 text-neutral-03">
-          <Text type="body/10">
-            {categories?.join(', ') ?? item.ProductCategory.category}
-          </Text>
+          <Text type="body/10">{categories?.join(', ')}</Text>
         </div>
         <Text>Rp.{product.price}</Text>
       </div>
     </Link>
   )
 }
+
+export default CardProduct

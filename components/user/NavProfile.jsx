@@ -2,7 +2,7 @@ import FeatherIcon from 'feather-icons-react'
 import Link from 'next/link'
 import Text from '../../components/base/Text'
 
-export default function NavProfile() {
+const NavProfile = () => {
   return (
     <div className="flex justify-evenly gap-4 border py-1">
       <NavItem icon="home" title="Home" href="/" />
@@ -13,6 +13,8 @@ export default function NavProfile() {
     </div>
   )
 }
+
+export default NavProfile
 
 const NavItem = ({ title, icon, href }) => {
   return (

@@ -1,6 +1,6 @@
 import Text from '../../base/Text'
 
-export default function NotifItem() {
+const NotifItem = () => {
   return (
     <div className="my-3 border-b px-3 pb-1">
       <div className="flex justify-between gap-3">
@@ -26,3 +26,5 @@ export default function NotifItem() {
     </div>
   )
 }
+
+export default NotifItem

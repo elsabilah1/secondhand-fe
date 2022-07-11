@@ -1,6 +1,6 @@
 import { useDropzone } from 'react-dropzone'
 
-export default function Dropzone({ children, maxFiles, onDrop, multiple }) {
+const Dropzone = ({ children, maxFiles, onDrop, multiple }) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     maxFiles,
@@ -14,3 +14,5 @@ export default function Dropzone({ children, maxFiles, onDrop, multiple }) {
     </div>
   )
 }
+
+export default Dropzone

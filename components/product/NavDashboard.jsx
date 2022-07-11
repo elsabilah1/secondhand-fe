@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import { getUserProduct } from '../../store/slices/product'
 import Text from '../base/Text'
 
-export default function NavDashboard() {
+const NavDashboard = () => {
   const [categories] = useState({
     all: {
       title: 'Semua Produk',
@@ -81,3 +81,5 @@ const NavItem = ({ icon, title, titleMobile, sort }) => {
     </Tab>
   )
 }
+
+export default NavDashboard

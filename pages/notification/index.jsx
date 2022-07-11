@@ -1,7 +1,7 @@
 import MainLayout from '../../components/layout/MainLayout'
 import NotifItem from '../../components/layout/MainLayout/NotifItem'
 
-export default function Notification() {
+const Notification = () => {
   return (
     <div>
       <MainLayout
@@ -16,3 +16,5 @@ export default function Notification() {
     </div>
   )
 }
+
+export default Notification

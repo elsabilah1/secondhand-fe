@@ -1,46 +1,48 @@
 import Image from 'next/image'
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import Carousel from 'react-slick'
 import 'slick-carousel/slick/slick-theme.css'
 import 'slick-carousel/slick/slick.css'
 
-export default withRouter(function CarouselHome({ router }) {
-  const settingsDesktop = {
-    className: 'center',
-    centerMode: true,
-    centerPadding: '15%',
-    infinite: true,
-    arrows: false,
-    dots: false,
-    speed: 500,
-    focusOnSelect: true,
-    slidesToScroll: 1,
-    adaptiveHeight: true,
-    autoplay: true,
-    autoplaySpeed: 5000,
-  }
+const settingsDesktop = {
+  className: 'center',
+  centerMode: true,
+  centerPadding: '15%',
+  infinite: true,
+  arrows: false,
+  dots: false,
+  speed: 500,
+  focusOnSelect: true,
+  slidesToScroll: 1,
+  adaptiveHeight: true,
+  autoplay: true,
+  autoplaySpeed: 5000,
+}
 
-  const settingsMobile = {
-    infinite: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    speed: 500,
-    arrows: false,
-    autoplay: true,
-    autoplaySpeed: 5000,
-  }
+const settingsMobile = {
+  infinite: true,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  speed: 500,
+  arrows: false,
+  autoplay: true,
+  autoplaySpeed: 5000,
+}
 
-  const desktopImages = [
-    { title: 'banner', src: '/carousel/img_purple.png' },
-    { title: 'banner', src: '/carousel/img_gray.png' },
-    { title: 'banner', src: '/carousel/img_purple.png' },
-  ]
+const desktopImages = [
+  { title: 'banner', src: '/carousel/img_purple.png' },
+  { title: 'banner', src: '/carousel/img_gray.png' },
+  { title: 'banner', src: '/carousel/img_purple.png' },
+]
 
-  const mobileImages = [
-    { title: 'banner', src: '/carousel/mobile_purple.png' },
-    { title: 'banner', src: '/carousel/mobile_yellow.png' },
-    { title: 'banner', src: '/carousel/mobile_grey.png' },
-  ]
+const mobileImages = [
+  { title: 'banner', src: '/carousel/mobile_purple.png' },
+  { title: 'banner', src: '/carousel/mobile_yellow.png' },
+  { title: 'banner', src: '/carousel/mobile_grey.png' },
+]
+
+const CarouselHome = () => {
+  const router = useRouter()
 
   if (router.pathname === '/') {
     return (
@@ -81,4 +83,6 @@ export default withRouter(function CarouselHome({ router }) {
       </>
     )
   }
-})
+}
+
+export default CarouselHome

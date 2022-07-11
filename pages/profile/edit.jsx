@@ -1,6 +1,6 @@
 import FeatherIcon from 'feather-icons-react'
 import Image from 'next/image'
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Alert from '../../components/base/Alert'
@@ -29,7 +29,8 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
   })
 )
 
-export default withRouter(function DetailProfile({ router, cities }) {
+const EditProfile = ({ cities }) => {
+  const router = useRouter()
   const dispatch = useDispatch()
   const { user, loading, error, message } = useSelector((state) => state.auth)
   const [selected, setSelected] = useState(user?.City || null)
@@ -88,119 +89,122 @@ export default withRouter(function DetailProfile({ router, cities }) {
     <>
       {loading && <Loader />}
       {message && <Alert error={error} message={message} />}
-      <MainLayout
-        pageTitle="Info Profile"
-        headerTitle="Lengkapi Info Akun"
-        arrowLink="/dashboard"
-      >
-        <div className="mx-auto my-6 flex max-w-2xl md:my-10">
-          <div className="hidden w-2/12 md:block">
-            <button onClick={() => router.replace('/dashboard')}>
-              <FeatherIcon icon="arrow-left" />
-            </button>
-          </div>
+      <div className="mx-auto my-6 flex max-w-2xl md:my-10">
+        <div className="hidden w-2/12 md:block">
+          <button onClick={() => router.replace('/dashboard')}>
+            <FeatherIcon icon="arrow-left" />
+          </button>
+        </div>
 
-          <div className="w-full space-y-4 md:w-10/12">
-            <form
-              encType="multipart/form-data"
-              className="w-full space-y-4 md:w-10/12"
-              onSubmit={(e) => handleSubmit(e)}
-            >
-              <div className="relative flex justify-center">
-                <Dropzone multiple={false} onDrop={onDrop}>
-                  <button
-                    type="button"
-                    className="group relative h-24 w-24 rounded-xl border border-primary-01 active:scale-95 group-hover:border-primary-03"
-                  >
-                    {!selectedImage && (
-                      <>
-                        <Image
-                          src={user.profilePicture}
-                          alt={user.name}
-                          layout="fill"
-                          objectFit="contain"
-                          className="rounded-xl"
-                          priority
-                        />
-                        <div className="absolute inset-0 grid place-items-center rounded-xl bg-primary-01/70 opacity-20 group-hover:opacity-100">
-                          <FeatherIcon
-                            icon="camera"
-                            className="inline h-6 w-6 text-primary-04 active:scale-95 group-hover:text-primary-03"
-                          />
-                        </div>
-                      </>
-                    )}
-                  </button>
-                </Dropzone>
-                {selectedImage && (
-                  <div className="absolute">
-                    <div
-                      key={user.id}
-                      className="relative h-24 w-24 rounded-xl"
-                    >
+        <div className="w-full space-y-4 md:w-10/12">
+          <form
+            encType="multipart/form-data"
+            className="w-full space-y-4 md:w-10/12"
+            onSubmit={(e) => handleSubmit(e)}
+          >
+            <div className="relative flex justify-center">
+              <Dropzone multiple={false} onDrop={onDrop}>
+                <button
+                  type="button"
+                  className="group relative h-24 w-24 rounded-xl border border-primary-01 active:scale-95 group-hover:border-primary-03"
+                >
+                  {!selectedImage && (
+                    <>
                       <Image
-                        src={selectedImage.preview}
-                        alt={selectedImage.name}
+                        src={user.profilePicture}
+                        alt={user.name}
                         layout="fill"
                         objectFit="contain"
+                        className="rounded-xl"
                         priority
                       />
-                      <button
-                        type="button"
-                        className="absolute z-50 h-full w-full cursor-pointer rounded-sm bg-danger/20 opacity-0 transition-all hover:opacity-100"
-                        onClick={() => handleDelete()}
-                      >
-                        <FeatherIcon icon="x" className="w-full text-danger" />
-                      </button>
-                    </div>
+                      <div className="absolute inset-0 grid place-items-center rounded-xl bg-primary-01/70 opacity-20 group-hover:opacity-100">
+                        <FeatherIcon
+                          icon="camera"
+                          className="inline h-6 w-6 text-primary-04 active:scale-95 group-hover:text-primary-03"
+                        />
+                      </div>
+                    </>
+                  )}
+                </button>
+              </Dropzone>
+              {selectedImage && (
+                <div className="absolute">
+                  <div key={user.id} className="relative h-24 w-24 rounded-xl">
+                    <Image
+                      src={selectedImage.preview}
+                      alt={selectedImage.name}
+                      layout="fill"
+                      objectFit="contain"
+                      priority
+                    />
+                    <button
+                      type="button"
+                      className="absolute z-50 h-full w-full cursor-pointer rounded-sm bg-danger/20 opacity-0 transition-all hover:opacity-100"
+                      onClick={() => handleDelete()}
+                    >
+                      <FeatherIcon icon="x" className="w-full text-danger" />
+                    </button>
                   </div>
-                )}
-              </div>
-              <InputField
-                type="text"
-                placeholder="Nama"
-                label="Nama"
-                name="name"
-                defaultValue={formValues.name ?? ''}
-                onChange={handleInputChange}
-              />
+                </div>
+              )}
+            </div>
+            <InputField
+              type="text"
+              placeholder="Nama"
+              label="Nama"
+              name="name"
+              defaultValue={formValues.name ?? ''}
+              onChange={handleInputChange}
+            />
 
-              <SelectField
-                selected={selected}
-                setSelected={setSelected}
-                data={cities}
-                label="Kota"
-                placeholder="Pilih Kota"
-              />
+            <SelectField
+              selected={selected}
+              setSelected={setSelected}
+              data={cities}
+              label="Kota"
+              placeholder="Pilih Kota"
+            />
 
-              <TextareaField
-                name="address"
-                placeholder="Contoh: Jalan Ikan Hiu 33"
-                label="Alamat"
-                rows="3"
-                cols="30"
-                defaultValue={formValues.address ?? ''}
-                onChange={handleInputChange}
-              ></TextareaField>
+            <TextareaField
+              name="address"
+              placeholder="Contoh: Jalan Ikan Hiu 33"
+              label="Alamat"
+              rows="3"
+              cols="30"
+              defaultValue={formValues.address ?? ''}
+              onChange={handleInputChange}
+            ></TextareaField>
 
-              <InputField
-                type="text"
-                placeholder="Contoh: +628123456789"
-                label="No. Handphone"
-                name="phoneNumber"
-                defaultValue={formValues.phoneNumber ?? ''}
-                onChange={handleInputChange}
-              />
+            <InputField
+              type="text"
+              placeholder="Contoh: +628123456789"
+              label="No. Handphone"
+              name="phoneNumber"
+              defaultValue={formValues.phoneNumber ?? ''}
+              onChange={handleInputChange}
+            />
 
-              <div className="mt-1 flex gap-4">
-                <Button width="full" type="submit">
-                  Simpan
-                </Button>
-              </div>
-            </form>
-          </div>
+            <div className="mt-1 flex gap-4">
+              <Button width="full" type="submit">
+                Simpan
+              </Button>
+            </div>
+          </form>
         </div>
-      </MainLayout>
+      </div>
     </>
   )
-})
+}
+
+export default EditProfile
+
+EditProfile.getLayout = (page) => (
+  <MainLayout
+    pageTitle="Edit Profile"
+    headerTitle="Lengkapi Info Akun"
+    arrowLink="/dashboard"
+  >
+    {page}
+  </MainLayout>
+)

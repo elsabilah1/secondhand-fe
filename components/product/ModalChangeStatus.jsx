@@ -2,7 +2,7 @@ import Button from '../base/Button'
 import Modal from '../base/Modal'
 import Text from '../base/Text'
 
-export default function ModalChangeStatus({ isOpen = false, setIsOpen }) {
+const ModalChangeStatus = ({ isOpen = false, setIsOpen }) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -58,3 +58,5 @@ export default function ModalChangeStatus({ isOpen = false, setIsOpen }) {
     </Modal>
   )
 }
+
+export default ModalChangeStatus

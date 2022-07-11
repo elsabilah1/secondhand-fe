@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { getProductList } from '../../store/slices/product'
 import Text from '../base/Text'
 
-export default function FilterProduct({ data }) {
+const FilterProduct = ({ data }) => {
   const dispatch = useDispatch()
   const [cat, setCat] = useState(null)
 
@@ -51,3 +51,5 @@ export default function FilterProduct({ data }) {
     </div>
   )
 }
+
+export default FilterProduct

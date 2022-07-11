@@ -1,5 +1,5 @@
 import FeatherIcon from 'feather-icons-react'
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import Button from '../../../components/base/Button'
 import MainLayout from '../../../components/layout/MainLayout'
@@ -22,7 +22,8 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
   })
 )
 
-export default withRouter(function PreviewProduct({ product, router }) {
+const PreviewProduct = ({ product }) => {
+  const router = useRouter()
   const { user } = useSelector((state) => state.auth)
 
   return (
@@ -85,4 +86,6 @@ export default withRouter(function PreviewProduct({ product, router }) {
       </div>
     </>
   )
-})
+}
+
+export default PreviewProduct

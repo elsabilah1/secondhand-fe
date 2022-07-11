@@ -35,7 +35,7 @@ export const getProductById = createAsyncThunk(
   'product/id',
   async (id, thunkAPI) => {
     try {
-      const response = await Get(`/user/products/${id}`)
+      const response = await Get(`/products/${id}`)
       return response
     } catch (error) {
       return thunkAPI.rejectWithValue({

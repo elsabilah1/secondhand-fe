@@ -1,6 +1,6 @@
 import cn from 'classnames'
 import FeatherIcon from 'feather-icons-react'
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import Button from '../../base/Button'
@@ -8,7 +8,8 @@ import Dropdown from '../../base/Dropdown'
 import MenuProfile from '../../user/MenuProfile'
 import NotifItem from './NotifItem'
 
-export default withRouter(function NavDesktop({ router }) {
+const NavDesktop = () => {
+  const router = useRouter()
   const { user: userData } = useSelector((state) => state.auth)
   const [user] = useState(userData)
 
@@ -52,4 +53,6 @@ export default withRouter(function NavDesktop({ router }) {
       )}
     </>
   )
-})
+}
+
+export default NavDesktop

@@ -1,6 +1,6 @@
 import Text from './Text'
 
-export default function TextareaField({
+const TextAreaField = ({
   label,
   name,
   defaultValue,
@@ -8,7 +8,7 @@ export default function TextareaField({
   rows,
   cols,
   onChange,
-}) {
+}) => {
   return (
     <div className="w-full">
       <label htmlFor={name} className="mb-2 block">
@@ -29,3 +29,5 @@ export default function TextareaField({
     </div>
   )
 }
+
+export default TextAreaField

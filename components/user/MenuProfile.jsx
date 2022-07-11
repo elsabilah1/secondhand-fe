@@ -1,10 +1,11 @@
 import FeatherIcon from 'feather-icons-react'
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../store/slices/auth'
 import Text from '../base/Text'
 
-export default withRouter(function MenuProfile({ router, dropdown }) {
+const MenuProfile = ({ dropdown }) => {
+  const router = useRouter()
   const dispatch = useDispatch()
 
   return (
@@ -24,15 +25,17 @@ export default withRouter(function MenuProfile({ router, dropdown }) {
       <MenuItem
         icon="log-out"
         title="Keluar"
-        onClick={async () => {
-          await dispatch(logout())
-          router.reload()
+        onClick={() => {
+          dispatch(logout())
+          router.replace('/login')
         }}
         dropdown={dropdown}
       />
     </div>
   )
-})
+}
+
+export default MenuProfile
 
 const MenuItem = ({ title, onClick, icon, dropdown }) => {
   return (

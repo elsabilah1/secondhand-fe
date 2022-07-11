@@ -1,18 +1,14 @@
 import FeatherIcon from 'feather-icons-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import Text from '../../base/Text'
 import NavDesktop from './NavDesktop'
 import SearchField from './SearchField'
 
-export default withRouter(function Header({
-  router,
-  headerTitle,
-  headerTitleBold,
-  setShowNav,
-  arrowLink,
-}) {
+const Header = ({ headerTitle, headerTitleBold, setShowNav, arrowLink }) => {
+  const router = useRouter()
+
   return (
     <div
       className={`${
@@ -26,7 +22,7 @@ export default withRouter(function Header({
               headerTitle ? '' : 'flex-1'
             } items-center gap-4 md:gap-6`}
           >
-            <div className="hidden items-center md:flex">
+            <div className="z-10 hidden items-center md:flex">
               <Link href="/" replace>
                 <a className="flex cursor-pointer">
                   <Image src="/logo.png" width={100} height={34} alt="logo" />
@@ -72,4 +68,6 @@ export default withRouter(function Header({
       </div>
     </div>
   )
-})
+}
+
+export default Header

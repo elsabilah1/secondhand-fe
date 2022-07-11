@@ -1,17 +1,14 @@
 import { Transition } from '@headlessui/react'
 import FeatherIcon from 'feather-icons-react'
 import Link from 'next/link'
-import { withRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { Fragment, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Button from '../../base/Button'
 import Text from '../../base/Text'
 
-export default withRouter(function NavMobile({
-  router,
-  showNav = true,
-  setShowNav,
-}) {
+const NavMobile = ({ showNav = true, setShowNav }) => {
+  const router = useRouter()
   const { user: userData, loading } = useSelector((state) => state.auth)
   const [user] = useState(userData)
 
@@ -86,4 +83,6 @@ export default withRouter(function NavMobile({
       </div>
     </Transition>
   )
-})
+}
+
+export default NavMobile
