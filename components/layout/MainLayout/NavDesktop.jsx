@@ -8,7 +8,7 @@ import Dropdown from '../../base/Dropdown'
 import MenuProfile from '../../user/MenuProfile'
 import NotifItem from './NotifItem'
 
-const NavDesktop = () => {
+const NavDesktop = ({ offers }) => {
   const router = useRouter()
   const { user: userData } = useSelector((state) => state.auth)
   const [user] = useState(userData)
@@ -29,9 +29,10 @@ const NavDesktop = () => {
           </button>
 
           <Dropdown icon="bell">
-            <div className="w-80">
-              <NotifItem />
-              <NotifItem />
+            <div className="w-96">
+              {offers?.map((item) => (
+                <NotifItem key={item.id} data={item} />
+              ))}
             </div>
           </Dropdown>
 

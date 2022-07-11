@@ -1,25 +1,33 @@
 import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import Text from '../../../components/base/Text'
 import MainLayout from '../../../components/layout/MainLayout'
 import CardProfile from '../../../components/user/CardProfile'
 // import ModalChangeStatus from '../../../components/product/ModalChangeStatus'
+import Image from 'next/image'
 import ModalAcceptOffer from '../../../components/product/ModalAcceptOffer'
 import { wrapper } from '../../../store'
 import { fetchUser } from '../../../store/slices/auth'
+import { Get } from '../../../utils/Api'
 import { requireAuth } from '../../../utils/requireAuth'
 
 export const getServerSideProps = wrapper.getServerSideProps((store) =>
-  requireAuth(async () => {
+  requireAuth(async (ctx) => {
     await store.dispatch(fetchUser())
+
+    const { data } = await Get(`/products/offer/${ctx.query.id}`)
+
+    return {
+      props: {
+        data,
+      },
+    }
   })
 )
 
-const InfoPenawar = () => {
+const InfoPenawar = ({ data }) => {
   const router = useRouter()
-  const { user } = useSelector((state) => state.auth)
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -35,26 +43,34 @@ const InfoPenawar = () => {
 
         <div className="w-full space-y-4 md:w-10/12">
           <div>
-            <CardProfile user={user} />
+            <CardProfile user={data.User.Profile} />
           </div>
           <Text weight="bold">Daftar Produkmu yang Ditawar</Text>
 
-          <div className="flex gap-3">
-            <div className="h-12 w-12 rounded-xl bg-black"></div>
-            <div className="flex w-full justify-between">
+          <div className="grid grid-cols-8 gap-1">
+            <div className="relative h-12 w-12">
+              <Image
+                src={data.Product.ProductResources[0].filename}
+                alt={data.Product.name}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-xl"
+              />
+            </div>
+            <div className="col-span-6">
               <div className="mb-1 h-full">
                 <div className="mb-2 flex text-neutral-03">
                   <Text type="body/10">Penawaran Produk</Text>
                 </div>
                 <div className="space-y-1">
-                  <Text>Jam Tangan Casio</Text>
-                  <Text>Rp 250.000</Text>
-                  <Text>Ditawar Rp 200.000</Text>
+                  <Text weight="bold">{data.Product.name}</Text>
+                  <Text>Rp. {data.Product.price.toLocaleString()}</Text>
+                  <Text>Ditawar Rp. {data.priceOffer.toLocaleString()}</Text>
                 </div>
               </div>
-              <div className="mb-2 flex text-neutral-03">
-                <Text type="body/10">20 Apr, 14:04</Text>
-              </div>
+            </div>
+            <div className="text-right text-neutral-03">
+              <Text type="body/10">20 Apr, 14:04</Text>
             </div>
           </div>
           <div className="flex justify-end gap-4">

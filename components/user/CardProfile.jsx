@@ -8,13 +8,15 @@ const CardProfile = ({ edit, user }) => {
   return (
     <div className="flex items-center justify-between gap-3 rounded-2xl border p-4 shadow-sm">
       <div className="flex items-center gap-4">
-        <Image
-          src={user.profilePicture}
-          width="48"
-          height="48"
-          className="rounded-xl"
-          alt={user.name}
-        />
+        {user && (
+          <Image
+            src={user.profilePicture}
+            width="48"
+            height="48"
+            className="rounded-xl"
+            alt={user.name}
+          />
+        )}
         <div className="">
           <Text weight="medium">{user?.name}</Text>
           <div className="text-neutral-03">

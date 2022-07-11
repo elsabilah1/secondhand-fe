@@ -1,12 +1,17 @@
 import FeatherIcon from 'feather-icons-react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Text from '../../base/Text'
 import NavDesktop from './NavDesktop'
 import SearchField from './SearchField'
 
-const Header = ({ headerTitle, headerTitleBold, setShowNav, arrowLink }) => {
+const Header = ({
+  headerTitle,
+  headerTitleBold,
+  setShowNav,
+  arrowLink,
+  offers,
+}) => {
   const router = useRouter()
 
   return (
@@ -23,11 +28,12 @@ const Header = ({ headerTitle, headerTitleBold, setShowNav, arrowLink }) => {
             } items-center gap-4 md:gap-6`}
           >
             <div className="z-10 hidden items-center md:flex">
-              <Link href="/" replace>
-                <a className="flex cursor-pointer">
-                  <Image src="/logo.png" width={100} height={34} alt="logo" />
-                </a>
-              </Link>
+              <button
+                onClick={() => router.push('/')}
+                className="flex cursor-pointer"
+              >
+                <Image src="/logo.png" width={100} height={34} alt="logo" />
+              </button>
             </div>
 
             {!headerTitle && (
@@ -62,7 +68,7 @@ const Header = ({ headerTitle, headerTitleBold, setShowNav, arrowLink }) => {
               </div>
             </>
           ) : (
-            <NavDesktop />
+            <NavDesktop offers={offers} />
           )}
         </div>
       </div>

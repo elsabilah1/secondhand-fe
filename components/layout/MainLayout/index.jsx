@@ -1,9 +1,7 @@
 import Cookies from 'js-cookie'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { _axios } from '../../../utils/Api'
-import Loader from '../../base/Loader'
+import { Get, _axios } from '../../../utils/Api'
 import Carousel from './CarouselHome'
 import Header from './Header'
 import NavMobile from './NavMobile'
@@ -14,9 +12,15 @@ const MainLayout = ({
   headerTitle,
   headerTitleBold,
   arrowLink,
+  manual,
 }) => {
   const [showNav, setShowNav] = useState(false)
-  const { loading } = useSelector((state) => state.auth)
+  const [items, setItems] = useState()
+
+  const fetchData = async () => {
+    const res = await Get('/notifications')
+    setItems(res.data)
+  }
 
   useEffect(() => {
     const token = Cookies.get('token')
@@ -31,11 +35,15 @@ const MainLayout = ({
           return Promise.reject(error.response)
         }
       )
+
+      fetchData()
       return () => {
         _axios.interceptors.request.eject(requestInt)
       }
     }
   }, [])
+
+  if (manual) return children
 
   return (
     <>
@@ -46,12 +54,12 @@ const MainLayout = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {loading && <Loader />}
       <Header
         headerTitle={headerTitle}
         headerTitleBold={headerTitleBold}
         setShowNav={setShowNav}
         arrowLink={arrowLink}
+        offers={items}
       />
       <div className="relative mx-auto flex min-h-screen max-w-[1440px] flex-col">
         <Carousel data-testid="carousel-home" />

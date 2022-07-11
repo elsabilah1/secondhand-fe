@@ -27,7 +27,7 @@ const CardProduct = ({ item }) => {
         <div className="mb-2 text-neutral-03">
           <Text type="body/10">{categories?.join(', ')}</Text>
         </div>
-        <Text>Rp.{product.price}</Text>
+        <Text>Rp. {product.price.toLocaleString()}</Text>
       </div>
     </Link>
   )

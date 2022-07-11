@@ -30,7 +30,7 @@ const DetailProduct = () => {
 
   return (
     <>
-      <ModalMakeOffer isOpen={isOpen} setIsOpen={setIsOpen} />
+      <ModalMakeOffer isOpen={isOpen} setIsOpen={setIsOpen} item={item} />
       <div className="hidden md:block">
         <MainLayout pageTitle="Detail Product">
           <div className="mx-auto mt-10 grid max-w-4xl grid-cols-7 gap-6">
@@ -40,11 +40,15 @@ const DetailProduct = () => {
             </div>
             <div className="col-span-3 space-y-6">
               <CardPrice item={item}>
-                <Button width="full" onClick={() => setIsOpen(true)}>
+                <Button
+                  width="full"
+                  onClick={() => setIsOpen(true)}
+                  disabled={user.id === item.sellerId}
+                >
                   Saya Tertarik dan Ingin Nego
                 </Button>
               </CardPrice>
-              <CardProfile user={user} />
+              <CardProfile user={item?.User?.Profile} />
             </div>
           </div>
         </MainLayout>
@@ -61,12 +65,16 @@ const DetailProduct = () => {
         </div>
         <div className="relative mt-[42vh] space-y-4 px-4 pb-20">
           <CardPrice item={item} />
-          <CardProfile user={user} />
+          <CardProfile user={item?.User?.Profile} />
           <DescProduct content={item.description} />
         </div>
         <div className="fixed bottom-0 mb-6 w-full px-4">
           <div className="px-6">
-            <Button width="full" onClick={() => setIsOpen(true)}>
+            <Button
+              width="full"
+              onClick={() => setIsOpen(true)}
+              disabled={user.id === item.sellerId}
+            >
               Saya Tertarik dan Ingin Nego
             </Button>
           </div>
@@ -77,3 +85,11 @@ const DetailProduct = () => {
 }
 
 export default DetailProduct
+
+DetailProduct.getLayout = (page) => {
+  return (
+    <MainLayout pageTitle="Detail Product" manual>
+      {page}
+    </MainLayout>
+  )
+}

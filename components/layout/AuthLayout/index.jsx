@@ -19,6 +19,8 @@ const AuthLayout = ({ children, pageTitle }) => {
 
   return (
     <>
+      {message && <Alert error={error} message={message} />}
+      {loading && <Loader />}
       <Head>
         <title>{pageTitle}</title>
         <meta name="description" content="secondhand web" />
@@ -59,8 +61,6 @@ const AuthLayout = ({ children, pageTitle }) => {
           </div>
         </div>
       </div>
-      {message && <Alert error={error} message={message} />}
-      {loading && <Loader />}
     </>
   )
 }
