@@ -1,14 +1,8 @@
 import cn from 'classnames'
 import FeatherIcon from 'feather-icons-react'
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { getProductList } from '../../store/slices/product'
 import Text from '../base/Text'
 
-const FilterProduct = ({ data }) => {
-  const dispatch = useDispatch()
-  const [cat, setCat] = useState(null)
-
+const FilterProduct = ({ data, cat, setCat }) => {
   const classes = (active) =>
     cn(
       'flex gap-2 py-[12px] px-4 md:py-[14px] md:px-6 rounded-2xl active:scale-95 transition-all focus:outline-none focus:ring  hover:bg-primary-04 hover:text-neutral-01',
@@ -16,10 +10,6 @@ const FilterProduct = ({ data }) => {
         ? 'bg-primary-04 text-neutral-01'
         : 'bg-primary-01 text-neutral-05 border-primary-01'
     )
-
-  useEffect(() => {
-    dispatch(getProductList(cat))
-  }, [cat, dispatch])
 
   return (
     <div className="z-10 mb-10 space-y-4">

@@ -1,6 +1,7 @@
 import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Button from '../components/base/Button'
 import MainLayout from '../components/layout/MainLayout'
 import CardProduct from '../components/product/CardProduct'
@@ -14,7 +15,6 @@ import { requireAuth } from '../utils/requireAuth'
 export const getServerSideProps = wrapper.getServerSideProps((store) =>
   requireAuth(async () => {
     await store.dispatch(fetchUser())
-    await store.dispatch(getProductList())
     const res = await Get('/products/categories')
     const categories = res.data
 
@@ -26,14 +26,20 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
 
 const Home = ({ categories }) => {
   const router = useRouter()
+  const dispatch = useDispatch()
   const { user, loading } = useSelector((state) => state.auth)
   const { itemList, loading: productLoading } = useSelector(
     (state) => state.product
   )
+  const [cat, setCat] = useState(null)
+
+  useEffect(() => {
+    dispatch(getProductList(cat))
+  }, [cat, dispatch])
 
   return (
     <>
-      <FilterProduct data={categories} />
+      <FilterProduct data={categories} cat={cat} setCat={setCat} />
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
         {productLoading ? (
           <div className="animate-pulse">Loading...</div>
@@ -52,10 +58,8 @@ const Home = ({ categories }) => {
         <Button
           onClick={() => router.replace(user ? '/dashboard/sell' : '/login')}
         >
-          <div className="flex gap-2">
-            <FeatherIcon icon="plus" className="inline h-5 w-5" />
-            Jual
-          </div>
+          <FeatherIcon icon="plus" className="inline h-5 w-5" />
+          Jual
         </Button>
       </div>
     </>
