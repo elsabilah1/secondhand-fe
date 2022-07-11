@@ -3,13 +3,15 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Alert from '../../components/base/Alert'
-import Button from '../../components/base/Button'
-import Dropzone from '../../components/base/Dropzone'
-import InputField from '../../components/base/InputField'
-import Loader from '../../components/base/Loader'
-import SelectField from '../../components/base/SelectField'
-import TextareaField from '../../components/base/TextareaField'
+import {
+  Alert,
+  Button,
+  Dropzone,
+  InputField,
+  Loader,
+  SelectField,
+  TextAreaField,
+} from '../../components/base'
 import MainLayout from '../../components/layout/MainLayout'
 import { wrapper } from '../../store'
 import { fetchUser, reset, updateProfileUser } from '../../store/slices/auth'
@@ -166,7 +168,7 @@ const EditProfile = ({ cities }) => {
               placeholder="Pilih Kota"
             />
 
-            <TextareaField
+            <TextAreaField
               name="address"
               placeholder="Contoh: Jalan Ikan Hiu 33"
               label="Alamat"
@@ -174,7 +176,7 @@ const EditProfile = ({ cities }) => {
               cols="30"
               defaultValue={formValues.address ?? ''}
               onChange={handleInputChange}
-            ></TextareaField>
+            />
 
             <InputField
               type="text"
