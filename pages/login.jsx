@@ -54,9 +54,11 @@ const Login = () => {
               onChange={handleInputChange}
             />
           </div>
-          <Button width="full" type="submit">
-            Masuk
-          </Button>
+          <div data-testid="btn-login">
+            <Button width="full" type="submit">
+              Masuk
+            </Button>
+          </div>
         </div>
       </form>
       <div className="flex w-full justify-center gap-1">

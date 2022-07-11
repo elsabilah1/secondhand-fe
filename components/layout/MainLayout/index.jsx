@@ -54,7 +54,7 @@ const MainLayout = ({
         arrowLink={arrowLink}
       />
       <div className="relative mx-auto flex min-h-screen max-w-[1440px] flex-col">
-        <Carousel />
+        <Carousel data-testid="carousel-home" />
         <div className="mx-auto mb-20 w-full flex-1 px-4 md:w-10/12">
           {children}
         </div>

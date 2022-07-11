@@ -8,7 +8,7 @@ const CardProduct = ({ item }) => {
 
   return (
     <Link href={`/product/${product.id}`} passHref>
-      <div className="cursor-pointer rounded border px-2 py-4 shadow-sm">
+      <div className="cursor-pointer rounded border px-2 py-4 shadow-sm hover:scale-105">
         <div className="relative mb-2 h-24 w-full">
           <Image
             src={product.ProductResources[0].filename}
@@ -20,7 +20,7 @@ const CardProduct = ({ item }) => {
           />
         </div>
 
-        <div className="mb-1">
+        <div className="mb-1 line-clamp-1">
           <Text>{product.name}</Text>
         </div>
 

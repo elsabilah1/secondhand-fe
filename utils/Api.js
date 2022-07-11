@@ -22,7 +22,7 @@ _axios.interceptors.response.use(
 const errors = (errors) => {
   return {
     success: false,
-    status: errors.status,
+    status: errors?.status,
     error: errors,
   }
 }
