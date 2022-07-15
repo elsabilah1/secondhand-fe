@@ -64,9 +64,11 @@ const Register = () => {
               onChange={handleInputChange}
             />
           </div>
-          <Button width="full" type="submit">
-            Daftar
-          </Button>
+          <div data-testid="btn-register">
+            <Button width="full" type="submit">
+              Daftar
+            </Button>
+          </div>
         </div>
       </form>
       <div className="flex w-full justify-center gap-1">
