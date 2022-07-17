@@ -1,6 +1,7 @@
 import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import Button from '../../components/base/Button'
 import MainLayout from '../../components/layout/MainLayout'
@@ -9,28 +10,30 @@ import CarouselProduct from '../../components/product/CarouselProduct'
 import DescProduct from '../../components/product/DescProduct'
 import ModalMakeOffer from '../../components/product/ModalMakeOffer'
 import CardProfile from '../../components/user/CardProfile'
-import { wrapper } from '../../store'
-import { fetchUser } from '../../store/slices/auth'
-import { getProductById } from '../../store/slices/product'
-import { requireAuth } from '../../utils/requireAuth'
+import { Get } from '../../utils/Api'
 
-export const getServerSideProps = wrapper.getServerSideProps((store) =>
-  requireAuth(async (context) => {
-    await store.dispatch(fetchUser())
-    await store.dispatch(getProductById(context.query.id))
-  })
-)
+export const getServerSideProps = async (context) => {
+  const { data } = await Get(`/products/${context.query.id}`)
 
-const DetailProduct = () => {
+  return { props: { item: data } }
+}
+
+const DetailProduct = ({ item }) => {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
-  const { item } = useSelector((state) => state.product)
+  const [loading, setLoading] = useState(false)
   const { user } = useSelector((state) => state.auth)
   const images = item?.ProductResources?.map((item) => item.filename)
 
   return (
     <>
-      <ModalMakeOffer isOpen={isOpen} setIsOpen={setIsOpen} item={item} />
+      <Toaster />
+      <ModalMakeOffer
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        setLoading={setLoading}
+        item={item}
+      />
       <div className="hidden md:block">
         <MainLayout pageTitle="Detail Product">
           <div className="mx-auto mt-10 grid max-w-4xl grid-cols-7 gap-6">
@@ -42,8 +45,11 @@ const DetailProduct = () => {
               <CardPrice item={item}>
                 <Button
                   width="full"
-                  onClick={() => setIsOpen(true)}
-                  disabled={user.id === item.sellerId}
+                  onClick={() => {
+                    user ? setIsOpen(true) : router.push('/login')
+                  }}
+                  disabled={user ? user.id === item.sellerId : false}
+                  loading={loading}
                 >
                   Saya Tertarik dan Ingin Nego
                 </Button>
@@ -72,8 +78,11 @@ const DetailProduct = () => {
           <div className="px-6">
             <Button
               width="full"
-              onClick={() => setIsOpen(true)}
-              disabled={user.id === item.sellerId}
+              onClick={() => {
+                user ? setIsOpen(true) : router.push('/login')
+              }}
+              disabled={user ? user.id === item.sellerId : false}
+              loading={loading}
             >
               Saya Tertarik dan Ingin Nego
             </Button>

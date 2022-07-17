@@ -1,7 +1,10 @@
+import { useSelector } from 'react-redux'
 import MainLayout from '../../components/layout/MainLayout'
 import NotifItem from '../../components/layout/MainLayout/NotifItem'
 
 const Notification = () => {
+  const { items } = useSelector((state) => state.notification)
+
   return (
     <div>
       <MainLayout
@@ -9,9 +12,9 @@ const Notification = () => {
         headerTitle="Notifikasi"
         arrowLink="/dashboard"
       >
-        <NotifItem />
-        <NotifItem />
-        <NotifItem />
+        {items?.map((item) => (
+          <NotifItem key={item.id} data={item} />
+        ))}
       </MainLayout>
     </div>
   )

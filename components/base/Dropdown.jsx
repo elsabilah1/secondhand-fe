@@ -1,8 +1,11 @@
 import { Popover, Transition } from '@headlessui/react'
 import FeatherIcon from 'feather-icons-react'
 import { Fragment } from 'react'
+import { useSelector } from 'react-redux'
 
-const Dropdown = ({ icon, children }) => {
+const Dropdown = ({ icon, children, isNotif }) => {
+  const { unRead } = useSelector((state) => state.notification)
+
   return (
     <div className="flex items-center">
       <Popover className="relative">
@@ -11,9 +14,12 @@ const Dropdown = ({ icon, children }) => {
             <Popover.Button
               className={`
                 ${open ? 'text-primary-03' : ''}
-                flex hover:text-primary-03 focus:outline-none`}
+                relative flex hover:text-primary-03 focus:outline-none`}
             >
               <FeatherIcon icon={icon} />
+              {isNotif && unRead > 0 && (
+                <div className="absolute right-0 h-2 w-2 rounded-full bg-danger" />
+              )}
             </Popover.Button>
             <Transition
               as={Fragment}

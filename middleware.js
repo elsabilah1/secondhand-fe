@@ -12,13 +12,15 @@ export async function middleware(req) {
 
   if (dashboardRoutes || profileRoutes || notifRoutes) {
     if (!token) {
-      return NextResponse.redirect('http://localhost:3000/login')
+      return NextResponse.redirect(process.env.NEXT_PUBLIC_BASE_URL + '/login')
     }
   }
 
   if (path === '/login' || path === '/register') {
     if (token) {
-      return NextResponse.redirect('http://localhost:3000/dashboard')
+      return NextResponse.redirect(
+        process.env.NEXT_PUBLIC_BASE_URL + '/dashboard'
+      )
     }
   }
 

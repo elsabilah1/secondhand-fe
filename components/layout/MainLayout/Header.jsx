@@ -5,23 +5,17 @@ import Text from '../../base/Text'
 import NavDesktop from './NavDesktop'
 import SearchField from './SearchField'
 
-const Header = ({
-  headerTitle,
-  headerTitleBold,
-  setShowNav,
-  arrowLink,
-  offers,
-}) => {
+const Header = ({ headerTitle, headerTitleBold, setShowNav, arrowLink }) => {
   const router = useRouter()
 
   return (
     <div
       className={`${
         headerTitleBold || headerTitle ? 'bg-white' : ''
-      } sticky top-0 z-30 md:bg-white md:shadow-high`}
+      } sticky top-0 z-30 md:bg-white md:shadow`}
     >
       <div className="mx-auto max-w-[1440px]">
-        <div className="relative mx-auto flex items-center px-4 py-2 md:w-10/12 md:py-[18px]">
+        <div className="relative mx-auto flex px-4 py-2 md:w-10/12 md:py-3">
           <div
             className={`flex ${
               headerTitle ? '' : 'flex-1'
@@ -68,7 +62,7 @@ const Header = ({
               </div>
             </>
           ) : (
-            <NavDesktop offers={offers} />
+            <NavDesktop />
           )}
         </div>
       </div>

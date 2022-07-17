@@ -14,7 +14,10 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials, thunkAPI) => {
     try {
-      const response = await axios.post('api/login', credentials)
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_BASE_URL + '/api/login',
+        credentials
+      )
       return response.data
     } catch (error) {
       return thunkAPI.rejectWithValue({
@@ -117,11 +120,7 @@ export const authSlice = createSlice({
     builder.addCase(logout.fulfilled, () => initialState)
 
     builder.addCase(fetchUser.fulfilled, (state, action) => {
-      state.loading = false
       state.user = action.payload
-    })
-    builder.addCase(fetchUser.pending, (state) => {
-      state.loading = true
     })
 
     builder.addCase(updateProfileUser.fulfilled, (state, action) => {
