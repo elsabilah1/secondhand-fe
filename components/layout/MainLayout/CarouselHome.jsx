@@ -47,7 +47,7 @@ const CarouselHome = () => {
   if (router.pathname === '/') {
     return (
       <>
-        <div className="hidden w-full sm:block">
+        <div className="hidden w-full sm:block" data-testid="carousel-home">
           <Carousel {...settingsDesktop}>
             {desktopImages.map((img, idx) => (
               <div className="relative h-[25vh] lg:h-[40vh]" key={idx}>

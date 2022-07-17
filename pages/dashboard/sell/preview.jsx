@@ -7,20 +7,14 @@ import CardPrice from '../../../components/product/CardPrice'
 import CarouselProduct from '../../../components/product/CarouselProduct'
 import DescProduct from '../../../components/product/DescProduct'
 import CardProfile from '../../../components/user/CardProfile'
-import { wrapper } from '../../../store'
-import { fetchUser } from '../../../store/slices/auth'
-import { requireAuth } from '../../../utils/requireAuth'
 
-export const getServerSideProps = wrapper.getServerSideProps((store) =>
-  requireAuth(async (context) => {
-    await store.dispatch(fetchUser())
-    const { temp_product } = context.req.cookies
+export const getServerSideProps = async (context) => {
+  const { temp_product } = context.req.cookies
 
-    return {
-      props: { product: JSON.parse(temp_product) },
-    }
-  })
-)
+  return {
+    props: { product: JSON.parse(temp_product) },
+  }
+}
 
 const PreviewProduct = ({ product }) => {
   const router = useRouter()

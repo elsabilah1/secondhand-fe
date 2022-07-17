@@ -5,12 +5,14 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import Button from '../../base/Button'
 import Dropdown from '../../base/Dropdown'
+import Text from '../../base/Text'
 import MenuProfile from '../../user/MenuProfile'
 import NotifItem from './NotifItem'
 
 const NavDesktop = () => {
   const router = useRouter()
   const { user: userData } = useSelector((state) => state.auth)
+  const { items } = useSelector((state) => state.notification)
   const [user] = useState(userData)
 
   const classes = cn(
@@ -28,10 +30,13 @@ const NavDesktop = () => {
             <FeatherIcon icon="list" />
           </button>
 
-          <Dropdown icon="bell">
-            <div className="w-80">
-              <NotifItem />
-              <NotifItem />
+          <Dropdown icon="bell" isNotif>
+            <div className="w-96">
+              {items.length > 0 ? (
+                items?.map((item) => <NotifItem key={item.id} data={item} />)
+              ) : (
+                <Text>Empty List</Text>
+              )}
             </div>
           </Dropdown>
 

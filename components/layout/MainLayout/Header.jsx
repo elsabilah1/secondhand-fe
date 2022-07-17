@@ -1,6 +1,5 @@
 import FeatherIcon from 'feather-icons-react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Text from '../../base/Text'
 import NavDesktop from './NavDesktop'
@@ -13,21 +12,22 @@ const Header = ({ headerTitle, headerTitleBold, setShowNav, arrowLink }) => {
     <div
       className={`${
         headerTitleBold || headerTitle ? 'bg-white' : ''
-      } sticky top-0 z-30 md:bg-white md:shadow-high`}
+      } sticky top-0 z-30 md:bg-white md:shadow`}
     >
       <div className="mx-auto max-w-[1440px]">
-        <div className="relative mx-auto flex items-center px-4 py-2 md:w-10/12 md:py-[18px]">
+        <div className="relative mx-auto flex px-4 py-2 md:w-10/12 md:py-3">
           <div
             className={`flex ${
               headerTitle ? '' : 'flex-1'
             } items-center gap-4 md:gap-6`}
           >
             <div className="z-10 hidden items-center md:flex">
-              <Link href="/" replace>
-                <a className="flex cursor-pointer">
-                  <Image src="/logo.png" width={100} height={34} alt="logo" />
-                </a>
-              </Link>
+              <button
+                onClick={() => router.push('/')}
+                className="flex cursor-pointer"
+              >
+                <Image src="/logo.png" width={100} height={34} alt="logo" />
+              </button>
             </div>
 
             {!headerTitle && (

@@ -34,7 +34,7 @@ const Modal = ({ isOpen, setIsOpen, children, title }) => {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Dialog.Panel className="w-full transform overflow-hidden rounded-t-2xl bg-white p-6 text-left align-middle shadow-xl transition-all sm:max-w-sm sm:rounded-2xl">
+              <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-t-2xl bg-white p-6 text-left align-middle shadow-xl transition-all sm:rounded-2xl">
                 <div className="mb-4 flex justify-center sm:justify-end">
                   <button
                     className="hover:text-primary-03 active:scale-95"

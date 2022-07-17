@@ -8,6 +8,7 @@ const TextAreaField = ({
   rows,
   cols,
   onChange,
+  disabled,
 }) => {
   return (
     <div className="w-full">
@@ -24,7 +25,8 @@ const TextAreaField = ({
           rows={rows}
           cols={cols}
           onChange={onChange}
-        ></textarea>
+          disabled={disabled}
+        />
       </div>
     </div>
   )

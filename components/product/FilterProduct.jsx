@@ -1,8 +1,13 @@
 import cn from 'classnames'
 import FeatherIcon from 'feather-icons-react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCategory } from '../../store/slices/product'
 import Text from '../base/Text'
 
-const FilterProduct = ({ data, cat, setCat }) => {
+const FilterProduct = ({ data }) => {
+  const dispatch = useDispatch()
+  const { category } = useSelector((state) => state.product)
+
   const classes = (active) =>
     cn(
       'flex gap-2 py-[12px] px-4 md:py-[14px] md:px-6 rounded-2xl active:scale-95 transition-all focus:outline-none focus:ring  hover:bg-primary-04 hover:text-neutral-01',
@@ -23,15 +28,18 @@ const FilterProduct = ({ data, cat, setCat }) => {
         </Text>
       </div>
       <div className="relative flex gap-4 overflow-x-auto p-1">
-        <button className={classes(cat === null)} onClick={() => setCat(null)}>
+        <button
+          className={classes(!category)}
+          onClick={() => dispatch(setCategory(''))}
+        >
           <FeatherIcon className="inline h-5 w-5" icon="search" />
           <Text>Semua</Text>
         </button>
         {data.map((item) => (
           <button
-            className={classes(cat === item.category)}
+            className={classes(category === item.category)}
             key={item.id}
-            onClick={() => setCat(item.category)}
+            onClick={() => dispatch(setCategory(item.category))}
           >
             <FeatherIcon className="inline h-5 w-5" icon="search" />
             <Text>{item.category}</Text>

@@ -25,8 +25,8 @@ const MenuProfile = ({ dropdown }) => {
       <MenuItem
         icon="log-out"
         title="Keluar"
-        onClick={() => {
-          dispatch(logout())
+        onClick={async () => {
+          await dispatch(logout())
           router.replace('/login')
         }}
         dropdown={dropdown}

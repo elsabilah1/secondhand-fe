@@ -2,23 +2,26 @@ import FeatherIcon from 'feather-icons-react'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { reset } from '../../../store/slices/auth'
-import { Alert, Loader } from '../../base'
 
 const AuthLayout = ({ children, pageTitle }) => {
   const router = useRouter()
   const dispatch = useDispatch()
-  const { message, loading, error } = useSelector((state) => state.auth)
+  const { message, error } = useSelector((state) => state.auth)
 
-  if (message) {
-    setTimeout(() => {
+  useEffect(() => {
+    if (message) {
+      error ? toast.error(message) : toast.success(message)
       dispatch(reset())
-    }, 4000)
-  }
+    }
+  }, [dispatch, error, message])
 
   return (
     <>
+      <Toaster containerClassName="text-sm" />
       <Head>
         <title>{pageTitle}</title>
         <meta name="description" content="secondhand web" />
@@ -59,8 +62,6 @@ const AuthLayout = ({ children, pageTitle }) => {
           </div>
         </div>
       </div>
-      {message && <Alert error={error} message={message} />}
-      {loading && <Loader />}
     </>
   )
 }

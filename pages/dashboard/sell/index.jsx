@@ -2,67 +2,54 @@ import FeatherIcon from 'feather-icons-react'
 import Cookies from 'js-cookie'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  Alert,
   Button,
   Dropzone,
   InputField,
-  Loader,
   SelectField,
   Text,
   TextAreaField,
 } from '../../../components/base'
 import MainLayout from '../../../components/layout/MainLayout'
-import { wrapper } from '../../../store'
-import { fetchUser } from '../../../store/slices/auth'
 import { createNewProduct, reset } from '../../../store/slices/product'
 import { Get } from '../../../utils/Api'
-import { requireAuth } from '../../../utils/requireAuth'
 
-export const getServerSideProps = wrapper.getServerSideProps((store) =>
-  requireAuth(async (context) => {
-    await store.dispatch(fetchUser())
+export const getServerSideProps = async (context) => {
+  const { data } = await Get('/products/categories')
+  const { temp_product } = context.req.cookies
 
-    const res = await Get('/products/categories')
-    const categories = res.data
-    const { temp_product } = context.req.cookies
-
-    return {
-      props: { categories, product: JSON.parse(temp_product || '{}') },
-    }
-  })
-)
+  return {
+    props: { categories: data, product: JSON.parse(temp_product || '{}') },
+  }
+}
 
 const SellProductForm = ({ categories, product }) => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { loading, error, message } = useSelector((state) => state.product)
   const { user } = useSelector((state) => state.auth)
-  const [selected, setSelected] = useState(product.categories ?? [])
+  const [selected, setSelected] = useState([])
   const [selectedImages, setSelectedImages] = useState(product.images ?? [])
   const [formValues, setFormValues] = useState({ ...product })
 
   const hasNull = () => {
-    for (var data in user) {
+    for (const data in user) {
       if (user[data] == null) return true
     }
     return false
   }
 
-  if (error && message) {
-    setTimeout(() => {
+  useEffect(() => {
+    if (message) {
+      error ? toast.error(message) : toast.success(message)
       dispatch(reset())
-    }, 4000)
-  }
 
-  if (!error && message) {
-    setTimeout(() => {
-      dispatch(reset())
-      router.replace('/dashboard')
-    }, 4000)
-  }
+      !error && router.replace('/dashboard')
+    }
+  }, [dispatch, error, message, router])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -79,24 +66,22 @@ const SellProductForm = ({ categories, product }) => {
     }
 
     Cookies.set('temp_product', JSON.stringify(formValues))
-
     router.push('/dashboard/sell/preview')
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const formData = new FormData()
+    if (hasNull()) {
+      return router.push('/profile/edit')
+    }
 
+    const formData = new FormData()
     selected.forEach((file) => formData.append('categories', file.id))
     selectedImages.forEach((file) => formData.append('images', file))
 
     for (const key in formValues) {
       formData.append(key, formValues[key])
-    }
-
-    if (hasNull()) {
-      return router.push('/profile/edit')
     }
 
     Cookies.remove('temp_product')
@@ -118,8 +103,6 @@ const SellProductForm = ({ categories, product }) => {
 
   return (
     <>
-      {loading && <Loader />}
-      {message && <Alert error={error} message={message} />}
       <div className="mx-auto mt-6 flex max-w-2xl md:my-10">
         <div className="hidden w-2/12 md:block">
           <button onClick={() => router.replace('/dashboard')}>
@@ -139,6 +122,7 @@ const SellProductForm = ({ categories, product }) => {
             name="name"
             defaultValue={formValues.name ?? ''}
             onChange={handleInputChange}
+            disabled={loading}
           />
 
           <InputField
@@ -148,6 +132,7 @@ const SellProductForm = ({ categories, product }) => {
             name="price"
             defaultValue={formValues.price ?? ''}
             onChange={handleInputChange}
+            disabled={loading}
           />
 
           <SelectField
@@ -157,6 +142,7 @@ const SellProductForm = ({ categories, product }) => {
             data={categories}
             placeholder="Pilih Kategori"
             multiple
+            disabled={loading}
           />
 
           <TextAreaField
@@ -167,6 +153,7 @@ const SellProductForm = ({ categories, product }) => {
             cols="30"
             defaultValue={formValues.description ?? ''}
             onChange={handleInputChange}
+            disabled={loading}
           />
 
           <div>
@@ -212,10 +199,11 @@ const SellProductForm = ({ categories, product }) => {
               variant="outline"
               width="full"
               onClick={() => handlePreview()}
+              disabled={loading}
             >
               Preview
             </Button>
-            <Button width="full" type="submit">
+            <Button width="full" type="submit" loading={loading}>
               Terbitkan
             </Button>
           </div>

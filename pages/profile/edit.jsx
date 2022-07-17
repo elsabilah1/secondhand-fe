@@ -1,35 +1,29 @@
 import FeatherIcon from 'feather-icons-react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   Alert,
   Button,
   Dropzone,
   InputField,
-  Loader,
   SelectField,
   TextAreaField,
 } from '../../components/base'
 import MainLayout from '../../components/layout/MainLayout'
-import { wrapper } from '../../store'
-import { fetchUser, reset, updateProfileUser } from '../../store/slices/auth'
+import { reset, updateProfileUser } from '../../store/slices/auth'
 import { Get } from '../../utils/Api'
-import { requireAuth } from '../../utils/requireAuth'
 
-export const getServerSideProps = wrapper.getServerSideProps((store) =>
-  requireAuth(async () => {
-    await store.dispatch(fetchUser())
+export const getServerSideProps = async () => {
+  const res = await Get('/cities')
+  const cities = res.data
 
-    const res = await Get('/cities')
-    const cities = res.data
-
-    return {
-      props: { cities },
-    }
-  })
-)
+  return {
+    props: { cities },
+  }
+}
 
 const EditProfile = ({ cities }) => {
   const router = useRouter()
@@ -43,18 +37,14 @@ const EditProfile = ({ cities }) => {
     phoneNumber: user.phoneNumber ?? '',
   })
 
-  if (error && message) {
-    setTimeout(() => {
+  useEffect(() => {
+    if (message) {
+      error ? toast.error(message) : toast.success(message)
       dispatch(reset())
-    }, 4000)
-  }
 
-  if (!error && message) {
-    setTimeout(() => {
-      dispatch(reset())
-      router.replace('/dashboard')
-    }, 4000)
-  }
+      !error && router.replace('/dashboard')
+    }
+  }, [dispatch, error, message, router])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -89,7 +79,6 @@ const EditProfile = ({ cities }) => {
 
   return (
     <>
-      {loading && <Loader />}
       {message && <Alert error={error} message={message} />}
       <div className="mx-auto my-6 flex max-w-2xl md:my-10">
         <div className="hidden w-2/12 md:block">
@@ -158,6 +147,7 @@ const EditProfile = ({ cities }) => {
               name="name"
               defaultValue={formValues.name ?? ''}
               onChange={handleInputChange}
+              disabled={loading}
             />
 
             <SelectField
@@ -166,6 +156,7 @@ const EditProfile = ({ cities }) => {
               data={cities}
               label="Kota"
               placeholder="Pilih Kota"
+              disabled={loading}
             />
 
             <TextAreaField
@@ -176,6 +167,7 @@ const EditProfile = ({ cities }) => {
               cols="30"
               defaultValue={formValues.address ?? ''}
               onChange={handleInputChange}
+              disabled={loading}
             />
 
             <InputField
@@ -185,10 +177,11 @@ const EditProfile = ({ cities }) => {
               name="phoneNumber"
               defaultValue={formValues.phoneNumber ?? ''}
               onChange={handleInputChange}
+              disabled={loading}
             />
 
             <div className="mt-1 flex gap-4">
-              <Button width="full" type="submit">
+              <Button width="full" type="submit" loading={loading}>
                 Simpan
               </Button>
             </div>
