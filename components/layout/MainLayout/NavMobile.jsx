@@ -2,15 +2,14 @@ import { Transition } from '@headlessui/react'
 import FeatherIcon from 'feather-icons-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import Button from '../../base/Button'
 import Text from '../../base/Text'
 
 const NavMobile = ({ showNav = true, setShowNav }) => {
   const router = useRouter()
-  const { user: userData, loading } = useSelector((state) => state.auth)
-  const [user] = useState(userData)
+  const { user, loading } = useSelector((state) => state.auth)
 
   return (
     <Transition appear show={showNav} as={Fragment}>

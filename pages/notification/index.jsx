@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import MainLayout from '../../components/layout/MainLayout'
@@ -11,11 +12,14 @@ const Notification = () => {
 
   useEffect(() => {
     const fetchNotif = async () => {
-      const res = await Get('/notifications')
-      if (res.data) {
-        dispatch(setNotifications(res.data))
-      } else {
-        dispatch(setNotifications([]))
+      const token = Cookies.get('token')
+      if (token) {
+        const res = await Get('/notifications')
+        if (res.data) {
+          dispatch(setNotifications(res.data))
+        } else {
+          dispatch(setNotifications([]))
+        }
       }
     }
     fetchNotif()

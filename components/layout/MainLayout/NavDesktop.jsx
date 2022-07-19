@@ -1,7 +1,8 @@
 import cn from 'classnames'
 import FeatherIcon from 'feather-icons-react'
+import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotifications } from '../../../store/slices/notification'
 import { Get } from '../../../utils/Api'
@@ -14,9 +15,8 @@ import NotifItem from './NotifItem'
 const NavDesktop = () => {
   const router = useRouter()
   const dispatch = useDispatch()
-  const { user: userData } = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth)
   const { items } = useSelector((state) => state.notification)
-  const [user] = useState(userData)
 
   const classes = cn(
     'hover:text-primary-03 active:scale-95 active:text-primary-05'
@@ -24,11 +24,14 @@ const NavDesktop = () => {
 
   useEffect(() => {
     const fetchNotif = async () => {
-      const res = await Get('/notifications?limit=5')
-      if (res.data) {
-        dispatch(setNotifications(res.data))
-      } else {
-        dispatch(setNotifications([]))
+      const token = Cookies.get('token')
+      if (token) {
+        const res = await Get('/notifications?limit=5')
+        if (res.data) {
+          dispatch(setNotifications(res.data))
+        } else {
+          dispatch(setNotifications([]))
+        }
       }
     }
     fetchNotif()

@@ -24,10 +24,8 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(
     async ({ ctx }) => {
       const { token } = cookies(ctx)
 
-      if (token) {
-        _axios.defaults.headers['Authorization'] = `Bearer ${token}`
-        await store.dispatch(fetchUser())
-      }
+      _axios.defaults.headers['Authorization'] = `Bearer ${token}`
+      await store.dispatch(fetchUser())
     }
 )
 
