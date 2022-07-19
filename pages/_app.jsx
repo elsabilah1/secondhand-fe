@@ -22,7 +22,7 @@ const MyApp = ({ Component, pageProps }) => {
 MyApp.getInitialProps = wrapper.getInitialAppProps(
   (store) =>
     async ({ ctx }) => {
-      const { token } = cookies(ctx)
+      const { token } = await cookies(ctx)
 
       _axios.defaults.headers['Authorization'] = `Bearer ${token}`
       await store.dispatch(fetchUser())
