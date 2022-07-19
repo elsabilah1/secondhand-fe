@@ -4,9 +4,8 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { wrapper } from '../store'
 import { fetchUser } from '../store/slices/auth'
-import { setNotifications } from '../store/slices/notification'
 import '../styles/globals.css'
-import { Get, _axios } from '../utils/Api'
+import { _axios } from '../utils/Api'
 
 const MyApp = ({ Component, pageProps }) => {
   const getLayout = Component.getLayout || ((page) => page)
@@ -28,13 +27,6 @@ MyApp.getInitialProps = wrapper.getInitialAppProps(
       if (token) {
         _axios.defaults.headers['Authorization'] = `Bearer ${token}`
         await store.dispatch(fetchUser())
-
-        const res = await Get('/notifications')
-        if (res.data) {
-          store.dispatch(setNotifications(res.data))
-        } else {
-          store.dispatch(setNotifications([]))
-        }
       }
     }
 )

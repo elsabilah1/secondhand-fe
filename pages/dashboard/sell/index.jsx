@@ -1,5 +1,4 @@
 import FeatherIcon from 'feather-icons-react'
-import Cookies from 'js-cookie'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
@@ -14,33 +13,27 @@ import {
   TextAreaField,
 } from '../../../components/base'
 import MainLayout from '../../../components/layout/MainLayout'
+import ModalPreview from '../../../components/product/ModalPreview'
 import { createNewProduct, reset } from '../../../store/slices/product'
 import { Get } from '../../../utils/Api'
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async () => {
   const { data } = await Get('/products/categories')
-  const { temp_product } = context.req.cookies
 
   return {
-    props: { categories: data, product: JSON.parse(temp_product || '{}') },
+    props: { categories: data },
   }
 }
 
-const SellProductForm = ({ categories, product }) => {
+const SellProductForm = ({ categories }) => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { loading, error, message } = useSelector((state) => state.product)
   const { user } = useSelector((state) => state.auth)
   const [selected, setSelected] = useState([])
-  const [selectedImages, setSelectedImages] = useState(product.images ?? [])
-  const [formValues, setFormValues] = useState({ ...product })
-
-  const hasNull = () => {
-    for (const data in user) {
-      if (user[data] == null) return true
-    }
-    return false
-  }
+  const [selectedImages, setSelectedImages] = useState([])
+  const [formValues, setFormValues] = useState({})
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     if (message) {
@@ -51,22 +44,33 @@ const SellProductForm = ({ categories, product }) => {
     }
   }, [dispatch, error, message, router])
 
+  const onDrop = useCallback((acceptedFiles) => {
+    const images = acceptedFiles.map((file) =>
+      Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      })
+    )
+    setSelectedImages((prev) => [...images, ...prev])
+  }, [])
+
+  const handleDelete = (idx) => {
+    setSelectedImages((prev) => prev.filter((_, i) => i !== idx))
+  }
+
+  const hasNull = () => {
+    for (const data in user) {
+      if (user[data] == null) return true
+    }
+    return false
+  }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormValues({ ...formValues, [name]: value })
   }
 
   const handlePreview = () => {
-    if (selected.length > 0) {
-      formValues.categories = selected
-    }
-
-    if (selectedImages.length > 0) {
-      formValues.images = selectedImages
-    }
-
-    Cookies.set('temp_product', JSON.stringify(formValues))
-    router.push('/dashboard/sell/preview')
+    setIsOpen(true)
   }
 
   const handleSubmit = async (e) => {
@@ -84,25 +88,26 @@ const SellProductForm = ({ categories, product }) => {
       formData.append(key, formValues[key])
     }
 
-    Cookies.remove('temp_product')
     dispatch(createNewProduct(formData))
   }
 
-  const onDrop = useCallback((acceptedFiles) => {
-    const images = acceptedFiles.map((file) =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-      })
+  if (isOpen)
+    return (
+      <ModalPreview
+        user={user}
+        formValues={formValues}
+        selected={selected}
+        selectedImages={selectedImages}
+        setIsOpen={setIsOpen}
+      />
     )
-    setSelectedImages((prev) => [...images, ...prev])
-  }, [])
-
-  const handleDelete = (idx) => {
-    setSelectedImages((prev) => prev.filter((_, i) => i !== idx))
-  }
 
   return (
-    <>
+    <MainLayout
+      pageTitle="Jual Produk"
+      headerTitle="Lengkapi Detail Produk"
+      arrowLink="/dashboard"
+    >
       <div className="mx-auto mt-6 flex max-w-2xl md:my-10">
         <div className="hidden w-2/12 md:block">
           <button onClick={() => router.replace('/dashboard')}>
@@ -198,7 +203,7 @@ const SellProductForm = ({ categories, product }) => {
             <Button
               variant="outline"
               width="full"
-              onClick={() => handlePreview()}
+              onClick={handlePreview}
               disabled={loading}
             >
               Preview
@@ -209,18 +214,8 @@ const SellProductForm = ({ categories, product }) => {
           </div>
         </form>
       </div>
-    </>
+    </MainLayout>
   )
 }
 
 export default SellProductForm
-
-SellProductForm.getLayout = (page) => (
-  <MainLayout
-    pageTitle="Jual Produk"
-    headerTitle="Lengkapi Detail Produk"
-    arrowLink="/dashboard"
-  >
-    {page}
-  </MainLayout>
-)

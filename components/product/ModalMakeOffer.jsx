@@ -12,7 +12,6 @@ const ModalMakeOffer = ({ isOpen = false, setIsOpen, item, setLoading }) => {
   const [priceOffer, setPriceOffer] = useState()
   const [message, setMessage] = useState('')
   const [error, setError] = useState(false)
-  console.log({ item })
 
   useEffect(() => {
     if (message) {

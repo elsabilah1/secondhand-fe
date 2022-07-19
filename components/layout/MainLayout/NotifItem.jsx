@@ -28,8 +28,6 @@ const NotifItem = ({ data }) => {
       }
     } else if (data.type === 'Berhasil di terbitkan') {
       router.push(`/product/${data.productId}`)
-    } else {
-      router.reload()
     }
   }
 

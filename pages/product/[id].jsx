@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import Button from '../../components/base/Button'
 import MainLayout from '../../components/layout/MainLayout'
+import Header from '../../components/layout/MainLayout/Header'
 import CardPrice from '../../components/product/CardPrice'
 import CarouselProduct from '../../components/product/CarouselProduct'
 import DescProduct from '../../components/product/DescProduct'
@@ -34,47 +35,45 @@ const DetailProduct = ({ item }) => {
         setLoading={setLoading}
         item={item}
       />
-      <div className="hidden md:block">
-        <MainLayout pageTitle="Detail Product">
-          <div className="mx-auto mt-10 grid max-w-4xl grid-cols-7 gap-6">
-            <div className="col-span-4">
-              <CarouselProduct images={images} />
-              <DescProduct content={item.description} />
-            </div>
-            <div className="col-span-3 space-y-6">
-              <CardPrice item={item}>
-                <Button
-                  width="full"
-                  onClick={() => {
-                    user ? setIsOpen(true) : router.push('/login')
-                  }}
-                  disabled={user ? user.id === item.sellerId : false}
-                  loading={loading}
-                >
-                  Saya Tertarik dan Ingin Nego
-                </Button>
-              </CardPrice>
-              <CardProfile user={item?.User?.Profile} />
-            </div>
-          </div>
-        </MainLayout>
-      </div>
+      <div>
+        <div className="hidden md:block">
+          <Header />
+        </div>
 
-      <div className="w-full md:hidden">
         <div className="absolute top-[44px] left-4 z-50 flex h-7 w-7 justify-center rounded-full bg-neutral-01 md:hidden">
           <button onClick={() => router.replace('/')}>
             <FeatherIcon icon="arrow-left" />
           </button>
         </div>
-        <div className="absolute top-0 h-full w-full">
-          <CarouselProduct images={images} />
+
+        <div className="mx-auto max-w-4xl md:mt-10 md:grid md:grid-cols-7 md:gap-6">
+          <div className="absolute top-0 h-full w-full md:relative md:col-span-4">
+            <CarouselProduct images={images} />
+            <div className="hidden md:block">
+              <DescProduct content={item.description} />
+            </div>
+          </div>
+          <div className="col-span-3 mt-[42vh] space-y-4 px-4 pb-20 md:mt-0 md:space-y-6">
+            <CardPrice item={item}>
+              <Button
+                width="full"
+                onClick={() => {
+                  user ? setIsOpen(true) : router.push('/login')
+                }}
+                disabled={user ? user.id === item.sellerId : false}
+                loading={loading}
+              >
+                Saya Tertarik dan Ingin Nego
+              </Button>
+            </CardPrice>
+            <CardProfile user={item?.User?.Profile} />
+            <div className="md:hidden">
+              <DescProduct content={item.description} />
+            </div>
+          </div>
         </div>
-        <div className="relative mt-[42vh] space-y-4 px-4 pb-20">
-          <CardPrice item={item} />
-          <CardProfile user={item?.User?.Profile} />
-          <DescProduct content={item.description} />
-        </div>
-        <div className="fixed bottom-0 mb-6 w-full px-4">
+
+        <div className="fixed bottom-0 mb-6 w-full px-4 md:hidden">
           <div className="px-6">
             <Button
               width="full"

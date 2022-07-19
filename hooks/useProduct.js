@@ -13,7 +13,9 @@ const useProduct = (category, keyword) => {
 
   if (data) {
     const products = data?.Product ? data?.Product : data
-    filteredProducts = products.filter((item) => item.status === true)
+    filteredProducts = products.filter((item) =>
+      item.Product ? item.Product.status : item.status
+    )
   }
 
   return {

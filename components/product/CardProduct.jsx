@@ -1,10 +1,31 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { Get } from '../../utils/Api'
 import Text from '../base/Text'
 
-const CardProduct = ({ item, href, priceOffer, statusOffer, variant }) => {
+const CardProduct = ({
+  item,
+  href,
+  idOffer,
+  priceOffer,
+  statusOffer,
+  variant,
+}) => {
   const product = item.Product || item
   const categories = product?.ProductCategories?.map((item) => item.category)
+  const [transactionStatus, setStatus] = useState(null)
+
+  useEffect(() => {
+    if (idOffer && statusOffer) {
+      const fetch = async () => {
+        const res = await Get('/transactions')
+        const isReject = res.data.find((item) => item.productOfferId == idOffer)
+        if (isReject) setStatus(isReject.status)
+      }
+      fetch()
+    }
+  }, [idOffer, statusOffer])
 
   return (
     <Link href={href} passHref>
@@ -14,11 +35,12 @@ const CardProduct = ({ item, href, priceOffer, statusOffer, variant }) => {
             <Text type="body/12">terjual</Text>
           </div>
         )}
-        {!statusOffer && variant === 'wishlist' && (
-          <div className="absolute top-0 left-0 z-10 bg-danger px-3 py-1 text-white shadow">
-            <Text type="body/12">batal terjual</Text>
-          </div>
-        )}
+        {(statusOffer === false || transactionStatus === false) &&
+          variant === 'wishlist' && (
+            <div className="absolute top-0 left-0 z-10 bg-danger px-3 py-1 text-white shadow">
+              <Text type="body/12">batal terjual</Text>
+            </div>
+          )}
 
         <div className="relative mb-2 h-32 w-full border">
           <Image

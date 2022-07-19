@@ -15,7 +15,7 @@ const ModalChangeStatus = ({ isOpen = false, setIsOpen, item }) => {
   useEffect(() => {
     if (message) {
       error ? toast.error(message) : toast.success(message)
-      router.push('/dashboard')
+      router.reload()
       setMessage('')
     }
   }, [error, message, router])
@@ -26,7 +26,7 @@ const ModalChangeStatus = ({ isOpen = false, setIsOpen, item }) => {
 
     const transactions = await Get(`/transactions`)
     const { id: transactionId } = transactions.data.find(
-      (data) => data.productOfferId === item.id
+      (data) => data.productOfferId === item.productOfferId
     )
     const { value: status } = e.target.status
 

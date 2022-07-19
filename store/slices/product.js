@@ -5,6 +5,7 @@ export const createNewProduct = createAsyncThunk(
   'product/create',
   async (data, thunkApi) => {
     const response = await PostFormData('/user/products', data)
+    console.log(response)
 
     if (response.error) {
       const message = response.error.data.data

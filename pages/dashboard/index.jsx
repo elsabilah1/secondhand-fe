@@ -67,6 +67,7 @@ const SellerDashboard = () => {
                     priceOffer={offer.priceOffer}
                     statusOffer={offer.status}
                     key={offer.id}
+                    idOffer={offer.id}
                     href={`/dashboard/info/${offer.id}`}
                     variant="wishlist"
                   />

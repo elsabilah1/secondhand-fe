@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import Text from '../../../components/base/Text'
-import MainLayout from '../../../components/layout/MainLayout'
 import ModalAcceptOffer from '../../../components/product/ModalAcceptOffer'
 import ModalChangeStatus from '../../../components/product/ModalChangeStatus'
 import CardProfile from '../../../components/user/CardProfile'
@@ -14,14 +13,18 @@ import { Get, Put } from '../../../utils/Api'
 
 export const getServerSideProps = async (ctx) => {
   const { id, status } = ctx.query
+  let data
 
-  let { data } = await Get(
-    status === 'sold' ? `/transactions/${id}` : `/products/offer/${id}`
-  )
-
-  if (status !== 'sold' && !data) {
+  if (status !== 'sold') {
     const res = await Get('/transactions')
     data = res.data.find((item) => item.productOfferId == id)
+
+    if (!data) {
+      const res = await Get(`/products/offer/${id}`)
+      data = res.data
+    }
+  } else {
+    data = await Get(`/transactions/${id}`)
   }
 
   return {
@@ -38,6 +41,9 @@ const InfoPenawar = ({ data }) => {
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
   const product = data.Product || data.ProductOffer.Product
+  const [isAccepted, setIsAccepted] = useState(null)
+  const [status, setStatus] = useState(null)
+  const statusOffer = data.ProductOffer ? data.ProductOffer.status : data.status
 
   useEffect(() => {
     if (message) {
@@ -47,13 +53,24 @@ const InfoPenawar = ({ data }) => {
         setTimeout(() => {
           setMessage('')
         }, 4000)
-      } else {
-        setTimeout(() => {
-          router.replace('/dashboard')
-        }, 4000)
       }
     }
-  }, [error, message, router])
+  })
+
+  useEffect(() => {
+    if (statusOffer === null && user.id !== data.User.id && !data.fixPrice) {
+      setIsAccepted(null)
+    } else if (statusOffer === true) {
+      setIsAccepted(true)
+      if (data.status === true) {
+        setStatus(true)
+      } else if (data.status === false) {
+        setStatus(false)
+      }
+    } else if (statusOffer === false) {
+      setIsAccepted(false)
+    }
+  }, [data.User.id, data.fixPrice, data.status, statusOffer, user.id])
 
   const acceptOffer = async () => {
     setLoading(true)
@@ -79,6 +96,7 @@ const InfoPenawar = ({ data }) => {
       setMessage(res.error.data.data[0].msg)
     } else {
       setMessage(res.message)
+      router.reload()
     }
     setLoading(false)
   }
@@ -130,9 +148,9 @@ const InfoPenawar = ({ data }) => {
             <div className="col-span-6">
               <div className="mb-1 h-full">
                 <div className="mb-2 flex text-neutral-03">
-                  {data.fixPrice && data.status === true ? (
+                  {status === true ? (
                     <Text type="body/10">Berhasil Terjual</Text>
-                  ) : data.status === false ? (
+                  ) : status === false || isAccepted === false ? (
                     <Text type="body/10">Batal Terjual</Text>
                   ) : (
                     <Text type="body/10">Penawaran Produk</Text>
@@ -157,36 +175,34 @@ const InfoPenawar = ({ data }) => {
             </div>
           </div>
           <div className="flex justify-end gap-4">
-            {data.status === null &&
-              user.id !== data.User.id &&
-              !data.fixPrice && (
-                <>
-                  <button
-                    onClick={rejectOffer}
-                    className="w-40 rounded-2xl border border-primary-04 bg-neutral-01 py-2 px-6 text-neutral-05 transition-all hover:bg-primary-04 hover:text-neutral-01 focus:outline-none focus:ring active:scale-95"
-                    disabled={loading}
-                  >
-                    <Text weight="medium">Tolak</Text>
-                  </button>
-                  <button
-                    onClick={acceptOffer}
-                    className="w-40 rounded-2xl border border-primary-04 bg-primary-04 py-2 px-6 text-neutral-01 transition-all hover:border-primary-03 hover:bg-primary-03 focus:outline-none focus:ring focus:ring-primary-01 active:scale-95"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <div className="flex justify-center gap-1 py-1">
-                        <div className="h-2 w-2 animate-bounce rounded-full bg-primary-02 transition-all duration-75" />
-                        <div className="h-2 w-2 animate-bounce rounded-full bg-primary-02 transition-all duration-150" />
-                        <div className="h-2 w-2 animate-bounce rounded-full bg-primary-02 transition-all duration-300" />
-                      </div>
-                    ) : (
-                      <Text weight="medium">Terima</Text>
-                    )}
-                  </button>
-                </>
-              )}
+            {isAccepted === null && (
+              <>
+                <button
+                  onClick={rejectOffer}
+                  className="w-40 rounded-2xl border border-primary-04 bg-neutral-01 py-2 px-6 text-neutral-05 transition-all hover:bg-primary-04 hover:text-neutral-01 focus:outline-none focus:ring active:scale-95"
+                  disabled={loading}
+                >
+                  <Text weight="medium">Tolak</Text>
+                </button>
+                <button
+                  onClick={acceptOffer}
+                  className="w-40 rounded-2xl border border-primary-04 bg-primary-04 py-2 px-6 text-neutral-01 transition-all hover:border-primary-03 hover:bg-primary-03 focus:outline-none focus:ring focus:ring-primary-01 active:scale-95"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <div className="flex justify-center gap-1 py-1">
+                      <div className="h-2 w-2 animate-bounce rounded-full bg-primary-02 transition-all duration-75" />
+                      <div className="h-2 w-2 animate-bounce rounded-full bg-primary-02 transition-all duration-150" />
+                      <div className="h-2 w-2 animate-bounce rounded-full bg-primary-02 transition-all duration-300" />
+                    </div>
+                  ) : (
+                    <Text weight="medium">Terima</Text>
+                  )}
+                </button>
+              </>
+            )}
 
-            {data.status === true && !data.fixPrice && (
+            {isAccepted && status === null && (
               <>
                 <button
                   onClick={() => setStatusModal(true)}
@@ -213,7 +229,7 @@ const InfoPenawar = ({ data }) => {
               </>
             )}
           </div>
-          <div className="border border-b"></div>
+          <div className="border border-b" />
         </div>
       </div>
     </>
@@ -221,13 +237,3 @@ const InfoPenawar = ({ data }) => {
 }
 
 export default InfoPenawar
-
-InfoPenawar.getLayout = (page) => (
-  <MainLayout
-    pageTitle="Info Penawar"
-    headerTitle="Info Penawar"
-    arrowLink="/dashboard"
-  >
-    {page}
-  </MainLayout>
-)
