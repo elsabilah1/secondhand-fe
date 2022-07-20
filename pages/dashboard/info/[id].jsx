@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import Text from '../../../components/base/Text'
+import MainLayout from '../../../components/layout/MainLayout'
 import ModalAcceptOffer from '../../../components/product/ModalAcceptOffer'
 import ModalChangeStatus from '../../../components/product/ModalChangeStatus'
 import CardProfile from '../../../components/user/CardProfile'
@@ -31,7 +32,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
         data = res.data
       }
     } else {
-      data = await Get(`/transactions/${id}`)
+      const res = await Get(`/transactions/${id}`)
+      data = res.data
     }
 
     return {
@@ -245,3 +247,15 @@ const InfoPenawar = ({ data }) => {
 }
 
 export default InfoPenawar
+
+InfoPenawar.getLayout = (page) => {
+  return (
+    <MainLayout
+      pageTitle="Info Penawar"
+      headerTitle="Info Penawar"
+      arrowLink="/dashboard"
+    >
+      {page}
+    </MainLayout>
+  )
+}

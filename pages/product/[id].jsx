@@ -81,19 +81,17 @@ const DetailProduct = ({ item }) => {
           </div>
         </div>
 
-        <div className="fixed bottom-0 mb-6 w-full px-4 md:hidden">
-          <div className="px-6">
-            <Button
-              width="full"
-              onClick={() => {
-                user ? setIsOpen(true) : router.push('/login')
-              }}
-              disabled={user ? user.id === item.sellerId : false}
-              loading={loading}
-            >
-              Saya Tertarik dan Ingin Nego
-            </Button>
-          </div>
+        <div className="fixed inset-x-0 bottom-0 mb-6 px-4 md:hidden">
+          <Button
+            width="full"
+            onClick={() => {
+              user ? setIsOpen(true) : router.push('/login')
+            }}
+            disabled={user ? user.id === item.sellerId : false}
+            loading={loading}
+          >
+            Saya Tertarik dan Ingin Nego
+          </Button>
         </div>
       </div>
     </>

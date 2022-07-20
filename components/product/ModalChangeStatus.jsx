@@ -15,9 +15,10 @@ const ModalChangeStatus = ({ isOpen = false, setIsOpen, item }) => {
   useEffect(() => {
     if (message) {
       error ? toast.error(message) : toast.success(message)
-      router.reload()
       setMessage('')
     }
+
+    router.reload()
   }, [error, message, router])
 
   const changeStatus = async (e) => {
