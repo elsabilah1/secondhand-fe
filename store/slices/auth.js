@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { Get, Post, PutFormData } from '../../utils/Api'
+import { Get, Post, PutFormData, _axios } from '../../utils/Api'
 
-export const fetchUser = createAsyncThunk('auth/user', async () => {
+export const fetchUser = createAsyncThunk('auth/user', async (token) => {
+  _axios.defaults.headers['Authorization'] = `Bearer ${token}`
   const { data, error } = await Get('/user/profile')
-
   if (error) return null
-
   return data
 })
 

@@ -1,5 +1,6 @@
 import { Tab } from '@headlessui/react'
 import FeatherIcon from 'feather-icons-react'
+import cookies from 'next-cookies'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { Fragment } from 'react'
@@ -11,6 +12,15 @@ import Loader from '../../components/product/Loader'
 import NavDashboard from '../../components/product/NavDashboard'
 import CardProfile from '../../components/user/CardProfile'
 import { useDashboardProducts } from '../../hooks/useProduct'
+import { wrapper } from '../../store'
+import { fetchUser } from '../../store/slices/auth'
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (ctx) => {
+    const { token } = cookies(ctx)
+    await store.dispatch(fetchUser(token))
+  }
+)
 
 const SellerDashboard = () => {
   const router = useRouter()

@@ -1,4 +1,5 @@
 import FeatherIcon from 'feather-icons-react'
+import cookies from 'next-cookies'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -9,28 +10,35 @@ import Text from '../../../components/base/Text'
 import ModalAcceptOffer from '../../../components/product/ModalAcceptOffer'
 import ModalChangeStatus from '../../../components/product/ModalChangeStatus'
 import CardProfile from '../../../components/user/CardProfile'
+import { wrapper } from '../../../store'
+import { fetchUser } from '../../../store/slices/auth'
 import { Get, Put } from '../../../utils/Api'
 
-export const getServerSideProps = async (ctx) => {
-  const { id, status } = ctx.query
-  let data
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (ctx) => {
+    const { token } = cookies(ctx)
+    await store.dispatch(fetchUser(token))
 
-  if (status !== 'sold') {
-    const res = await Get('/transactions')
-    data = res.data.find((item) => item.productOfferId == id)
+    const { id, status } = ctx.query
+    let data
 
-    if (!data) {
-      const res = await Get(`/products/offer/${id}`)
-      data = res.data
+    if (status !== 'sold') {
+      const res = await Get('/transactions')
+      data = res.data.find((item) => item.productOfferId == id)
+
+      if (!data) {
+        const res = await Get(`/products/offer/${id}`)
+        data = res.data
+      }
+    } else {
+      data = await Get(`/transactions/${id}`)
     }
-  } else {
-    data = await Get(`/transactions/${id}`)
-  }
 
-  return {
-    props: { data },
+    return {
+      props: { data },
+    }
   }
-}
+)
 
 const InfoPenawar = ({ data }) => {
   const router = useRouter()

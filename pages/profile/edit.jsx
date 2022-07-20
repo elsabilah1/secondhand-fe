@@ -1,4 +1,5 @@
 import FeatherIcon from 'feather-icons-react'
+import cookies from 'next-cookies'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
@@ -13,17 +14,23 @@ import {
   TextAreaField,
 } from '../../components/base'
 import MainLayout from '../../components/layout/MainLayout'
-import { reset, updateProfileUser } from '../../store/slices/auth'
+import { wrapper } from '../../store'
+import { fetchUser, reset, updateProfileUser } from '../../store/slices/auth'
 import { Get } from '../../utils/Api'
 
-export const getServerSideProps = async () => {
-  const res = await Get('/cities')
-  const cities = res.data
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (ctx) => {
+    const { token } = cookies(ctx)
+    await store.dispatch(fetchUser(token))
 
-  return {
-    props: { cities },
+    const res = await Get('/cities')
+    const cities = res.data
+
+    return {
+      props: { cities },
+    }
   }
-}
+)
 
 const EditProfile = ({ cities }) => {
   const router = useRouter()

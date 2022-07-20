@@ -1,4 +1,5 @@
 import FeatherIcon from 'feather-icons-react'
+import cookies from 'next-cookies'
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import Button from '../components/base/Button'
@@ -7,15 +8,22 @@ import CardProduct from '../components/product/CardProduct'
 import FilterProduct from '../components/product/FilterProduct'
 import Loader from '../components/product/Loader'
 import useProduct from '../hooks/useProduct'
+import { wrapper } from '../store'
+import { fetchUser } from '../store/slices/auth'
 import { Get } from '../utils/Api'
 
-export const getStaticProps = async () => {
-  const { data } = await Get('/products/categories')
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (ctx) => {
+    const { token } = cookies(ctx)
+    await store.dispatch(fetchUser(token))
 
-  return {
-    props: { categories: data },
+    const { data } = await Get('/products/categories')
+
+    return {
+      props: { categories: data },
+    }
   }
-}
+)
 
 const Home = ({ categories }) => {
   const router = useRouter()

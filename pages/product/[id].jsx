@@ -1,4 +1,5 @@
 import FeatherIcon from 'feather-icons-react'
+import cookies from 'next-cookies'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Toaster } from 'react-hot-toast'
@@ -11,13 +12,20 @@ import CarouselProduct from '../../components/product/CarouselProduct'
 import DescProduct from '../../components/product/DescProduct'
 import ModalMakeOffer from '../../components/product/ModalMakeOffer'
 import CardProfile from '../../components/user/CardProfile'
+import { wrapper } from '../../store'
+import { fetchUser } from '../../store/slices/auth'
 import { Get } from '../../utils/Api'
 
-export const getServerSideProps = async (context) => {
-  const { data } = await Get(`/products/${context.query.id}`)
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (ctx) => {
+    const { token } = cookies(ctx)
+    await store.dispatch(fetchUser(token))
 
-  return { props: { item: data } }
-}
+    const { data } = await Get(`/products/${ctx.query.id}`)
+
+    return { props: { item: data } }
+  }
+)
 
 const DetailProduct = ({ item }) => {
   const router = useRouter()
