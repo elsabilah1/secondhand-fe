@@ -49,7 +49,6 @@ const CardProduct = ({
             layout="fill"
             objectFit="contain"
             className="rounded"
-            priority={true}
           />
           {priceOffer && (
             <div className="absolute bottom-0 w-full bg-secondary-05 py-1 pl-2">

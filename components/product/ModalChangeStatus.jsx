@@ -1,26 +1,17 @@
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
 import { Get, Put } from '../../utils/Api'
 import Button from '../base/Button'
 import Modal from '../base/Modal'
 import Text from '../base/Text'
 
-const ModalChangeStatus = ({ isOpen = false, setIsOpen, item }) => {
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
-  const [error, setError] = useState(false)
-
-  useEffect(() => {
-    if (message) {
-      error ? toast.error(message) : toast.success(message)
-      setMessage('')
-    }
-
-    router.reload()
-  }, [error, message, router])
-
+const ModalChangeStatus = ({
+  isOpen = false,
+  setIsOpen,
+  item,
+  setMessage,
+  setError,
+  loading,
+  setLoading,
+}) => {
   const changeStatus = async (e) => {
     e.preventDefault()
     setLoading(true)

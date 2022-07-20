@@ -31,8 +31,6 @@ const ModalPreview = ({
       return router.push('/profile/edit')
     }
 
-    selected.map((item) => console.log(item.id))
-
     const formData = new FormData()
     selected.forEach((file) => formData.append('categories', file.id))
     selectedImages.forEach((file) => formData.append('images', file))
@@ -55,7 +53,7 @@ const ModalPreview = ({
           </div>
         </div>
         <div className="col-span-3 mt-[42vh] space-y-4 pb-20 md:mt-0 md:space-y-6 md:px-4">
-          <CardPrice item={formValues}>
+          <CardPrice item={{ ...formValues, categories: selected }}>
             <Button width="full" onClick={handleSubmit} loading={loading}>
               Terbitkan
             </Button>

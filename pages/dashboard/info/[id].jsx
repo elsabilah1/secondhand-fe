@@ -25,7 +25,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     if (status !== 'sold') {
       const res = await Get('/transactions')
-      data = res.data.find((item) => item.productOfferId == id)
+      if (res.data) {
+        data = res.data.find((item) => item.productOfferId == id)
+      }
 
       if (!data) {
         const res = await Get(`/products/offer/${id}`)
@@ -58,14 +60,10 @@ const InfoPenawar = ({ data }) => {
   useEffect(() => {
     if (message) {
       error ? toast.error(message) : toast.success(message)
-
-      if (error) {
-        setTimeout(() => {
-          setMessage('')
-        }, 4000)
-      }
+      setMessage('')
+      if (!error) router.reload()
     }
-  })
+  }, [error, message, router])
 
   useEffect(() => {
     if (statusOffer === null && user.id !== data.User.id && !data.fixPrice) {
@@ -123,6 +121,10 @@ const InfoPenawar = ({ data }) => {
         isOpen={statusModal}
         setIsOpen={setStatusModal}
         item={data}
+        setMessage={setMessage}
+        setError={setError}
+        loading={loading}
+        setLoading={setLoading}
       />
       <div className="mx-auto my-6 flex max-w-2xl md:my-10">
         <div className="hidden w-2/12 md:block">
