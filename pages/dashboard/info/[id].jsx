@@ -34,8 +34,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
         data = res.data
       }
     } else {
-      const res = await Get(`/transactions/${id}`)
-      data = res.data
+      const { data: transactions } = await Get(`/transactions`)
+      const soldsData = transactions.filter(
+        (item) => item.status === true && item.ProductOffer !== null
+      )
+      const tsData = soldsData.find((item) => item.ProductOffer.productId == id)
+
+      data = tsData
     }
 
     return {
