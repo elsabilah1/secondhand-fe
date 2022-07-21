@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '../components/base/Button'
 import InputField from '../components/base/InputField'
@@ -10,16 +10,18 @@ import { register } from '../store/slices/auth'
 const Register = () => {
   const router = useRouter()
   const dispatch = useDispatch()
-  const { error, message } = useSelector((state) => state.auth)
+  const { error, message, loading } = useSelector((state) => state.auth)
   const [formValues, setFormValues] = useState({
     name: '',
     email: '',
     password: '',
   })
 
-  if (!error && message) {
-    router.replace('/login')
-  }
+  useEffect(() => {
+    if (!error && message) {
+      router.replace('/login')
+    }
+  }, [error, message, router])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -48,6 +50,7 @@ const Register = () => {
               label="Nama"
               name="name"
               onChange={handleInputChange}
+              disabled={loading}
             />
             <InputField
               type="text"
@@ -55,6 +58,7 @@ const Register = () => {
               label="Email"
               name="email"
               onChange={handleInputChange}
+              disabled={loading}
             />
             <InputField
               type="password"
@@ -62,10 +66,11 @@ const Register = () => {
               label="Password"
               name="password"
               onChange={handleInputChange}
+              disabled={loading}
             />
           </div>
           <div data-testid="btn-register">
-            <Button width="full" type="submit">
+            <Button width="full" type="submit" loading={loading}>
               Daftar
             </Button>
           </div>

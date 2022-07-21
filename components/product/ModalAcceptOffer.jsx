@@ -1,10 +1,9 @@
-import FeatherIcon from 'feather-icons-react'
 import Image from 'next/image'
-import Button from '../base/Button'
+import Link from 'next/link'
 import Modal from '../base/Modal'
 import Text from '../base/Text'
 
-const ModalAcceptOffer = ({ isOpen = false, setIsOpen }) => {
+const ModalAcceptOffer = ({ isOpen = false, setIsOpen, item, product }) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -24,51 +23,69 @@ const ModalAcceptOffer = ({ isOpen = false, setIsOpen }) => {
           </div>
 
           <div className="flex gap-4">
-            <div className="relative h-12 w-12 rounded-xl bg-black">
-              {/* <Image
-                src="/sample_product.png"
+            <div className="relative h-12 w-12">
+              <Image
+                src={item.User.Profile.profilePicture}
                 alt="product"
                 layout="fill"
                 objectFit="cover"
-                className="rounded-xl"
-              /> */}
+                className={item.User.Profile.name}
+              />
             </div>
             <div>
-              <Text weight="medium">Nama Pembeli</Text>
+              <Text weight="medium">{item.User.Profile.name}</Text>
               <div className="text-neutral-03">
-                <Text type="body/10">kota</Text>
+                <Text type="body/10">{item.User.Profile.City.city}</Text>
               </div>
             </div>
           </div>
 
           <div className="flex gap-4">
-            <div className="relative h-12 w-12">
-              <Image
-                src="/sample_product.png"
-                alt="product"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-xl"
-              />
-            </div>
-            <div>
-              <Text>Jam Tangan Casio</Text>
-              <div className="line-through">
-                <Text>Rp 250.000</Text>
+            <>
+              <div className="relative h-12 w-12">
+                <Image
+                  src={product.ProductResources[0].filename}
+                  alt={product.name}
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-xl"
+                />
               </div>
-              <Text>Ditawar Rp 200.000</Text>
-            </div>
+              <div>
+                <div className="line-clamp-1">
+                  <Text>{product.name}</Text>
+                </div>
+                <div className="line-through">
+                  <Text>Rp. {product.price.toLocaleString()}</Text>
+                </div>
+                <Text>
+                  Ditawar Rp.{' '}
+                  {item?.priceOffer?.toLocaleString() ??
+                    item.fixPrice.toLocaleString()}
+                </Text>
+              </div>
+            </>
           </div>
         </div>
       </div>
 
       <div className="mt-4">
-        <Button width="full">
-          Hubungi via Whatsapp
-          <span>
-            <FeatherIcon icon="whatsapp" className="inline text-white" />
-          </span>
-        </Button>
+        <Link href={`https://wa.me/${item.User.Profile.phoneNumber}`}>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            className="flex w-full items-center justify-center gap-1 rounded-2xl border border-primary-04 bg-primary-04 py-2 px-6 text-center text-neutral-01 shadow transition-all hover:border-primary-03 hover:bg-primary-03 focus:outline-none focus:ring focus:ring-primary-01 active:scale-95"
+          >
+            <Text weight="medium">Hubungi via Whatsapp </Text>
+            <Image
+              src="/whatsapp.svg"
+              width={14}
+              height={14}
+              objectFit="contain"
+              alt="whatsapp"
+            />
+          </a>
+        </Link>
       </div>
     </Modal>
   )

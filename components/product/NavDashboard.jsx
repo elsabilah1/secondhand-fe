@@ -3,7 +3,7 @@ import cn from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { getUserProduct } from '../../store/slices/product'
+import { setSortBy } from '../../store/slices/product'
 import Text from '../base/Text'
 
 const NavDashboard = () => {
@@ -64,7 +64,7 @@ const NavItem = ({ icon, title, titleMobile, sort }) => {
             : 'bg-primary-01'
         )
       }
-      onClick={() => dispatch(getUserProduct(sort))}
+      onClick={() => dispatch(setSortBy(sort))}
     >
       <div className="flex items-center gap-2">
         <FeatherIcon icon={icon} className="h-5 w-5 md:h-6 md:w-6" />

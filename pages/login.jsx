@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, InputField, Text } from '../components/base'
 import AuthLayout from '../components/layout/AuthLayout'
@@ -8,15 +8,17 @@ import { login } from '../store/slices/auth'
 const Login = () => {
   const router = useRouter()
   const dispatch = useDispatch()
-  const { error, message } = useSelector((state) => state.auth)
+  const { error, message, loading } = useSelector((state) => state.auth)
   const [formValues, setFormValues] = useState({
     email: '',
     password: '',
   })
 
-  if (!error && message) {
-    router.replace('/dashboard')
-  }
+  useEffect(() => {
+    if (!error && message) {
+      router.replace('/dashboard')
+    }
+  }, [error, message, router])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -45,6 +47,7 @@ const Login = () => {
               label="Email"
               name="email"
               onChange={handleInputChange}
+              disabled={loading}
             />
             <InputField
               type="password"
@@ -52,10 +55,11 @@ const Login = () => {
               label="Password"
               name="password"
               onChange={handleInputChange}
+              disabled={loading}
             />
           </div>
           <div data-testid="btn-login">
-            <Button width="full" type="submit">
+            <Button width="full" type="submit" loading={loading}>
               Masuk
             </Button>
           </div>

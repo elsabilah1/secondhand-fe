@@ -1,6 +1,6 @@
 import FeatherIcon from 'feather-icons-react'
 import { useDispatch } from 'react-redux'
-import { getProductList, searchProduct } from '../../../store/slices/product'
+import { setKeyword } from '../../../store/slices/product'
 import Text from '../../base/Text'
 
 const SearchField = ({ title }) => {
@@ -9,9 +9,7 @@ const SearchField = ({ title }) => {
   const handleSearch = (e) => {
     e.preventDefault()
     const keyword = e.target.keyword.value
-    if (keyword) return dispatch(searchProduct(keyword))
-
-    dispatch(getProductList())
+    dispatch(setKeyword(keyword))
   }
 
   return (
@@ -25,15 +23,15 @@ const SearchField = ({ title }) => {
         onSubmit={handleSearch}
         className={`${
           title ? 'hidden md:flex' : 'flex'
-        } w-full rounded-2xl bg-white px-6 py-3 md:bg-[#eeeeee]`}
+        } h-10 w-full items-center rounded-full bg-white px-6 md:bg-[#eeeeee]`}
       >
         <input
-          className="w-full bg-transparent text-sm leading-5 text-neutral-05 placeholder:text-neutral-03 focus:outline-none"
-          placeholder="Cari di sini ..."
+          className="w-full bg-transparent text-sm leading-5 text-neutral-05 placeholder:text-xs placeholder:text-neutral-03 focus:outline-none"
+          placeholder="Cari di sini..."
           name="keyword"
         />
         <button type="submit" className="active:scale-95">
-          <FeatherIcon icon="search" className="text-neutral-03" />
+          <FeatherIcon icon="search" className="h-5 w-5 text-neutral-03" />
         </button>
       </form>
     </>

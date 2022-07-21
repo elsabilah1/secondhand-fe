@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const config = {
   baseUrl: process.env.NEXT_PUBLIC_SERVER,
@@ -9,6 +10,26 @@ export const _axios = axios.create({
   baseURL: config.baseUrl,
   withCredentials: true,
 })
+
+_axios.interceptors.request.use(
+  (config) => {
+    if (typeof window !== 'undefined') {
+      const token = Cookies.get('token')
+
+      if (token) {
+        config.headers = {
+          ...config.headers,
+          Authorization: `Bearer ${token}`,
+        }
+      }
+    }
+
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
 
 _axios.interceptors.response.use(
   function (response) {
@@ -53,6 +74,15 @@ export const PostFormData = async (url, params) => {
       },
     })
     return post
+  } catch (error) {
+    return errors(error)
+  }
+}
+
+export const Put = async (url, params) => {
+  try {
+    const put = await _axios.put(url, params)
+    return put
   } catch (error) {
     return errors(error)
   }

@@ -24,7 +24,10 @@ const NavMobile = ({ showNav = true, setShowNav }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 z-40 bg-black/60" />
+          <div
+            className="fixed inset-0 z-40 bg-black/60"
+            onClick={() => setShowNav(false)}
+          />
         </Transition.Child>
 
         <Transition.Child

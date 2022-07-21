@@ -1,55 +1,44 @@
 import FeatherIcon from 'feather-icons-react'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Button from '../components/base/Button'
 import MainLayout from '../components/layout/MainLayout'
 import CardProduct from '../components/product/CardProduct'
 import FilterProduct from '../components/product/FilterProduct'
-import { wrapper } from '../store'
-import { fetchUser } from '../store/slices/auth'
-import { getProductList } from '../store/slices/product'
+import Loader from '../components/product/Loader'
+import useProduct from '../hooks/useProduct'
 import { Get } from '../utils/Api'
-import { requireAuth } from '../utils/requireAuth'
 
-export const getServerSideProps = wrapper.getServerSideProps((store) =>
-  requireAuth(async () => {
-    await store.dispatch(fetchUser())
-    const res = await Get('/products/categories')
-    const categories = res.data
+export const getStaticProps = async () => {
+  const { data } = await Get('/products/categories')
 
-    return {
-      props: { categories },
-    }
-  })
-)
+  return {
+    props: { categories: data },
+  }
+}
 
 const Home = ({ categories }) => {
   const router = useRouter()
-  const dispatch = useDispatch()
   const { user, loading } = useSelector((state) => state.auth)
-  const { itemList, loading: productLoading } = useSelector(
-    (state) => state.product
-  )
-  const [cat, setCat] = useState(null)
-
-  useEffect(() => {
-    dispatch(getProductList(cat))
-  }, [cat, dispatch])
+  const { category, keyword } = useSelector((state) => state.product)
+  const { products, isLoading, isError } = useProduct(category, keyword)
 
   return (
     <>
-      <FilterProduct data={categories} cat={cat} setCat={setCat} />
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
-        {productLoading ? (
-          <div className="animate-pulse">Loading...</div>
-        ) : (
-          itemList?.map((item, idx) => (
-            <CardProduct item={item} key={idx} />
-          )) ?? <div>Empty List</div>
-        )}
-      </div>
-
+      <FilterProduct data={categories} />
+      {isLoading ? (
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-4 lg:grid-cols-6">
+          <Loader length={6} />
+        </div>
+      ) : products?.length > 0 ? (
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-4 lg:grid-cols-6">
+          {products.map((item, idx) => (
+            <CardProduct item={item} key={idx} href={`/product/${item.id}`} />
+          ))}
+        </div>
+      ) : (
+        <div>{isError?.data?.message ?? 'Produk tidak ditemukan'}</div>
+      )}
       <div
         className={`${
           loading ? 'hidden' : 'fixed'

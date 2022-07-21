@@ -9,6 +9,7 @@ const InputField = ({
   name,
   placeholder,
   onChange,
+  disabled,
 }) => {
   const [showPassword, setShowPassword] = useState(false)
   return (
@@ -27,6 +28,7 @@ const InputField = ({
           name={name}
           placeholder={placeholder}
           onChange={onChange}
+          disabled={disabled}
         />
         {type === 'password' && (
           <button type="button" onClick={() => setShowPassword(!showPassword)}>

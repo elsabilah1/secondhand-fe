@@ -10,9 +10,15 @@ const SelectField = ({
   data,
   placeholder,
   multiple,
+  disabled,
 }) => {
   return (
-    <Listbox value={selected} onChange={setSelected} multiple={multiple}>
+    <Listbox
+      value={selected}
+      onChange={setSelected}
+      multiple={multiple}
+      disabled={disabled}
+    >
       <div className="relative">
         <label htmlFor="input-field" className="mb-2 block">
           <Text type="body/12">{label}</Text>
