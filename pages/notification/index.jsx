@@ -6,7 +6,7 @@ const Notification = () => {
   const { items } = useSelector((state) => state.notification)
 
   return (
-    <div>
+    <div data-testid="Notifikasi-test">
       <MainLayout
         pageTitle="Notifikasi"
         headerTitle="Notifikasi"

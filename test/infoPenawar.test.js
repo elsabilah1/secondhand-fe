@@ -8,5 +8,7 @@ describe('Info penawar page', () => {
     })
 
     render()
+    // const infoPenawar = screen.getByTestId('info-penawar')
+    // expect(infoPenawar).toBeInTheDocument()
   })
 })
