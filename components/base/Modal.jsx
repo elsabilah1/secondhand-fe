@@ -5,7 +5,7 @@ import Text from './Text'
 
 const Modal = ({ isOpen, setIsOpen, children, title }) => {
   return (
-    <Transition appear show={isOpen} as={Fragment}>
+    <Transition appear show={isOpen} as={Fragment} data-testid="modal-test">
       <Dialog
         as="div"
         className="relative z-50"

@@ -7,7 +7,7 @@ const Dropdown = ({ icon, children, isNotif }) => {
   const { unRead } = useSelector((state) => state.notification)
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center" data-testid="dropdown-test">
       <Popover className="relative">
         {({ open }) => (
           <>

@@ -1,6 +1,5 @@
 import cn from 'classnames'
 import Text from './Text'
-// import Text from './Text'
 
 const Button = ({
   children,
@@ -22,6 +21,7 @@ const Button = ({
 
   return (
     <button
+      data-testid="button-test"
       className={classes}
       style={{ width: width !== 'full' ? width : undefined }}
       onClick={onClick}

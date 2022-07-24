@@ -13,7 +13,7 @@ const InputField = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false)
   return (
-    <div className="w-full">
+    <div className="w-full" data-testid="inputfield-test">
       <label htmlFor={name} className="mb-2 block">
         <Text type="body/12">{label}</Text>
       </label>
@@ -29,9 +29,14 @@ const InputField = ({
           placeholder={placeholder}
           onChange={onChange}
           disabled={disabled}
+          role="input-test"
         />
         {type === 'password' && (
-          <button type="button" onClick={() => setShowPassword(!showPassword)}>
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            role="button-test"
+          >
             <FeatherIcon
               icon={!showPassword ? 'eye' : 'eye-off'}
               className="absolute inset-y-0 right-0 mr-4 translate-y-1/2 text-neutral-03 transition-all"
