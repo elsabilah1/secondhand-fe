@@ -69,9 +69,11 @@ const Register = () => {
               disabled={loading}
             />
           </div>
-          <Button width="full" type="submit" loading={loading}>
-            Daftar
-          </Button>
+          <div data-testid="btn-register">
+            <Button width="full" type="submit" loading={loading}>
+              Daftar
+            </Button>
+          </div>
         </div>
       </form>
       <div className="flex w-full justify-center gap-1">
