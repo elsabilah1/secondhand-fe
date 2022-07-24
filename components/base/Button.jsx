@@ -1,6 +1,5 @@
 import cn from 'classnames'
 import Text from './Text'
-// import Text from './Text'
 
 const Button = ({
   children,
